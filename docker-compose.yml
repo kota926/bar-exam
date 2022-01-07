@@ -1,0 +1,55 @@
+version: '3.8'
+
+volumes:
+  db-data:
+
+networks:
+  container-link:
+
+services:
+  mysql:
+    build:
+      context: ./docker/mysql
+      args:
+        MYSQL_DATABASE: $MYSQL_DATABASE
+        MYSQL_USER: $MYSQL_USER
+        MYSQL_PASSWORD: $MYSQL_PASSWORD
+        MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+        TZ: Asia/Tokyo
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - container-link
+    platform: linux/amd64
+
+  express:
+    build:
+      context: .
+      dockerfile: ./docker/back/Dockerfile
+    environment:
+      - TZ=Asia/Tokyo
+    tty: true
+    ports:
+      - 8080:8080
+    volumes:
+      - ./api:/node
+    working_dir: /node
+    command: [sh, -c, npm install && npm run dev]
+    networks:
+      - container-link
+  
+  nuxt:
+    build:
+      context: .
+      dockerfile: ./docker/front/Dockerfile
+    command: yarn dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    tty: true
+    networks:
+      - container-link
