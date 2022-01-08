@@ -1,11 +1,21 @@
 import express from 'express'
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
 
-const app = express();
+import router from './routes/index'
 
-app.get('/', (_, res) => {
-    res.send('Hellow world');
-});
 
-app.listen('8080', () => {
-    console.log('Server is running')
+createConnection().then(async () => {
+    const app = express();
+    app.use(express.json());
+
+    app.use('/', router)
+
+    const port = process.env.PORT || 8080;
+
+    app.listen(port, () => {
+        console.log('Express server is listening on port' + port)
+    })
+}).catch((err) => {
+    console.log(err)
 })
