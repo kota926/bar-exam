@@ -8,15 +8,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, provide } from '@nuxtjs/composition-api'
 import BottomNav from '../components/BottomNav.vue'
 import TabBar from '../components/TabBar.vue'
 
+import choiceState from '../composables/state/choiceState'
+import ChoiceKey from '../composables/key/choiceKey'
+
 export default defineComponent({
-  components: { BottomNav },
+  components: { TabBar, BottomNav },
     setup () {
-        
-        TabBar
+        provide(ChoiceKey, choiceState())
 
         return {}
     }

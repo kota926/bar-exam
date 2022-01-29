@@ -4,9 +4,17 @@ import { createConnection } from 'typeorm';
 
 import router from './routes/index'
 
+import cors from 'cors'
+
 
 createConnection().then(async () => {
     const app = express();
+    const options: cors.CorsOptions = {
+        credentials: true,
+        optionsSuccessStatus: 200,
+        origin: ['http://localhost:3000']
+    }
+    app.use(cors(options))
     app.use(express.json());
 
     app.use('/', router)

@@ -3,6 +3,7 @@
         <unit-card 
         v-for="(unit, index) in units" :key="index"
         :unit="unit"
+        :unitNumber="index + 1"
         />
     </div>
 </template>
@@ -68,6 +69,7 @@ export default defineComponent({
         const civilUnits = [
             '民法の基本原理',
             '私権の主体',
+            '私権の変動',
             '無効と取消',
             '代理',
             '契約の効力発生時期',
@@ -137,16 +139,16 @@ export default defineComponent({
         ]
         const units = computed(() => {
             switch(route.value.query.subject) {
-                case "cons":
+                case "憲法":
                     return consUnits
                 break
-                case "gov":
+                case "行政法":
                     return govUnits
                 break
-                case "civil":
+                case "民法":
                     return civilUnits
                 break
-                case 'campany':
+                case '商法':
                     return companyUnits
                 break
                 default:

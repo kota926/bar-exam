@@ -32,7 +32,7 @@ export default defineComponent({
         }
         const goUnit = () => {
             router.push({path: '/unit', query: {
-                subject: "cons"
+                subject: "憲法"
             }})
         }
         return {

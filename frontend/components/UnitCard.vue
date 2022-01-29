@@ -59,17 +59,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, useRouter } from '@nuxtjs/composition-api'
+import { defineComponent, computed, useRouter, useRoute, inject, provide } from '@nuxtjs/composition-api'
+import { ChoiceState } from '../composables/state/choiceState'
+import ChoiceKey from '../composables/key/choiceKey'
 
 export default defineComponent({
     props: {
         unit: {
             type: String,
             default: '単元名'
+        },
+        unitNumber: {
+            type: Number,
+            default: 0
         }
     },
     setup (props, context) {
         const router = useRouter()
+        const route = useRoute()
+        // const { state } = inject(ChoiceKey) as ChoiceState
+
         // const donePercent = computed(() => {
         //             if(!props.records) return 0 + '%'
         //             const percent = props.records[props.year] / data.questionNumber * 100
@@ -83,7 +92,10 @@ export default defineComponent({
         // })
 
         const goQuestionList = () => {
-            router.push({path: 'question'})
+            router.push({path: 'question', query: {
+                subject: route.value.query.subject,
+                unit: String(props.unitNumber)
+            }})
         }
         const goTest = () => {
             router.push({path: 'test'})
