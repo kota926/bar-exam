@@ -15,7 +15,7 @@ export default defineComponent({
         const route = useRoute()
         const changedUnit = computed(() => {
             switch(route.value.query.subject) {
-                case '憲法':
+                case 'cons':
                     switch(route.value.query.unit) {
                         case "1":
                             return "憲法と立憲主義"
@@ -94,7 +94,7 @@ export default defineComponent({
                         break      
                     }
                 break
-                case '行政法':
+                case 'gov':
                     switch(route.value.query.unit) {
                         case "1":
                             return "行政法の基本原理"
@@ -167,7 +167,7 @@ export default defineComponent({
                         break      
                     }
                 break
-                case '民法':
+                case 'civil':
                     switch(route.value.query.unit) {
                         case "1":
                             return "民法の基本原理"
@@ -321,6 +321,64 @@ export default defineComponent({
                         break
                         case "51":
                             return "遺留分"
+                        break
+                        default:
+                            return "単元"
+                        break      
+                    }
+                break
+                case 'company':
+                    switch(route.value.query.unit) {
+                        case "1":
+                            return "会社法総則"
+                        break
+                        case "2":
+                            return "設立"
+                        break
+                        case "3":
+                            return "株式"
+                        break
+                        case "4":
+                            return "機関"
+                        break
+                        case "5":
+                            return "計算"
+                        break
+                        case "6":
+                            return "資金調達"
+                        break
+                        case "7":
+                            return "定款変更"
+                        break
+                        case "8":
+                            return "解散・精算"
+                        break
+                        case "9":
+                            return "買収・結合・再編"
+                        break
+                        case "10":
+                            return "企業グループ"
+                        break
+                        case "11":
+                            return "持分会社・組織変更"
+                        break
+                        case "12":
+                            return "会社法上の訴訟"
+                        break
+                        case "13":
+                            return "商法総則"
+                        break
+                        case "14":
+                            return "商行為法"
+                        break
+                        case "15":
+                            return "有価証券法総則"
+                        break
+                        case "16":
+                            return "約束手形"
+                        break
+                        case "17":
+                            return "為替手形・小切手"
                         break
                         default:
                             return "単元"

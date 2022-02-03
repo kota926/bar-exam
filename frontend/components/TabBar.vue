@@ -26,19 +26,19 @@
             v-model="data.selectedSubject"
             >
                 <v-tab
-                @click="subject('憲法')"
+                @click="subject('cons')"
                 key='憲法'
                 >憲法</v-tab>
                 <v-tab
-                @click="subject('行政法')"
+                @click="subject('gov')"
                 key='行政法'
                 >行政</v-tab>
                 <v-tab
-                @click="subject('民法')"
+                @click="subject('civil')"
                 key='民法'
                 >民法</v-tab>
                 <v-tab
-                @click="subject('商法')"
+                @click="subject('company')"
                 key='商法'
                 >商法</v-tab>
                 <!-- <v-tab
@@ -80,25 +80,25 @@ export default defineComponent({
 
         onMounted(() => {
             switch(context.root.$route.query.subject) {
-                    case '憲法':
+                    case 'cons':
                         data.selectedSubject = 0
                     break;
-                    case '行政法':
+                    case 'gov':
                         data.selectedSubject = 1
                     break;
-                    case '民法':
+                    case 'civil':
                         data.selectedSubject = 2
                     break;
-                    case '商法':
+                    case 'company':
                         data.selectedSubject = 3
                     break;
-                    case '民訴':
+                    case 'minso':
                         data.selectedSubject = 4
                     break;
-                    case '刑法':
+                    case 'criminal':
                         data.selectedSubject = 5
                     break;
-                    case '刑訴':
+                    case 'keiso':
                         data.selectedSubject = 6
                     break;
                     default:
@@ -113,25 +113,25 @@ export default defineComponent({
         watch(currentQuery, (newVal, oldVal) => {
             if(typeof newVal === 'string') {
                 switch(newVal) {
-                    case '憲法':
+                    case 'cons':
                         data.selectedSubject = 0
                     break;
-                    case '行政法':
+                    case 'gov':
                         data.selectedSubject = 1
                     break;
-                    case '民法':
+                    case 'civil':
                         data.selectedSubject = 2
                     break;
-                    case '商法':
+                    case 'company':
                         data.selectedSubject = 3
                     break;
-                    case '民訴':
+                    case 'minso':
                         data.selectedSubject = 4
                     break;
-                    case '刑法':
+                    case 'criminal':
                         data.selectedSubject = 5
                     break;
-                    case '刑訴':
+                    case 'keiso':
                         data.selectedSubject = 6
                     break;
                     default:

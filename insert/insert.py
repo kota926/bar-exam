@@ -63,7 +63,7 @@ def insert(df):
         __tablename__ = 'choice'
 
         id = Column(String(13),  primary_key=True)
-        subject = Column(String(5))
+        subject = Column(String(8))
         year = Column(Integer)
         c_num = Column(Integer)
         unit = Column(String(2))
@@ -81,20 +81,28 @@ def insert(df):
         if row.No < 10:
             if row.Subject == '憲法':
                 q_id = '11' + '1' + str(row.Year) + '0' + str(row.No)
+                en_sub = 'cons'
             elif row.Subject == '行政法':
                 q_id = '11' + '2' + str(row.Year) + '0' + str(row.No)
+                en_sub = 'gov'
             elif row.Subject == '民法':
                 q_id = '11' + '3' + str(row.Year) + '0' + str(row.No)
+                en_sub = 'civil'
             elif row.Subject == '商法':
                 q_id = '11' + '4' + str(row.Year) + '0' + str(row.No)
+                en_sub = 'company'
             elif row.Subject == '民事訴訟法':
                 q_id = '11' + '5' + str(row.Year) + '0' + str(row.No)
+                en_sub = 'minso'
             elif row.Subject == '刑法':
                 q_id = '11' + '6' + str(row.Year) + '0' + str(row.No)
+                en_sub = 'criminal'
             elif row.Subject == '刑事訴訟法':
                 q_id = '11' + '7' + str(row.Year) + '0' + str(row.No)
+                en_sub = 'keiso'
             else:
                 q_id = '11' + '0' + str(row.Year) + '0' + str(row.No)
+                en_sub = 'sub'
             
             q_text = row.Question.replace('\n', '').replace(' ', '')
 
@@ -121,13 +129,15 @@ def insert(df):
                         c2 = getattr(row, index2)
 
                     if answer == 1:
-                        c_answer = 1
+                        c_answer = '1'
                     elif answer == 2:
-                        c_answer = 2
+                        c_answer = '2'
+                    elif answer == 3:
+                        c_answer = '3'
                     else:
                         c_answer = null
 
-                    c_arg = Choice(id=c_id, subject=row.Subject, year=row.Year, questionId=q_id, c_num=c_num,unit=unit, answer=c_answer, c1=c1, c2=c2)
+                    c_arg = Choice(id=c_id, subject=en_sub, year=row.Year, questionId=q_id, c_num=c_num, unit=unit, answer=c_answer, c1=c1, c2=c2)
 
                     session.add(c_arg)
                     print(c_id)
@@ -135,20 +145,28 @@ def insert(df):
         else:
             if row.Subject == '憲法':
                 q_id = '11' + '1' + str(row.Year) + str(row.No)
+                en_sub = 'cons'
             elif row.Subject == '行政法':
                 q_id = '11' + '2' + str(row.Year) + str(row.No)
+                en_sub = 'gov'
             elif row.Subject == '民法':
                 q_id = '11' + '3' + str(row.Year) + str(row.No)
+                en_sub = 'civil'
             elif row.Subject == '商法':
                 q_id = '11' + '4' + str(row.Year) + str(row.No)
+                en_sub = 'company'
             elif row.Subject == '民事訴訟法':
                 q_id = '11' + '5' + str(row.Year) + str(row.No)
+                en_sub = 'minso'
             elif row.Subject == '刑法':
                 q_id = '11' + '6' + str(row.Year) + str(row.No)
+                en_sub = 'criminal'
             elif row.Subject == '刑事訴訟法':
                 q_id = '11' + '7' + str(row.Year) + str(row.No)
+                en_sub = 'keiso'
             else:
                 q_id = '11' + '0' + str(row.Year) + str(row.No)
+                en_sub = 'sub'
 
             q_text = row.Question.replace('\n', '').replace(' ', '')
 
@@ -176,14 +194,16 @@ def insert(df):
                         c2 = getattr(row, index2)
 
                     if answer == 1:
-                        c_answer = 1
+                        c_answer = '1'
                     elif answer == 2:
-                        c_answer = 2
+                        c_answer = '2'
+                    elif answer == 3:
+                        c_answer = '3'
                     else:
                         c_answer = null
 
 
-                    c_arg = Choice(id=c_id, subject=row.Subject, year=row.Year, questionId=q_id, c_num=c_num, unit=unit, answer=c_answer, c1=c1, c2=c2)
+                    c_arg = Choice(id=c_id, subject=en_sub, year=row.Year, questionId=q_id, c_num=c_num, unit=unit, answer=c_answer, c1=c1, c2=c2)
 
                     session.add(c_arg)
                     print(c_id)

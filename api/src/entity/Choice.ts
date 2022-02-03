@@ -6,7 +6,7 @@ export class Choice {
     @PrimaryColumn("varchar", { length: 10 })
     id: string;
 
-    @Column("varchar", { length: 5 })
+    @Column("varchar", { length: 8 })
     subject: string;
 
     @Column()

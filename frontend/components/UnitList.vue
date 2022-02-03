@@ -102,6 +102,7 @@ export default defineComponent({
             '委任',
             '寄託・組合・和解',
             '事務管理',
+            '不当利得',
             '不法行為',
             '親族法総則',
             '婚姻',
@@ -139,16 +140,16 @@ export default defineComponent({
         ]
         const units = computed(() => {
             switch(route.value.query.subject) {
-                case "憲法":
+                case "cons":
                     return consUnits
                 break
-                case "行政法":
+                case "gov":
                     return govUnits
                 break
-                case "民法":
+                case "civil":
                     return civilUnits
                 break
-                case '商法':
+                case 'company':
                     return companyUnits
                 break
                 default:
