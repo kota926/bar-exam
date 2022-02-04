@@ -6,10 +6,6 @@
             class="text-body-2 text-sm-h6"
             >{{ year }}年 第{{ q_number }}問 第{{ c_number }}択
             </v-card-title>
-            <!-- <unit-chip
-            :subject="choice.subject"
-            :unit="choice.unit"
-            /> -->
         </div>
         <hidden-question-text
         :text="choice.question.question"

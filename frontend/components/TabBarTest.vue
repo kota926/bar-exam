@@ -59,7 +59,7 @@
         <v-sheet
         id="scrolling-techniques-4"
         class="overflow-y-auto sheet gray"
-        height="90vh"
+        height="100vh"
         >
             <v-container>
                 <slot />

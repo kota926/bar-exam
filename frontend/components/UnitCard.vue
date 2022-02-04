@@ -98,7 +98,10 @@ export default defineComponent({
             }})
         }
         const goTest = () => {
-            router.push({path: 'test'})
+            router.push({path: 'test', query: {
+                subject: route.value.query.subject,
+                unit: String(props.unitNumber)
+            }})
         }
         return {
             goQuestionList,
