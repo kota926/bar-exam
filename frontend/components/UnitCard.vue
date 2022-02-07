@@ -6,7 +6,7 @@
                     <v-chip
                     outlined
                     class="mr-1"
-                    >{{ unit }}
+                    >{{ unit.name }}
                     </v-chip>
                 </v-card-title>
                 <div class="d-flex">
@@ -38,7 +38,7 @@
                     <span>1</span>
                     <span>/</span>
                     <span>問題数</span>
-                    <span>10</span>
+                    <span>{{ unit.num }}</span>
                 </v-sheet>
                 <v-sheet
                 class="d-flex mx-auto"
@@ -66,8 +66,8 @@ import ChoiceKey from '../composables/key/choiceKey'
 export default defineComponent({
     props: {
         unit: {
-            type: String,
-            default: '単元名'
+            type: Object,
+            default: {name: '単元名', num: 0}
         },
         unitNumber: {
             type: Number,

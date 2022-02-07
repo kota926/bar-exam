@@ -6,12 +6,18 @@ export default function choiceState() {
         choices: Choice[]
         index: number
         isCorrect: boolean
-        hideResult: boolean
+        answerArray: Array<boolean>
+        isOverlay: boolean
+        isResult: boolean
+        isComplete: boolean
     }>({
         choices: [],
         index: 0,
         isCorrect: true,
-        hideResult: true,
+        answerArray: [],
+        isOverlay: false,
+        isResult: true,
+        isComplete: false,
     })
 
     const setIndex = (index: number) => {
@@ -26,14 +32,22 @@ export default function choiceState() {
 
     const setAnswer = (yourAnswer: boolean) => {
         state.isCorrect = yourAnswer
+        state.answerArray.push(yourAnswer)
+    }
+
+    const setOverlay = (isOverlay: boolean) => {
+        state.isOverlay = isOverlay
     }
 
     const switchHideResult = () => {
-        state.hideResult = !state.hideResult
+        state.isResult = !state.isResult
     }
 
     const increaseIndex = () => {
         state.index = state.index + 1
+        if(state.choices.length === state.index) {
+            state.isComplete = true
+        }
     }
 
     const currentChoice = computed(() => {
@@ -45,6 +59,7 @@ export default function choiceState() {
         setIndex,
         setChioces,
         setAnswer,
+        setOverlay,
         switchHideResult,
         increaseIndex,
         currentChoice

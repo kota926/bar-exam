@@ -7,8 +7,9 @@
             {{ state.choices[state.index] ? state.choices[state.index].c1 : "" }}
         </v-card-text>
     </v-card>
-    <v-card
+    <div
     v-else-if="isTypeB"
+    class="mt-4"
     >
         <v-card
         class="d-flex align-center mb-1"
@@ -31,7 +32,6 @@
         </v-card>
         <v-card
         class="d-flex align-center"
-        flat
         >
             <v-card
             flat
@@ -49,7 +49,7 @@
                 </v-card-text>
             </v-card>
         </v-card>
-    </v-card>
+    </div>
     <v-card
     v-else-if="isTypeC"
     >

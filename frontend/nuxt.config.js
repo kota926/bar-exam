@@ -75,7 +75,7 @@ export default {
   fontawesome: {
     icons: {
       solid: ['faHome', 'faTimes'],
-      regular: ['faEdit', 'faCaretSquareLeft']
+      regular: ['faEdit', 'faCaretSquareLeft', 'faCircle']
     }
   },
 }

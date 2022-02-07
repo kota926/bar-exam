@@ -1,12 +1,17 @@
 <template>
     <div>
         <unit-chip />
-        <div v-if="!state.choices.length">
-            読込中
+        <div v-if="!state.isComplete">
+            <div v-if="!state.choices.length">
+                読込中
+            </div>
+            <test-card
+            v-else
+            />
         </div>
-        <test-card
-        v-else
-        />
+        <div v-else>
+            <result-card />
+        </div>
     </div>
 </template>
 
@@ -19,9 +24,10 @@ import { ChoiceState } from '../composables/state/choiceState'
 import ChoiceKey from '../composables/key/choiceKey'
 import UnitChip from '../components/UnitChip.vue'
 import TestCard from '../components/TestCard.vue'
+import ResultCard from '../components/ResultCard.vue'
 
 export default defineComponent({
-  components: { UnitChip, TestCard },
+  components: { UnitChip, TestCard, ResultCard },
     layout: 'test',
     
     setup () {

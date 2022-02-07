@@ -1,5 +1,19 @@
 <template>
-    <div>
+<div>
+    <div v-if="!state.isComplete">
+        <v-bottom-navigation class='nav'>
+            <v-btn
+            @click="clickYes"
+            class="mr-10"
+            >
+                <font-awesome-icon class="icon" :icon="['far', 'circle']"/>
+            </v-btn>
+            <v-btn
+            @click="clickNo"
+            >
+                <font-awesome-icon class="icon" :icon="['fas', 'times']"/>
+            </v-btn>
+        </v-bottom-navigation>
         <!-- <div class="d-flex justify-center my-8">
             <v-card
             class="mr-4">
@@ -21,59 +35,48 @@
                 </v-btn>
             </v-card>
         </div> -->
-        <v-overlay
-        :value="state.isOverlay"
-        class="text-h2"
-        >
-            <v-sheet
-            color="rgba(0, 0, 0, 0)"
-            v-if="state.isCorrect">
-            <p
-            class="large"
-            >正解</p>
-            </v-sheet>
-            <v-sheet
-            color="rgba(0, 0, 0, 0)"
-            >
-            <p
-            class="large"
-            v-if="!state.isCorrect"
-            >不正解</p>
-            </v-sheet>
-        </v-overlay>
     </div>
+    <div v-else>
+        <v-bottom-navigation class='nav'>
+            <v-btn
+            outlined
+            @click="finish"
+            class="mr-10"
+            >
+                FINISH
+            </v-btn>
+        </v-bottom-navigation>
+    </div>
+</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, reactive, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, inject, useRoute, useRouter } from '@nuxtjs/composition-api'
 import { ChoiceState } from '../composables/state/choiceState'
 import ChoiceKey from '../composables/key/choiceKey'
 
 export default defineComponent({
-    setup(props, context) {
-        const { state, setAnswer, switchHideResult, increaseIndex } = inject(ChoiceKey) as ChoiceState
-        const data = reactive({
-            overlay: false,
-            correct: true,
-        })
+    setup () {
+        const router = useRouter()
+        const route = useRoute()
+        const { state, setAnswer, increaseIndex, switchHideResult, setOverlay } = inject(ChoiceKey) as ChoiceState
         const clickYes = () => {
             if(state.choices[state.index].answer === "1") {
-                data.correct = true
-                data.overlay = true
+                setOverlay(true)
                 setAnswer(true)
                 setTimeout(() => {
                     increaseIndex()
                     switchHideResult()
-                    data.overlay = false
+                    setOverlay(false)
                 }, 1000);
             } else {
-                data.correct = false
-                data.overlay = true
+                setOverlay(true)
+                setAnswer(false)
                 setAnswer(false)
                 setTimeout(() => {
                     increaseIndex()
                     switchHideResult()
-                    data.overlay = false
+                    setOverlay(false)
                 }, 1000);
             }
             // if(context.root.$auth.loggedIn) {
@@ -91,22 +94,20 @@ export default defineComponent({
         }
         const clickNo = () => {
             if(state.choices[state.index].answer === "2") {
-                data.correct = true
-                data.overlay = true
+                setOverlay(true)
                 setAnswer(true)
                 setTimeout(() => {
                     increaseIndex()
                     switchHideResult()
-                    data.overlay = false
+                    setOverlay(false)
                 }, 1000);
             } else {
-                data.correct = false
-                data.overlay = true
+                setOverlay(true)
                 setAnswer(false)
                 setTimeout(() => {
                     increaseIndex()
                     switchHideResult()
-                    data.overlay = false
+                    setOverlay(false)
                 }, 1000);
             }
             
@@ -123,17 +124,23 @@ export default defineComponent({
             //     })
             // }
         }
+        const finish = () => {
+            router.push({path: 'unit', query: {
+                subject: route.value.query.subject
+            }})
+        }
         return {
             state,
             clickYes,
             clickNo,
+            finish,
         }
     }
 })
 </script>
 
 <style scoped>
-.times {
+.icon {
     font-size: 20px;
 }
 </style>
