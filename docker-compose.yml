@@ -28,6 +28,12 @@ services:
     build:
       context: .
       dockerfile: ./docker/back/Dockerfile
+      args:
+        EMAIL_HOST: $EMAIL_HOST
+        EMAIL_PORT: $EMAIL_PORT
+        EMAIL_ADDRESS: $EMAIL_ADDRESS
+        EMAIL_PASSWORD: $EMAIL_PASSWORD
+        FRONTEND_URL: $FRONTEND_URL
     environment:
       - TZ=Asia/Tokyo
     tty: true

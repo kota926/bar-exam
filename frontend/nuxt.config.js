@@ -42,6 +42,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -71,10 +72,38 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  // nuxt-auth
+  auth: {
+    redirect: {
+      login: '/',   // 未ログイン時に認証ルートへアクセスした際のリダイレクトURL
+      logout: '/auth',  // ログアウト時のリダイレクトURL
+      callback: false,   // Oauth認証等で必要となる コールバックルート
+      home: '/',         // ログイン後のリダイレクトURL
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          global: true,
+          // required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: 'user',
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/auth/login', method: 'post', propertyName: 'token' },
+          logout: { url: '/auth/logout', method: 'post' },
+          user: { url: '/auth/user', method: 'get', propertyName: false},
+        },
+      }
+    }
+  },
 
   fontawesome: {
     icons: {
-      solid: ['faHome', 'faTimes'],
+      solid: ['faHome', 'faTimes', 'faCheck'],
       regular: ['faEdit', 'faCaretSquareLeft', 'faCircle']
     }
   },
