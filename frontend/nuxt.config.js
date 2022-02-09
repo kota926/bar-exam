@@ -75,7 +75,7 @@ export default {
   // nuxt-auth
   auth: {
     redirect: {
-      login: '/',   // 未ログイン時に認証ルートへアクセスした際のリダイレクトURL
+      login: '/auth',   // 未ログイン時に認証ルートへアクセスした際のリダイレクトURL
       logout: '/auth',  // ログアウト時のリダイレクトURL
       callback: false,   // Oauth認証等で必要となる コールバックルート
       home: '/',         // ログイン後のリダイレクトURL
@@ -101,10 +101,14 @@ export default {
     }
   },
 
+  // router: {
+  //   middleware: ['auth']
+  // },
+
   fontawesome: {
     icons: {
-      solid: ['faHome', 'faTimes', 'faCheck'],
-      regular: ['faEdit', 'faCaretSquareLeft', 'faCircle']
+      solid: ['faHome', 'faTimes', 'faCheck', 'faExclamationTriangle'],
+      regular: ['faEdit', 'faCaretSquareLeft', 'faCircle', 'faClock']
     }
   },
 }

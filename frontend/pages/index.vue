@@ -1,5 +1,9 @@
 <template>
     <v-container>
+        <profile-card
+        v-if="isUser"
+        :user="user"
+        />
         <v-card>
             <v-card-text>
                 {{ $auth.user }}
@@ -23,18 +27,27 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, computed } from '@nuxtjs/composition-api'
+import ProfileCard from '../components/ProfileCard.vue'
 
 export default defineComponent({
-   name: 'IndexPage',
+    components: { ProfileCard },
     layout: 'home',
-    middleware: 'auth',
+    middleware: 'onHome',
     setup(props, context) {
         const logoutUser = () => {
             context.root.$auth.logout()
         }
+        const isUser = computed(() => {
+            return context.root.$auth.user !== null
+        })
+        const user = computed(() => {
+            return context.root.$auth.user
+        })
         return {
             logoutUser,
+            isUser,
+            user,
         }
     }
 })

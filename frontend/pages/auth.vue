@@ -9,6 +9,7 @@
         />
         <sign-up
         v-else-if="data.showSignup"
+        @show-signin='showSignin'
         @show-success="hideSignup"
         />
         <sent-email
@@ -22,20 +23,16 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from '@nuxtjs/composition-api'
+import SentEmail from '../components/SentEmail.vue'
 import SignIn from '../components/SignIn.vue'
 import SignUp from '../components/SignUp.vue'
-import SentEmail from '../components/SentEmail.vue'
 import FailSentEmail from '../components/FailSentEmail.vue'
 
 export default defineComponent({
-    components: {
-        'sign-in': SignIn,
-        'sign-up': SignUp,
-        'sent-email': SentEmail,
-        'fail-sent-email': FailSentEmail,
-    },
-    // middleware: "onAuth",
-    layout: 'DefaultLayout', 
+  components: { SignIn, SignUp, SentEmail, FailSentEmail },
+    middleware: 'onAuth',
+    // auth: 'guest',
+    layout: 'home', 
     setup() {
         const data = reactive({
             showSignin: true,
@@ -44,6 +41,9 @@ export default defineComponent({
         })
         const hideSignin = () => {
             data.showSignin = false
+        }
+        const showSignin = () => {
+            data.showSignin = true
         }
         const hideSignup = () => {
             data.showSignup = false
@@ -55,6 +55,7 @@ export default defineComponent({
         return {
             data,
             hideSignin,
+            showSignin,
             hideSignup,
             hideSuccess,
         }
