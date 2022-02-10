@@ -1,15 +1,17 @@
 <template>
     <div>
+        <tab-bar>
+            <unit-chip />
+            <hidden-text-card
+            v-for="(choice, index) in choices" :key="index"
+            :choice="choice"
+            />
+        </tab-bar>
+        <bottom-nav />
         <!-- <hidden-text
         v-for="(question, index) in questions" :key="index"
         :question="question"
         /> -->
-        <unit-chip />
-        <hidden-text-card
-        v-for="(choice, index) in choices" :key="index"
-        :choice="choice"
-        />
-        
     </div>
 </template>
 
@@ -22,10 +24,12 @@ import { Choice } from "../types/Choice"
 import { ChoiceState } from '../composables/state/choiceState'
 import ChoiceKey from '../composables/key/choiceKey'
 import UnitChip from '../components/UnitChip.vue'
+import TabBar from '../components/TabBar.vue'
+import BottomNav from '../components/BottomNav.vue'
 
 export default defineComponent({
-  components: { HiddenText, UnitChip },
-    layout: 'list',
+  components: { HiddenText, UnitChip, TabBar, BottomNav },
+    layout: 'default',
     // async asyncData(context: any) {
     //     console.log(context)
     //     const questions = await context.$axios.$get('/api/question')

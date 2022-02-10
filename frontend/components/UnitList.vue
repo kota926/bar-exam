@@ -4,14 +4,15 @@
         v-for="(unit, index) in units" :key="index"
         :unit="unit"
         :unitNumber="index + 1"
-        :record="record"
         />
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, useRoute, useFetch, useContext, watch } from '@nuxtjs/composition-api'
+import { defineComponent, computed, ref, useRoute, useFetch, useContext, watch, inject } from '@nuxtjs/composition-api'
 import UnitCard from './UnitCard.vue'
+import UserKey from '../composables/key/userKey'
+import { UserState } from '../composables/state/userState'
 
 export default defineComponent({
     components: { UnitCard },
@@ -189,35 +190,35 @@ export default defineComponent({
         //             return null
         //     }
         // })
-        const rowRecord = ref([])
-        const record = ref()
+        const { setRecord } = inject(UserKey) as UserState
         const currentRoute = computed(() => {
             return route.value.query.subject
         })
         const { $axios } = useContext()
-        const { fetch }  = useFetch(async() => {
+        const { fetch }  = useFetch(() => {
             console.log(context.root.$auth.user)
             if(context.root.$auth.user) {
                 switch(route.value.query.subject) {
                     case 'cons':
-                        rowRecord.value = await $axios.$get('/api/done', {
+                        $axios.$get('/api/done', {
                             params: {
                                 subject: route.value.query.subject,
                                 id: context.root.$auth.user.constitutionId,
                             }
+                        }).then((res) => {
+                            setRecord(res)
                         })
                     break
                     case 'gov':
-                        rowRecord.value = await $axios.$get('/api/done', {
+                        $axios.$get('/api/done', {
                             params: {
                                 subject: route.value.query.subject,
                                 id: context.root.$auth.user.governmentId,
                             }
+                        }).then((res) => {
+                            setRecord(res)
                         })
                 }
-                
-                console.log(rowRecord)
-                record.value = rowRecord.value[0]
             }
         })
         watch(currentRoute, () => {
@@ -228,7 +229,6 @@ export default defineComponent({
             consUnits,
             govUnits,
             units,
-            record,
         }
     }
 })

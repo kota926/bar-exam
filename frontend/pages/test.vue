@@ -1,17 +1,20 @@
 <template>
     <div>
-        <unit-chip />
-        <div v-if="!state.isComplete">
-            <div v-if="!state.choices.length">
-                読込中
+        <tab-bar-test >
+            <unit-chip />
+            <div v-if="!state.isComplete">
+                <div v-if="!state.choices.length">
+                    読込中
+                </div>
+                <test-card
+                v-else
+                />
             </div>
-            <test-card
-            v-else
-            />
-        </div>
-        <div v-else>
-            <result-card />
-        </div>
+            <div v-else>
+                <result-card />
+            </div>
+        </tab-bar-test>
+        <test-bottom-nav />
     </div>
 </template>
 
@@ -25,10 +28,12 @@ import ChoiceKey from '../composables/key/choiceKey'
 import UnitChip from '../components/UnitChip.vue'
 import TestCard from '../components/TestCard.vue'
 import ResultCard from '../components/ResultCard.vue'
+import TabBarTest from '../components/TabBarTest.vue'
+import TestBottomNav from '../components/TestBottomNav.vue'
 
 export default defineComponent({
-  components: { UnitChip, TestCard, ResultCard },
-    layout: 'test',
+  components: { UnitChip, TestCard, ResultCard, TabBarTest, TestBottomNav },
+    layout: 'default',
     
     setup () {
         const { $axios } = useContext()
