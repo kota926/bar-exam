@@ -4,7 +4,11 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
+    OneToOne,
+    JoinColumn,
 } from 'typeorm'
+import { Constitution } from './Constitution';
+import { Government } from './Government';
 
 @Entity()
 export class User {
@@ -22,6 +26,20 @@ export class User {
 
     @Column({ type: 'varchar', length: 9, nullable: true })
     lastQuestion: string
+
+    @Column({ nullable: true})
+    constitutionId: number
+
+    @OneToOne(() => Constitution)
+    @JoinColumn()
+    constitution: Constitution;
+
+    @Column({ nullable: true})
+    governmentId: number
+
+    @OneToOne(() => Government)
+    @JoinColumn()
+    government: Government;
 
     @CreateDateColumn({ name: 'created_at', type: 'timestamp', precision: 0, default: () => 'NOW()'})
     createdAt: Date;

@@ -84,7 +84,7 @@ import AuthKey from '../composables/key/authKey'
 export default defineComponent({
     name: "SignUp",
     setup(props, context) {
-        // const { mutateEmail } = inject(AuthKey) as AuthState
+        const { mutateEmail } = inject(AuthKey) as AuthState
         const { $axios } = useContext()
         const data = reactive({
             name: '',
@@ -95,7 +95,7 @@ export default defineComponent({
             message: '',
         })
         const signUp = () => {
-            // mutateEmail(data.email)
+            mutateEmail(data.email)
             if(data.email && data.name && data.password) {
                 const user = {
                 name: data.name.trim(),

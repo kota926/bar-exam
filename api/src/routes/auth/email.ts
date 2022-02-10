@@ -1,7 +1,8 @@
 // import { AuthUser } from '../../entity/AuthUser';
 import { User } from '../../entity/User'
 import { TempUser } from '../../entity/TempUser';
-// import { Constitution } from '../../entity/Constitution'
+import { Constitution } from '../../entity/Constitution'
+import { Government } from '../../entity/Government';
 import express from 'express';
 // import bcript, { compare } from 'bcryptjs';
 import crypto from 'crypto'
@@ -39,11 +40,27 @@ router.post('/', (req: express.Request, res: express.Response) => {
             // const constitutionRepository = getRepository(Constitution)
             // await constitutionRepository.save(constitution)
 
+            const constitution = new Constitution();
+            constitution['2'] = 3
+
+            const consRepository = getRepository(Constitution)
+            await consRepository.save(constitution).catch((err) => {
+                return res.send(err)
+            })
+
+            const government = new Government()
+            const govRepository = getRepository(Government)
+            await govRepository.save(government).catch((err) => {
+                return res.send(err)
+            })
+
             const user = new User()
             user.name = tempUserInDB.name
             user.email = tempUserInDB.email
             user.password = tempUserInDB.password
             user.lastQuestion = '0'
+            user.constitution = constitution
+            user.government = government
             // user.authUser = authUser
             // user.constitution = constitution
 

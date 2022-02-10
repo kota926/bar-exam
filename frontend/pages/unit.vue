@@ -12,8 +12,6 @@ export default defineComponent({
     components: {UnitList },
     layout: 'list',
     setup (props, context) {
-        // const router = context.root.$router
-        
         return {}
     }
 })

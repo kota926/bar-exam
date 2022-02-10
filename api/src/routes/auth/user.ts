@@ -14,7 +14,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
         const bearer = bearToken.split(' ')
         const token = bearer[1]
 
-        jwt.verify(token, 'secret', async (err,user: JwtPayload)=>{
+        jwt.verify(token, 'secret', async (err, user: JwtPayload)=>{
             if(err) {
                 return res.sendStatus(403)
             }
@@ -23,7 +23,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
                 const userInDB = await userRepository.findOne({
                     where: {
                         id: user.id
-                    }
+                    },
                 }).catch((err) => {
                     res.send(err)
                 })

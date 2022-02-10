@@ -1,7 +1,7 @@
 import { reactive } from "@nuxtjs/composition-api";
 import { User } from '../../types/User'
 
-export default function authState() {
+export default function userState() {
     const state = reactive<{
         email: string
         user: User | null
@@ -25,4 +25,4 @@ export default function authState() {
     }
 }
 
-export type AuthState = ReturnType<typeof authState>
+export type UserState = ReturnType<typeof userState>

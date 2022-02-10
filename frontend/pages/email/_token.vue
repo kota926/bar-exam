@@ -1,25 +1,29 @@
 <template>
-    <div class="wrapper d-flex justify-center">
-        <!-- <email-loading
-        v-if="data.showLoading"/>
-        <email-success
-        v-else-if="data.showSuccess"
-        />
-        <email-fail
-        v-else
-        /> -->
-        認証
-    </div>
+    <simple-bar>
+        <div class="wrapper d-flex justify-center">
+            <!-- <email-loading
+            v-if="data.showLoading"/>
+            <email-success
+            v-else-if="data.showSuccess"
+            />
+            <email-fail
+            v-else
+            /> -->
+            認証
+        </div>
+    </simple-bar>
 </template>
 
 <script lang="ts">
 import { defineComponent, SetupContext, onMounted, reactive, useContext, useRoute } from '@nuxtjs/composition-api'
+import SimpleBar from '../../components/SimpleBar.vue'
 // import EmailLoading from '../../components/EmailLoading.vue'
 // import EmailSuccess from '../../components/EmailSuccess.vue'
 // import EmailFail from '../../components/EmailFail.vue'
 
 export default defineComponent({
-    layout: 'Verification', 
+  components: { SimpleBar },
+    layout: 'default', 
     setup(props, context: SetupContext) {
         const { $axios } = useContext()
         const route = useRoute()

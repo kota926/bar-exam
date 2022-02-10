@@ -35,7 +35,7 @@
                 elevation="0"
                 >
                     <span>回答数</span>
-                    <span>1</span>
+                    <span>{{ record ? record[unitNumber] : 10 }}</span>
                     <span>/</span>
                     <span>問題数</span>
                     <span>{{ unit.num }}</span>
@@ -55,6 +55,7 @@
                 </v-sheet>
             </div>
         </v-card>
+        {{ record }}
     </div>
 </template>
 
@@ -72,6 +73,10 @@ export default defineComponent({
         unitNumber: {
             type: Number,
             default: 0
+        },
+        record: {
+            type: Object,
+            required: false,
         }
     },
     setup (props, context) {

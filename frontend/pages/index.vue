@@ -1,12 +1,12 @@
 <template>
     <v-container>
         <profile-card
-        v-if="isUser"
+        v-if="user"
         :user="user"
         />
         <v-card>
             <v-card-text>
-                {{ $auth.user }}
+                {{ user }}
             </v-card-text>
         </v-card>
         <v-card
