@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="pb-4 mb-4">
+        <v-card class="pb-4 mb-4 width mx-auto">
             <div class="d-flex align-center justify-space-between">
                 <v-card-title>
                     <v-chip
@@ -15,6 +15,7 @@
                     outlined
                     color="success"
                     class="mr-2 px-2"
+                    :disabled="isDisable"
                     @click="goQuestionList"
                     >リスト
                     </v-btn>                     
@@ -23,19 +24,20 @@
                     outlined
                     color="primary"
                     class="mr-2 px-2"
+                    :disabled="isDisable"
                     @click="goTest"
                     >テスト
                     </v-btn>   
                 </div>
             </div>
-            <div>
+            <!-- <div>
                 <v-sheet
                 class="mx-auto text-caption"
                 width="90%"
                 elevation="0"
                 >
                     <span>回答数</span>
-                    <span>{{ state.record ? state.record[unitNumber] : 10 }}</span>
+                    <span>{{ state.record ? state.record[unitNumber] : 5 }}</span>
                     <span>/</span>
                     <span>問題数</span>
                     <span>{{ unit.num }}</span>
@@ -53,20 +55,23 @@
                     class="do"
                     ></v-sheet>
                 </v-sheet>
-            </div>
+            </div> -->
+            <percent-bar
+            :doneNum="doneNum"
+            :totalNum="unit.num"
+            />
         </v-card>
-        {{ state.record }}
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, useRouter, useRoute, inject, provide } from '@nuxtjs/composition-api'
-import { ChoiceState } from '../composables/state/choiceState'
-import ChoiceKey from '../composables/key/choiceKey'
-import { UserState } from '../composables/state/userState'
-import UserKey from '../composables/key/userKey'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
+import PercentBar from './PercentBar.vue'
  
 export default defineComponent({
+  components: { PercentBar },
     props: {
         unit: {
             type: Object,
@@ -76,26 +81,26 @@ export default defineComponent({
             type: Number,
             default: 0
         },
-        record: {
-            type: Object,
-            required: false,
-        }
+        // record: {
+        //     type: Object,
+        //     required: false,
+        // }
     },
     setup (props, context) {
         const router = useRouter()
         const route = useRoute()
-        // const { state } = inject(ChoiceKey) as ChoiceState
-        const { state } = inject(UserKey) as UserState
-        const donePercent = computed(() => {
-                    if(!state.record) return 0 + '%'
-                    const percent = state.record[props.unitNumber] / props.unit.num * 100
-                    return percent + '%'
-                })
+        const { state, setIndex, setTotalNumber } = inject(GlobalKey) as GlobalState
 
-        const remainedPercent = computed(() => {
-            if(!state.record) return 100 + '%'
-            const percent = (1 - state.record[props.unitNumber] / props.unit.num) * 100
-            return percent + '%'
+        const isDisable = computed(() => {
+            return props.unit.num === 0
+        })
+
+        const doneNum = computed(() => {
+            if(state.record) {
+                return state.record[props.unitNumber]
+            } else {
+                return 0
+            }
         })
 
         const goQuestionList = () => {
@@ -105,17 +110,36 @@ export default defineComponent({
             }})
         }
         const goTest = () => {
-            router.push({path: 'test', query: {
-                subject: route.value.query.subject,
-                unit: String(props.unitNumber)
-            }})
+            console.log(props.unit.num)
+            setTotalNumber(props.unit.num)
+            if(state.record) {
+                if(state.record[props.unitNumber] === props.unit.num) {
+                    setIndex(0)
+                    router.push({path: 'test', query: {
+                        subject: route.value.query.subject,
+                        unit: String(props.unitNumber)
+                    }})
+                } else {
+                    setIndex(state.record[props.unitNumber])
+                    router.push({path: 'test', query: {
+                        subject: route.value.query.subject,
+                        unit: String(props.unitNumber)
+                    }})
+                }
+            } else {
+                setIndex(0)
+                router.push({path: 'test', query: {
+                    subject: route.value.query.subject,
+                    unit: String(props.unitNumber)
+                }})
+            }
         }
         return {
             goQuestionList,
             goTest,
             state,
-            donePercent,
-            remainedPercent,
+            isDisable,
+            doneNum,
         }
     }
 })
@@ -131,10 +155,7 @@ export default defineComponent({
     font-size: 1.7rem;
     color: silver;
 }
-.done {
-    background: royalblue;
-}
-.do {
-    background: silver;
+.width {
+    max-width: 700px;
 }
 </style>

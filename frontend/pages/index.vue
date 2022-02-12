@@ -1,38 +1,52 @@
 <template>
-    <v-container>
-        <profile-card
-        v-if="user"
-        :user="user"
-        />
-        <v-card>
-            <v-card-text>
-                {{ user }}
-            </v-card-text>
-        </v-card>
-        <v-card
-        class="my-4"
-        >
-            <v-card-actions>
-                <v-btn
-                outlined
-                color="primary"
-                class="mx-auto"
-                @click="logoutUser"
-                >
-                    ログアウト
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-container>
+  <div>
+      <app-bar>
+          <v-container
+          class="container"
+          >
+              <div
+              v-if="isUser"
+              >
+                  <profile-card
+                  :user="user"
+                  />
+              </div>
+              <!-- <v-card>
+                  <v-card-text>
+                      {{ user }}
+                  </v-card-text>
+              </v-card> -->
+              <last-question-card />
+              <v-card
+              class="my-4"
+              >
+                  <v-card-actions>
+                      <v-btn
+                      outlined
+                      color="primary"
+                      class="mx-auto"
+                      @click="logoutUser"
+                      >
+                          ログアウト
+                      </v-btn>
+                  </v-card-actions>
+              </v-card>
+          </v-container>
+      </app-bar>
+      <bottom-nav />
+  </div>
 </template>
 
 <script>
 import { defineComponent, computed } from '@nuxtjs/composition-api'
+import AppBar from '../components/AppBar.vue'
+import BottomNav from '../components/BottomNav.vue'
+import LastQuestionCard from '../components/LastQuestionCard.vue'
 import ProfileCard from '../components/ProfileCard.vue'
 
 export default defineComponent({
-    components: { ProfileCard },
-    layout: 'home',
+    components: { ProfileCard, AppBar, BottomNav, LastQuestionCard },
+    layout: 'default',
     middleware: 'onHome',
     setup(props, context) {
         const logoutUser = () => {
@@ -52,3 +66,9 @@ export default defineComponent({
     }
 })
 </script>
+
+<style scoped>
+.container {
+  max-width: 700px;
+}
+</style>

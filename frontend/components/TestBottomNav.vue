@@ -51,15 +51,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, useRoute, useRouter } from '@nuxtjs/composition-api'
-import { ChoiceState } from '../composables/state/choiceState'
-import ChoiceKey from '../composables/key/choiceKey'
+import { defineComponent, inject, useContext, useRoute, useRouter } from '@nuxtjs/composition-api'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
-    setup () {
+    setup (props, context) {
         const router = useRouter()
         const route = useRoute()
-        const { state, setAnswer, increaseIndex, switchHideResult, setOverlay } = inject(ChoiceKey) as ChoiceState
+        const { $axios } = useContext()
+        const {
+            state,
+            setAnswer,
+            increaseIndex,
+            switchHideResult,
+            setOverlay,
+        } = inject(GlobalKey) as GlobalState
+
         const clickYes = () => {
             if(state.choices[state.index].answer === "1") {
                 setOverlay(true)
@@ -79,7 +87,39 @@ export default defineComponent({
                     setOverlay(false)
                 }, 1000);
             }
-            // if(context.root.$auth.loggedIn) {
+            const setDone = (recordId: string) => {
+                $axios.$post('/api/done', {
+                    subject: route.value.query.subject,
+                    id: recordId,
+                    unit: route.value.query.unit,
+                    index: state.index + 1
+                }).then((res) => {
+                    console.log(res)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
+            if(context.root.$auth.loggedIn) {
+                switch(route.value.query.subject) {
+                    case 'cons':
+                        console.log('cons')
+                        setDone(context.root.$auth.user.constitutionId)
+                    break
+                    case 'gov':
+                        console.log('gov')
+                        setDone(context.root.$auth.user.governmentId)
+                    break
+                    case 'civil':
+                        console.log('civil')
+                        setDone(context.root.$auth.user.civilId)
+                    break
+                    case 'company':
+                        console.log('company')
+                        setDone(context.root.$auth.user.companyId)
+                    break
+                }
+            }
+            // if() {
             //     context.root.$axios.$post('/api/done-record', {
             //         subject: '憲法',
             //         id: context.root.$auth.user.constitutionId,

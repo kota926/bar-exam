@@ -78,13 +78,13 @@
 
 <script lang="ts">
 import { defineComponent, inject, reactive, useContext } from '@nuxtjs/composition-api'
-import { AuthState } from '../composables/state/authState'
-import AuthKey from '../composables/key/authKey'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     name: "SignUp",
     setup(props, context) {
-        const { mutateEmail } = inject(AuthKey) as AuthState
+        const { mutateEmail } = inject(GlobalKey) as GlobalState
         const { $axios } = useContext()
         const data = reactive({
             name: '',

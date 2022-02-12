@@ -21,8 +21,8 @@ import HiddenText from '../components/HiddenText.vue'
 
 import { Choice } from "../types/Choice"
 
-import { ChoiceState } from '../composables/state/choiceState'
-import ChoiceKey from '../composables/key/choiceKey'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 import UnitChip from '../components/UnitChip.vue'
 import TabBar from '../components/TabBar.vue'
 import BottomNav from '../components/BottomNav.vue'
@@ -40,7 +40,8 @@ export default defineComponent({
     setup () {
         const { $axios } = useContext()
         const route = useRoute()
-        const { setChioces } = inject(ChoiceKey) as ChoiceState
+        const { setComplete } = inject(GlobalKey) as GlobalState
+        // const { setChioces } = inject(ChoiceKey) as ChoiceState
         // onMounted(() => {
         //     console.log(useContext())
         //     console.log($axios)})

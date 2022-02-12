@@ -9,6 +9,8 @@ import {
 } from 'typeorm'
 import { Constitution } from './Constitution';
 import { Government } from './Government';
+import { Civil } from './Civil'
+import { Company } from './Company'
 
 @Entity()
 export class User {
@@ -24,8 +26,14 @@ export class User {
     @Column({ type: "text" })
     password: string;
 
-    @Column({ type: 'varchar', length: 9, nullable: true })
-    lastQuestion: string
+    @Column({ type: 'varchar', length: 8, nullable: true })
+    lastSubject: string
+
+    @Column({ type: 'varchar', length: 2, nullable: true })
+    lastUnit: string
+
+    @Column({ type: 'int', width: 3, nullable: true })
+    lastNumber: number
 
     @Column({ nullable: true})
     constitutionId: number
@@ -40,6 +48,20 @@ export class User {
     @OneToOne(() => Government)
     @JoinColumn()
     government: Government;
+
+    @Column({ nullable: true})
+    civilId: number
+
+    @OneToOne(() => Civil)
+    @JoinColumn()
+    civil: Civil;
+
+    @Column({ nullable: true})
+    companyId: number
+
+    @OneToOne(() => Company)
+    @JoinColumn()
+    company: Company;
 
     @CreateDateColumn({ name: 'created_at', type: 'timestamp', precision: 0, default: () => 'NOW()'})
     createdAt: Date;

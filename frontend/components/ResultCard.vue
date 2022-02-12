@@ -9,14 +9,14 @@
 
 <script lang="ts">
 import { defineComponent, inject } from '@nuxtjs/composition-api'
-import { ChoiceState } from '../composables/state/choiceState'
-import ChoiceKey from '../composables/key/choiceKey'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 import ResultTextCard from './ResultTextCard.vue'
 
 export default defineComponent({
   components: { ResultTextCard },
     setup () {
-        const { state } = inject(ChoiceKey) as ChoiceState
+        const { state } = inject(GlobalKey) as GlobalState
         return {
             state
         }

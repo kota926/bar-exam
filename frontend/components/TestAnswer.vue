@@ -46,12 +46,12 @@
 
 <script lang="ts">
 import { defineComponent, inject, reactive, useContext } from '@nuxtjs/composition-api'
-import { ChoiceState } from '../composables/state/choiceState'
-import ChoiceKey from '../composables/key/choiceKey'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     setup(props, context) {
-        const { state, setAnswer, switchHideResult, increaseIndex } = inject(ChoiceKey) as ChoiceState
+        const { state, setAnswer, switchHideResult, increaseIndex } = inject(GlobalKey) as GlobalState
         const data = reactive({
             overlay: false,
             correct: true,

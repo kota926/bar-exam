@@ -18,13 +18,15 @@
 import { defineComponent, computed, inject } from '@nuxtjs/composition-api'
 import { ChoiceState } from '../composables/state/choiceState'
 import ChoiceKey from '../composables/key/choiceKey'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 import ConsTest from './subject/ConsTest.vue'
 import TestAnswer from './TestAnswer.vue'
 
 export default defineComponent({
   components: { ConsTest, TestAnswer },
     setup (props) {
-        const { state } = inject(ChoiceKey) as ChoiceState
+        const { state, setIndex } = inject(GlobalKey) as GlobalState
         const year = computed(() => {
             return state.choices[state.index].id.slice(3, 7)
         })

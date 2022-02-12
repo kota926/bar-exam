@@ -97,13 +97,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, PropType } from '@nuxtjs/composition-api'
-import { ChoiceState } from '../../composables/state/choiceState'
-import ChoiceKey from '../../composables/key/choiceKey'
+import { GlobalState } from '../../composables/state/globalState'
+import GlobalKey from '../../composables/key/globalKey'
 
 export default defineComponent({
     name: 'ConstitutionChoiceText',
     setup() {
-        const { state } = inject(ChoiceKey) as ChoiceState
+        const { state } = inject(GlobalKey) as GlobalState
         const isTypeA = computed(() => {   
             if(!state.choices[state.index]) {
                 return true

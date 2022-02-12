@@ -3,6 +3,8 @@ import { User } from '../../entity/User'
 import { TempUser } from '../../entity/TempUser';
 import { Constitution } from '../../entity/Constitution'
 import { Government } from '../../entity/Government';
+import { Civil } from '../../entity/Civil';
+import { Company } from '../../entity/Company';
 import express from 'express';
 // import bcript, { compare } from 'bcryptjs';
 import crypto from 'crypto'
@@ -41,8 +43,6 @@ router.post('/', (req: express.Request, res: express.Response) => {
             // await constitutionRepository.save(constitution)
 
             const constitution = new Constitution();
-            constitution['2'] = 3
-
             const consRepository = getRepository(Constitution)
             await consRepository.save(constitution).catch((err) => {
                 return res.send(err)
@@ -54,16 +54,30 @@ router.post('/', (req: express.Request, res: express.Response) => {
                 return res.send(err)
             })
 
+            const civil = new Civil()
+            const civilRepository = getRepository(Civil)
+            await civilRepository.save(civil).catch((err) => {
+                return res.send(err)
+            })
+
+            const company = new Company()
+            const companyRepository  = getRepository(Company)
+            await companyRepository.save(company).catch((err) => {
+                return res.send(err)
+            })
+
             const user = new User()
             user.name = tempUserInDB.name
             user.email = tempUserInDB.email
             user.password = tempUserInDB.password
-            user.lastQuestion = '0'
+            user.lastSubject = 'cons'
+            user.lastUnit = '1'
+            user.lastNumber = 0
             user.constitution = constitution
             user.government = government
-            // user.authUser = authUser
-            // user.constitution = constitution
-
+            user.civil = civil
+            user.company = company
+            
             const userRepository = getRepository(User)
 
             const insertedUser = await userRepository.save(user).catch((err) => {

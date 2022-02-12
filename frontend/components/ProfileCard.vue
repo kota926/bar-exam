@@ -1,9 +1,9 @@
 <template>
     <v-card>
         <div class="ml-4 pt-4 mb-2 text-h5">
-            {{ user.name }}
+            {{ user ? user.name : 'name' }}
         </div>
-        <div class="d-flex align-center">
+        <div class="date d-flex align-center py-2">
             <font-awesome-icon class="icon ml-4 mr-2" :icon="['far', 'clock']" />
             <div>{{ date }}に開始</div>
         </div>
@@ -17,25 +17,29 @@ export default defineComponent({
     props: {
         user: {
             type: Object,
-            required: true,
+            required: false,
         }
     },
     setup (props) {
         const date = computed(() => {
-            const year = props.user.createdAt.split('-')[0]
-            let month: string
-            if(props.user.createdAt.split('-')[1].startsWith('0')) {
-                month = props.user.createdAt.split('-')[1].slice(1, 2)
+            if(props.user) {
+                const year = props.user.createdAt.split('-')[0]
+                let month: string
+                if(props.user.createdAt.split('-')[1].startsWith('0')) {
+                    month = props.user.createdAt.split('-')[1].slice(1, 2)
+                } else {
+                    month = props.user.createdAt.split('-')[1]
+                }
+                let day: string
+                if(props.user.createdAt.split('-')[2].startsWith('0')) {
+                    day = props.user.createdAt.split('-')[2].slice(1, 2)
+                } else {
+                    day = props.user.createdAt.split('-')[2].slice(0, 2)
+                }
+                return year + '年' + month + '月' + day + '日'
             } else {
-                month = props.user.createdAt.split('-')[1]
+                return '2022年○月○日'
             }
-            let day: string
-            if(props.user.createdAt.split('-')[2].startsWith('0')) {
-                day = props.user.createdAt.split('-')[2].slice(1, 2)
-            } else {
-                day = props.user.createdAt.split('-')[2].slice(0, 2)
-            }
-            return year + '年' + month + '月' + day + '日'
         })
 
         return {
@@ -46,5 +50,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.date {
+    color: silver;
+}
 </style>

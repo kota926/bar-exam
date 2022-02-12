@@ -5,6 +5,7 @@ export interface User {
     password: string;
     lastQuestion: string
     constitutionId: number;
+    governmentId: number;
     createdAt: string;
     updatedAt: string;
 }

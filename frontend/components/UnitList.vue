@@ -11,8 +11,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref, useRoute, useFetch, useContext, watch, inject } from '@nuxtjs/composition-api'
 import UnitCard from './UnitCard.vue'
-import UserKey from '../composables/key/userKey'
-import { UserState } from '../composables/state/userState'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     components: { UnitCard },
@@ -190,7 +190,7 @@ export default defineComponent({
         //             return null
         //     }
         // })
-        const { setRecord } = inject(UserKey) as UserState
+        const { setRecord } = inject(GlobalKey) as GlobalState
         const currentRoute = computed(() => {
             return route.value.query.subject
         })
@@ -218,6 +218,27 @@ export default defineComponent({
                         }).then((res) => {
                             setRecord(res)
                         })
+                    break
+                    case 'civil':
+                        $axios.$get('/api/done', {
+                            params: {
+                                subject: route.value.query.subject,
+                                id: context.root.$auth.user.civilId,
+                            }
+                        }).then((res) => {
+                            setRecord(res)
+                        })
+                    break
+                    case 'company':
+                        $axios.$get('/api/done', {
+                            params: {
+                                subject: route.value.query.subject,
+                                id: context.root.$auth.user.companyId,
+                            }
+                        }).then((res) => {
+                            setRecord(res)
+                        })
+                    break
                 }
             }
         })

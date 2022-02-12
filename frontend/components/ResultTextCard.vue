@@ -24,8 +24,6 @@
 
 <script lang="ts">
 import { defineComponent, computed, inject, PropType } from '@nuxtjs/composition-api'
-import { ChoiceState } from '../composables/state/choiceState'
-import ChoiceKey from '../composables/key/choiceKey'
 import { Choice } from '../types/Choice'
 import HiddenChoiceText from './HiddenChoiceText.vue'
 import HiddenQuestionText from './HiddenQuestionText.vue'

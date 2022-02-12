@@ -21,7 +21,9 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    '@/plugins/common'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -107,7 +109,14 @@ export default {
 
   fontawesome: {
     icons: {
-      solid: ['faHome', 'faTimes', 'faCheck', 'faExclamationTriangle'],
+      solid: [
+        'faHome',
+        'faTimes',
+        'faCheck',
+        'faExclamationTriangle',
+        'faChevronRight',
+        'faCaretRight',
+      ],
       regular: ['faEdit', 'faCaretSquareLeft', 'faCircle', 'faClock']
     }
   },

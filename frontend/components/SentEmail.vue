@@ -11,13 +11,13 @@
 
 <script lang="ts">
 import { defineComponent, inject } from '@nuxtjs/composition-api'
-import { AuthState } from '../composables/state/authState'
-import AuthKey from '../composables/key/authKey'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     name: 'SentEmail',
     setup() {
-        const { state } = inject(AuthKey) as AuthState
+        const { state } = inject(GlobalKey) as GlobalState
         return {
             state,
         }
