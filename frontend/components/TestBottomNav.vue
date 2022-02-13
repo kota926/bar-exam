@@ -88,16 +88,31 @@ export default defineComponent({
                 }, 1000);
             }
             const setDone = (recordId: string) => {
-                $axios.$post('/api/done', {
-                    subject: route.value.query.subject,
-                    id: recordId,
-                    unit: route.value.query.unit,
-                    index: state.index + 1
-                }).then((res) => {
-                    console.log(res)
-                }).catch((err) => {
-                    console.log(err)
-                })
+                if(!(state.choices.length === state.index +1)) {
+                    const userId = context.root.$auth.user.id
+                    $axios.$put('/api/done/' + recordId + '/' + userId, {
+                        subject: route.value.query.subject,
+                        unit: route.value.query.unit,
+                        index: state.index + 1,
+                        lastNum: state.index + 1
+                    }).then((res) => {
+                        console.log(res)
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                } else {
+                    const userId = context.root.$auth.user.id
+                    $axios.$put('/api/done/' + recordId + '/' + userId, {
+                        subject: route.value.query.subject,
+                        unit: route.value.query.unit,
+                        index: state.index + 1,
+                        lastNum: 0
+                    }).then((res) => {
+                        console.log(res)
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                }
             }
             if(context.root.$auth.loggedIn) {
                 switch(route.value.query.subject) {

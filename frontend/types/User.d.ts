@@ -3,7 +3,9 @@ export interface User {
     name: string;
     email: string;
     password: string;
-    lastQuestion: string
+    lastSubject: string;
+    lastUnit: string;
+    lastNumber: number;
     constitutionId: number;
     governmentId: number;
     createdAt: string;

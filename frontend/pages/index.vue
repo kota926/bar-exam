@@ -1,40 +1,31 @@
 <template>
-  <div>
-      <app-bar>
-          <v-container
-          class="container"
-          >
-              <div
-              v-if="isUser"
-              >
-                  <profile-card
-                  :user="user"
-                  />
-              </div>
-              <!-- <v-card>
-                  <v-card-text>
-                      {{ user }}
-                  </v-card-text>
-              </v-card> -->
-              <last-question-card />
-              <v-card
-              class="my-4"
-              >
-                  <v-card-actions>
-                      <v-btn
-                      outlined
-                      color="primary"
-                      class="mx-auto"
-                      @click="logoutUser"
-                      >
-                          ログアウト
-                      </v-btn>
-                  </v-card-actions>
-              </v-card>
-          </v-container>
-      </app-bar>
-      <bottom-nav />
-  </div>
+    <div>
+        <app-bar>
+            <v-container
+            class="container"
+            >
+            <profile-card
+            :user="user"
+            />
+            <last-question-card />
+            <v-card
+            class="my-4"
+            >
+                <v-card-actions>
+                    <v-btn
+                    outlined
+                    color="primary"
+                    class="mx-auto"
+                    @click="logoutUser"
+                    >
+                        ログアウト
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+            </v-container>
+        </app-bar>
+        <bottom-nav />
+    </div>
 </template>
 
 <script>

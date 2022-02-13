@@ -4,11 +4,11 @@
     class="my-4 d-flex align-center"
     >
         <div>
-            <v-card-title>
+            <v-card-title class="ml-sm-4 mt-sm-2">
                 続きから
             </v-card-title>
             <div
-            class="d-flex flex-wrap align-center ml-4 pb-6"
+            class="d-flex flex-wrap align-center ml-4 ml-sm-8 pb-6 mt-6"
             >
                 <div>{{ subject }}</div>
                 <font-awesome-icon class="icon mx-2" :icon="['fas', 'chevron-right']"/>
@@ -22,45 +22,59 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject, useRouter } from '@nuxtjs/composition-api'
+import { defineComponent, computed, ref, inject, useContext, useRouter, useFetch, onMounted } from '@nuxtjs/composition-api'
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 import Common from '../plugins/common'
+import { User }from '../types/User'
 
 
 export default defineComponent({
     setup (props, context) {
         const router = useRouter()
+        const user = ref(context.root.$auth.user as User)
+        onMounted(() => {
+            context.root.$auth.fetchUser().then((res) => {
+                console.log(res)
+                user.value = res.data.user
+            })
+        })
+
         const { state, setTotalNumber, setIndex} = inject(GlobalKey) as GlobalState
         const subject = computed(() => {
-            if(context.root.$auth.user && typeof context.root.$auth.user.lastSubject === 'string') {
-                return Common.searchSubject(context.root.$auth.user.lastSubject)
+            if(typeof user.value.lastSubject === 'string') {
+                console.log(Common.searchSubject(user.value.lastSubject))
+                return Common.searchSubject(user.value.lastSubject)
             }
         })
         const unit = computed(() => {
-            if(context.root.$auth.user
-                && typeof context.root.$auth.user.lastSubject === 'string'
-                && typeof context.root.$auth.user.lastUnit === 'string') {
-                return Common.searchUnit(context.root.$auth.user.lastSubject, context.root.$auth.user.lastUnit)
+            if(user
+                && typeof user.value.lastSubject === 'string'
+                && typeof user.value.lastUnit === 'string') {
+                console.log(Common.searchUnit(user.value.lastSubject, user.value.lastUnit))
+                return Common.searchUnit(user.value.lastSubject, user.value.lastUnit)
             }
         })
         const lastNum = computed(() => {
-            if(context.root.$auth.user) {
-                return context.root.$auth.user.lastNumber
+            if(user) {
+                console.log(user.value.lastNumber)
+                return user.value.lastNumber
             }
         })
 
         const goTest = () => {
-            const totalNum = Common.searchTotalNum(context.root.$auth.user.lastSubject, context.root.$auth.user.lastUnit)
-            console.log(totalNum)
-            setTotalNumber(totalNum)
-            console.log(context.root.$auth.user)
-            setIndex(context.root.$auth.user.lastNumber)
-            router.push({path: 'test', query: {
-                    subject: context.root.$auth.user.lastSubject,
-                    unit: context.root.$auth.user.lastUnit
-                }
-            })
+            if(user) {
+                const totalNum = Common.searchTotalNum(user.value.lastSubject, user.value.lastUnit)
+                console.log(totalNum)
+                setTotalNumber(totalNum)
+                console.log(user)
+                setIndex(user.value.lastNumber)
+                router.push({path: 'test', query: {
+                        subject: user.value.lastSubject,
+                        unit: user.value.lastUnit
+                    }
+                })
+            }
         }
         return {
             subject,

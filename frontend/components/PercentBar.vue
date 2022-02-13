@@ -11,17 +11,16 @@
             <span>{{ totalNum ? totalNum : 0 }}</span>
         </v-sheet>
         <v-sheet
-        class="d-flex mx-auto"
+        class="d-flex mx-auto bar"
         height="8"
         >
             <v-sheet
             :width="donePercent"
             class="done"
             ></v-sheet>
-            <v-sheet
+            <!-- <v-sheet
             :width="remainedPercent"
-            class="do"
-            ></v-sheet>
+            ></v-sheet> -->
         </v-sheet>
     </div>
 </template>
@@ -68,8 +67,9 @@ export default defineComponent({
 <style scoped>
 .done {
     background: royalblue;
+    transition: 0.9s;
 }
-.do {
+.bar {
     background: silver;
 }
 </style>

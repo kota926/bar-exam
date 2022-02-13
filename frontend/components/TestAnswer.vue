@@ -1,26 +1,5 @@
 <template>
     <div>
-        <!-- <div class="d-flex justify-center my-8">
-            <v-card
-            class="mr-4">
-                <v-btn
-                outlined
-                color="primary"
-                @click="clickYes"
-                >
-                    ○
-                </v-btn>
-            </v-card>
-            <v-card>
-                <v-btn
-                outlined
-                color="error"
-                @click="clickNo"
-                >
-                    <font-awesome-icon class="icon" :icon="['fas', 'times']"/>
-                </v-btn>
-            </v-card>
-        </div> -->
         <v-overlay
         :value="state.isOverlay"
         class="text-h2"

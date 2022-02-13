@@ -3,7 +3,7 @@ const searchSubject = (eng_subject: string) => {
         case 'cons':
             return '憲法'
         break
-        case 'giv':
+        case 'gov':
             return '行政法'
         break
         case 'civil':
