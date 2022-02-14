@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, useRoute, useFetch, useContext, watch, inject } from '@nuxtjs/composition-api'
+import { defineComponent, computed, ref, useRoute, useFetch, useContext, watch, inject, onMounted } from '@nuxtjs/composition-api'
 import UnitCard from './UnitCard.vue'
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
@@ -177,35 +177,23 @@ export default defineComponent({
                     return ['単元']
             }
         })
-        // const record = computed(() => {
-        //     console.log(context.root.$auth.user)
-        //     if(!context.root.$auth.user) {
-        //         return null
-        //     }
-        //     switch(route.value.query.subject) {
-        //         case 'cons':
-        //             return context.root.$auth.user.constitution
-        //         break
-        //         default:
-        //             return null
-        //     }
-        // })
-        const { setRecord } = inject(GlobalKey) as GlobalState
+        const { setRecord, setIsLoading } = inject(GlobalKey) as GlobalState
         const currentRoute = computed(() => {
             return route.value.query.subject
         })
-        const { $axios } = useContext()
+        const { $axios, $auth } = useContext()
         const { fetch }  = useFetch(() => {
-            console.log(context.root.$auth.user)
-            if(context.root.$auth.user) {
+            if($auth.user) {
+                setIsLoading(true)
                 switch(route.value.query.subject) {
                     case 'cons':
                         $axios.$get('/api/done', {
                             params: {
                                 subject: route.value.query.subject,
-                                id: context.root.$auth.user.constitutionId,
+                                id: $auth.user.constitutionId,
                             }
                         }).then((res) => {
+                            setIsLoading(false)
                             setRecord(res)
                         })
                     break
@@ -213,9 +201,10 @@ export default defineComponent({
                         $axios.$get('/api/done', {
                             params: {
                                 subject: route.value.query.subject,
-                                id: context.root.$auth.user.governmentId,
+                                id: $auth.user.governmentId,
                             }
                         }).then((res) => {
+                            setIsLoading(false)
                             setRecord(res)
                         })
                     break
@@ -223,9 +212,10 @@ export default defineComponent({
                         $axios.$get('/api/done', {
                             params: {
                                 subject: route.value.query.subject,
-                                id: context.root.$auth.user.civilId,
+                                id: $auth.user.civilId,
                             }
                         }).then((res) => {
+                            setIsLoading(false)
                             setRecord(res)
                         })
                     break
@@ -233,17 +223,24 @@ export default defineComponent({
                         $axios.$get('/api/done', {
                             params: {
                                 subject: route.value.query.subject,
-                                id: context.root.$auth.user.companyId,
+                                id: $auth.user.companyId,
                             }
                         }).then((res) => {
+                            setIsLoading(false)
                             setRecord(res)
                         })
                     break
+                    default:
+                        setIsLoading(false)
                 }
+            } else {
+                setRecord(null)
             }
         })
+        onMounted(() => {
+            fetch()
+        })
         watch(currentRoute, () => {
-            console.log('watch route')
             fetch()
         })
         return {

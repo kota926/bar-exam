@@ -8,20 +8,6 @@
             :user="user"
             />
             <last-question-card />
-            <v-card
-            class="my-4"
-            >
-                <v-card-actions>
-                    <v-btn
-                    outlined
-                    color="primary"
-                    class="mx-auto"
-                    @click="logoutUser"
-                    >
-                        ログアウト
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
             </v-container>
         </app-bar>
         <bottom-nav />
@@ -29,7 +15,7 @@
 </template>
 
 <script>
-import { defineComponent, computed } from '@nuxtjs/composition-api'
+import { defineComponent, computed, useContext } from '@nuxtjs/composition-api'
 import AppBar from '../components/AppBar.vue'
 import BottomNav from '../components/BottomNav.vue'
 import LastQuestionCard from '../components/LastQuestionCard.vue'
@@ -40,18 +26,15 @@ export default defineComponent({
     layout: 'default',
     middleware: 'onHome',
     setup(props, context) {
+        const { $auth } = useContext()
         const logoutUser = () => {
-            context.root.$auth.logout()
+            $auth.logout()
         }
-        const isUser = computed(() => {
-            return context.root.$auth.user !== null
-        })
         const user = computed(() => {
-            return context.root.$auth.user
+            return $auth.user
         })
         return {
             logoutUser,
-            isUser,
             user,
         }
     }

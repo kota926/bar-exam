@@ -6,16 +6,16 @@
         max-width="500px"
         >
             <sign-in
-            v-if="data.showSignin"
+            v-if="data.isSignin"
             @show-signin="hideSignin"
             />
             <sign-up
-            v-else-if="data.showSignup"
+            v-else-if="data.isSignup"
             @show-signin='showSignin'
             @show-success="hideSignup"
             />
             <sent-email
-            v-else-if="data.showSuccess"
+            v-else-if="data.isSuccess"
             />
             <fail-sent-email
             v-else
@@ -42,22 +42,22 @@ export default defineComponent({
     layout: 'default', 
     setup() {
         const data = reactive({
-            showSignin: true,
-            showSignup: true,
-            showSuccess: true,
+            isSignin: true,
+            isSignup: true,
+            isSuccess: true,
         })
         const hideSignin = () => {
-            data.showSignin = false
+            data.isSignin = false
         }
         const showSignin = () => {
-            data.showSignin = true
+            data.isSignin = true
         }
         const hideSignup = () => {
-            data.showSignup = false
+            data.isSignup = false
         }
         const hideSuccess = () => {
-            data.showSignup = false
-            data.showSuccess = false
+            data.isSignup = false
+            data.isSuccess = false
         }
         return {
             data,

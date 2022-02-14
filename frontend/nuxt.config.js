@@ -116,8 +116,17 @@ export default {
         'faExclamationTriangle',
         'faChevronRight',
         'faCaretRight',
+        'faSignOutAlt',
+        'faKey',
       ],
-      regular: ['faEdit', 'faCaretSquareLeft', 'faCircle', 'faClock']
+      regular: [
+        'faEdit',
+        'faCaretSquareLeft',
+        'faCircle',
+        'faClock',
+        'faAddressCard',
+        'faUserCircle'
+      ]
     }
   },
 }

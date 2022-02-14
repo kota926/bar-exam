@@ -69,6 +69,7 @@ import { defineComponent, computed, useRouter, useRoute, inject, provide } from 
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 import PercentBar from './PercentBar.vue'
+import Common from '../plugins/common'
  
 export default defineComponent({
   components: { PercentBar },
@@ -81,15 +82,17 @@ export default defineComponent({
             type: Number,
             default: 0
         },
-        // record: {
-        //     type: Object,
-        //     required: false,
-        // }
     },
     setup (props, context) {
         const router = useRouter()
         const route = useRoute()
         const { state, setIndex, setTotalNumber } = inject(GlobalKey) as GlobalState
+
+        const unitName = computed(() => {
+            if(route.value.query.subject === 'string') {
+                return Common.searchUnit(route.value.query.subject , String(props.unitNumber))
+            }
+        })
 
         const isDisable = computed(() => {
             return props.unit.num === 0

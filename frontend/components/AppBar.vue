@@ -12,12 +12,16 @@
             ></v-img>
         </template>
 
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon
+        @click.stop="data.drawer = !data.drawer"
+        ></v-app-bar-nav-icon>
 
-        <v-toolbar-title>短答式試験</v-toolbar-title>
+        <v-toolbar-title
+        @click="goHome"
+        >短答式試験</v-toolbar-title>
         <v-progress-linear
-            :active="data.loading"
-            :indeterminate="data.loading"
+            :active="isLoading"
+            :indeterminate="isLoading"
             absolute
             bottom
             color="light-blue"
@@ -31,19 +35,96 @@
             <slot />
         </v-container>
         </v-sheet>
+        <v-navigation-drawer
+        v-model="data.drawer"
+        absolute
+        bottom
+        temporary
+        >
+        <v-list
+            nav
+            dense
+        >
+            <v-list-item-group
+            v-model="data.group"
+            active-class="deep-purple--text text--accent-4"
+            >
+            <v-list-item
+            class="my-3 ml-3"
+            @click="goHome">
+                <v-list-item-icon>
+                    <v-icon>mdi-view-dashboard</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>ホーム</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+            class="my-3 ml-3"
+            @click="goUserInfo">
+                <v-list-item-icon>
+                    <font-awesome-icon class="icon" :icon="['far', 'address-card']"/>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>ユーザー情報</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item
+            class="ml-3"
+            @click="logout"
+            >
+                <v-list-item-icon>
+                    <font-awesome-icon class="icon" :icon="['fas', 'sign-out-alt']"/>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>ログアウト</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            </v-list-item-group>
+        </v-list>
+        </v-navigation-drawer>
     </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from '@nuxtjs/composition-api'
+import { defineComponent, reactive, useRouter, useContext, computed, inject } from '@nuxtjs/composition-api'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     setup(props, context) {
         const data = reactive({
             loading: false,
+            drawer: false,
+            group: null,
         })
+        const router = useRouter()
+        const { $auth } = useContext()
+        const { state } = inject(GlobalKey) as GlobalState
+
+        const isLoading = computed(() => {
+            return state.isLoading
+        })
+
+        const goHome = () => {
+            router.push({path: '/'})
+            data.drawer = false
+        }
+        const goUserInfo = () => {
+            router.push('/user')
+            data.drawer = false
+        }
+        const logout = () => {
+            $auth.logout()
+            data.drawer = false
+        }
         return {
             data,
+            isLoading,
+            goHome,
+            goUserInfo,
+            logout,
         }
     }
 })

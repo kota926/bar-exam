@@ -66,6 +66,7 @@ export default defineComponent({
             increaseIndex,
             switchHideResult,
             setOverlay,
+            setRecord,
         } = inject(GlobalKey) as GlobalState
 
         const clickYes = () => {
@@ -97,6 +98,7 @@ export default defineComponent({
                         lastNum: state.index + 1
                     }).then((res) => {
                         console.log(res)
+                        setRecord(res)
                     }).catch((err) => {
                         console.log(err)
                     })
@@ -109,6 +111,7 @@ export default defineComponent({
                         lastNum: 0
                     }).then((res) => {
                         console.log(res)
+                        setRecord(res)
                     }).catch((err) => {
                         console.log(err)
                     })

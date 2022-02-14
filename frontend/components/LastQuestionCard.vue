@@ -30,44 +30,47 @@ import { User }from '../types/User'
 
 
 export default defineComponent({
-    setup (props, context) {
+    setup () {
+        const { $auth } = useContext()
         const router = useRouter()
-        const user = ref(context.root.$auth.user as User)
+        const user = ref($auth.user as User)
+
+        // 問題を解いてもユーザー情報が更新されないので再取得
         onMounted(() => {
-            context.root.$auth.fetchUser().then((res) => {
-                console.log(res)
+            $auth.fetchUser().then((res) => {
                 user.value = res.data.user
             })
         })
 
         const { state, setTotalNumber, setIndex} = inject(GlobalKey) as GlobalState
         const subject = computed(() => {
-            if(typeof user.value.lastSubject === 'string') {
-                console.log(Common.searchSubject(user.value.lastSubject))
+            if(user.value && typeof user.value.lastSubject === 'string') {
                 return Common.searchSubject(user.value.lastSubject)
+            } else {
+                return '科目'
             }
         })
         const unit = computed(() => {
-            if(user
+            if(user.value
                 && typeof user.value.lastSubject === 'string'
                 && typeof user.value.lastUnit === 'string') {
-                console.log(Common.searchUnit(user.value.lastSubject, user.value.lastUnit))
                 return Common.searchUnit(user.value.lastSubject, user.value.lastUnit)
+            } else {
+                return '単元'
             }
         })
         const lastNum = computed(() => {
-            if(user) {
-                console.log(user.value.lastNumber)
+            if(user.value) {
                 return user.value.lastNumber
+            } else {
+                return 0
             }
         })
 
         const goTest = () => {
-            if(user) {
+            if(user.value) {
                 const totalNum = Common.searchTotalNum(user.value.lastSubject, user.value.lastUnit)
-                console.log(totalNum)
                 setTotalNumber(totalNum)
-                console.log(user)
                 setIndex(user.value.lastNumber)
                 router.push({path: 'test', query: {
                         subject: user.value.lastSubject,

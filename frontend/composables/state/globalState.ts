@@ -6,6 +6,7 @@ export default function globalState() {
     const state = reactive<{
         choices: Choice[]
         index: number
+        isLoading: boolean
         isCorrect: boolean
         answerArray: Array<boolean>
         isOverlay: boolean
@@ -15,9 +16,12 @@ export default function globalState() {
         user: User | null
         record: any
         totalNumber: number | null
+        changeInfo: string
+        isUserAdmin: boolean
     }>({
         choices: [],
         index: 0,
+        isLoading: false,
         isCorrect: true,
         answerArray: [],
         isOverlay: false,
@@ -27,13 +31,18 @@ export default function globalState() {
         user: null,
         record: null,
         totalNumber: null,
-
+        changeInfo: 'name',
+        isUserAdmin: true,
     })
 
     const setIndex = (index: number) => {
         if(typeof index === 'number') {
             state.index = index
         }
+    }
+
+    const setIsLoading = (isLoading: boolean) => {
+        state.isLoading = isLoading
     }
 
     const setChioces = (choices: Choice[]) => {
@@ -78,16 +87,25 @@ export default function globalState() {
     }
 
     const setRecord = (record: any) => {
-        state.record = record[0]
+        state.record = record
     }
 
     const setTotalNumber = (num: number) => {
         state.totalNumber = num
     }
 
+    const setChangeInfo = (info: string) => {
+        state.changeInfo = info
+    }
+
+    const setUserAdmin = (isUserAdmin: boolean) => {
+        state.isUserAdmin = isUserAdmin
+    }
+
     return {
         state,
         setIndex,
+        setIsLoading,
         setChioces,
         setAnswer,
         setOverlay,

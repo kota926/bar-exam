@@ -34,7 +34,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
         switch(req.query.subject) {
             case 'cons': {
                 const consRepository = getRepository(Constitution)
-                const record = await consRepository.find({
+                const record = await consRepository.findOne({
                     where: {
                         id: req.query.id
                     }
@@ -48,7 +48,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
             }
             case 'gov': {
                 const govRepository = getRepository(Government)
-                const record = await govRepository.find({
+                const record = await govRepository.findOne({
                     where: {
                         id: req.query.id
                     }
@@ -62,7 +62,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
             }
             case 'civil': {
                 const civilRepository = getRepository(Civil)
-                const record = await civilRepository.find({
+                const record = await civilRepository.findOne({
                     where: {
                         id: req.query.id
                     }
@@ -76,7 +76,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
             }
             case 'company': {
                 const companyRepository = getRepository(Company)
-                const record = await companyRepository.find({
+                const record = await companyRepository.findOne({
                     where: {
                         id: req.query.id
                     }
@@ -106,93 +106,6 @@ router.get('/', async (req: express.Request, res: express.Response) => {
     }
 });
 
-// router.post('/', (req: express.Request, res: express.Response) => {
-//     console.log(req.body)
-//     let unit:string
-//     if(typeof req.body.unit === 'string' ) {
-//         unit = req.body.unit
-//     }
-//     try {
-//         console.log(req.body.subject)
-//         switch(req.body.subject) {
-//             case 'cons': {
-//                 const consRepository = getRepository(Constitution)
-//                 consRepository.findOne({
-//                     where: {
-//                         id: req.body.id
-//                     }
-//                 }).then(async (record: Constitution) => {
-//                     console.log(record)
-//                     consRepository.merge(record, { [unit] : req.body.index})
-//                     const results = await consRepository.save(record)
-//                     console.log(results)
-//                     res.status(200).json(results)
-//                 }).catch((err) => {
-//                     console.log(err)
-//                     res.status(400).json({message: err.message})
-//                 })
-//                 break;
-//             }
-//             case 'gov': {
-//                 const govRepository = getRepository(Government)
-//                 govRepository.findOne({
-//                     where: {
-//                         id: req.body.id
-//                     }
-//                 }).then(async (record: Government) => {
-//                     console.log(record)
-//                     govRepository.merge(record, { [unit] : req.body.index})
-//                     const results = await govRepository.save(record)
-//                     console.log(results)
-//                     res.status(200).json(results)
-//                 }).catch((err) => {
-//                     console.log(err)
-//                     res.status(400).json({message: err.message})
-//                 })
-//                 break;
-//             }
-//             case 'civil': {
-//                 const civilRepository = getRepository(Civil)
-//                 civilRepository.findOne({
-//                     where: {
-//                         id: req.body.id
-//                     }
-//                 }).then(async (record: Civil) => {
-//                     civilRepository.merge(record, { [unit] : req.body.index})
-//                     const results = await civilRepository.save(record)
-//                     console.log(results)
-//                     res.status(200).json(results)
-//                 }).catch((err) => {
-//                     console.log(err)
-//                     res.status(400).json({message: err.message})
-//                 })
-//                 break;
-//             }
-//             case 'company': {
-//                 const companyRepository = getRepository(Company)
-//                 companyRepository.findOne({
-//                     where: {
-//                         id: req.body.id
-//                     }
-//                 }).then(async (record: Company) => {
-//                     companyRepository.merge(record, { [unit] : req.body.index})
-//                     const results = await companyRepository.save(record)
-//                     console.log(results)
-//                     res.status(200).json(results)
-//                 }).catch((err) => {
-//                     console.log(err)
-//                     res.status(400).json({message: err.message})
-//                 })
-//                 break;
-//             }
-//             default:
-//                 res.json({message: 'subject not found'})
-//         }
-//     } catch(error: any) {
-//         res.status(400).json({message: error.message});
-//     }
-// });
-
 router.put('/:recordId/:uerId', async (req: express.Request, res: express.Response) => {
     console.log(req.body)
     let unit:string
@@ -200,6 +113,15 @@ router.put('/:recordId/:uerId', async (req: express.Request, res: express.Respon
         unit = req.body.unit
     }
     try {
+        const userRepository = getRepository(User)
+        const userToUpdate = await userRepository.findOne(req.params.userId)
+        if(userToUpdate) {
+            userToUpdate.lastSubject = req.body.subject
+            userToUpdate.lastUnit = req.body.unit
+            userToUpdate.lastNumber = req.body.lastNum
+            const result = await userRepository.save(userToUpdate)
+            console.log(result)
+        }
         console.log(req.body.subject)
         switch(req.body.subject) {
             case 'cons': {
@@ -210,7 +132,7 @@ router.put('/:recordId/:uerId', async (req: express.Request, res: express.Respon
                     consRepository.merge(record, { [unit] : req.body.index})
                     const results = await consRepository.save(record)
                     console.log(results)
-                    // res.status(200).json(results)
+                    res.status(200).json(results)
                 }).catch((err) => {
                     console.log(err)
                     res.status(400).json({message: err.message})
@@ -225,7 +147,7 @@ router.put('/:recordId/:uerId', async (req: express.Request, res: express.Respon
                     govRepository.merge(record, { [unit] : req.body.index})
                     const results = await govRepository.save(record)
                     console.log(results)
-                    // res.status(200).json(results)
+                    res.status(200).json(results)
                 }).catch((err) => {
                     console.log(err)
                     res.status(400).json({message: err.message})
@@ -239,7 +161,7 @@ router.put('/:recordId/:uerId', async (req: express.Request, res: express.Respon
                     civilRepository.merge(record, { [unit] : req.body.index})
                     const results = await civilRepository.save(record)
                     console.log(results)
-                    // res.status(200).json(results)
+                    res.status(200).json(results)
                 }).catch((err) => {
                     console.log(err)
                     res.status(400).json({message: err.message})
@@ -253,7 +175,7 @@ router.put('/:recordId/:uerId', async (req: express.Request, res: express.Respon
                     companyRepository.merge(record, { [unit] : req.body.index})
                     const results = await companyRepository.save(record)
                     console.log(results)
-                    // res.status(200).json(results)
+                    res.status(200).json(results)
                 }).catch((err) => {
                     console.log(err)
                     res.status(400).json({message: err.message})
@@ -263,16 +185,6 @@ router.put('/:recordId/:uerId', async (req: express.Request, res: express.Respon
             default:
                 res.json({message: 'subject not found'})
         }
-        const userRepository = getRepository(User)
-        const userToUpdate = await userRepository.findOne(req.params.userId)
-        if(userToUpdate) {
-            userToUpdate.lastSubject = req.body.subject
-            userToUpdate.lastUnit = req.body.unit
-            userToUpdate.lastNumber = req.body.lastNum
-            const result = await userRepository.save(userToUpdate)
-            console.log(result)
-        }
-        res.json({message: 'update success'})
     } catch(error: any) {
         res.status(400).json({message: error.message});
     }

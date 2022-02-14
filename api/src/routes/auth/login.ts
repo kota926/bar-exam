@@ -32,7 +32,7 @@ router.post('/', async (req: express.Request, res: express.Response) => {
                     name: userInDB.name,
                     email: userInDB.email
                 }
-                const token = jwt.sign(payload, 'secret')
+                const token = jwt.sign(payload, 'lawapp')
                 console.log('logindir')
                 console.log(payload)
                 console.log(token)

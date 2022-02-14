@@ -50,11 +50,10 @@
                 </v-container>
             </v-form>
         </v-card>
-        <transition>
+        <transition name="top">
             <v-card
-            class="text-center mt-4 card-width d-flex justify-center align-center"
+            class="text-center mb-4 pa-4 card-width d-flex justify-center align-center"
             v-if="data.showMessage"
-            color="pa-4"
             >
                 <font-awesome-icon class="icon message" :icon="['fas', 'exclamation-triangle']"/>
                 <div class="ml-2 message">
@@ -63,7 +62,7 @@
             </v-card>
         </transition>
         <v-card
-        class="d-flex justify-center my-10 card-width"
+        class="d-flex justify-center py-2 card-width"
         >
             <v-card-actions>
                 <v-btn
@@ -96,7 +95,7 @@ export default defineComponent({
         })
         const signUp = () => {
             mutateEmail(data.email)
-            if(data.email && data.name && data.password) {
+            if(data.email.trim() && data.name.trim() && data.password.trim()) {
                 const user = {
                 name: data.name.trim(),
                 email: data.email.trim(),
@@ -113,15 +112,15 @@ export default defineComponent({
                     console.log('res fail')
                     console.log(error)
                 })
-            } else if (data.password && data.name) {
+            } else if (data.password.trim() && data.name.trim()) {
                 console.log('email empty')
                 data.showMessage = true
                 data.message = 'メールを入力してください'
-            } else if (data.email && data.password) {
+            } else if (data.email.trim() && data.password.trim()) {
                 console.log('name empty')
                 data.showMessage = true
                 data.message = '名前を入力してください'
-            } else if (data.email && data.name) {
+            } else if (data.email.trim() && data.name.trim()) {
                 console.log('password empty')
                 data.showMessage = true
                 data.message = 'パスワードを入力してください'
@@ -151,5 +150,13 @@ export default defineComponent({
 }
 .message {
     color: brown;
+}
+.top-enter-active, .top-leave-active {
+  transform: translate(0px, 0px); 
+  transition: transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+
+.top-enter, .top-leave-to {
+  transform: translateY(-5vh) translateY(0px);
 }
 </style>

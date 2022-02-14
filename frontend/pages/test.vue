@@ -25,7 +25,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext, useAsync, useRoute, reactive, inject, onMounted } from '@nuxtjs/composition-api'
+import {
+    defineComponent,
+    computed,
+    useContext,
+    useAsync,
+    useRoute,
+    reactive,
+    inject,
+    onMounted,
+    useFetch,
+    useRouter
+} from '@nuxtjs/composition-api'
 
 import { Choice } from "../types/Choice"
 
@@ -46,31 +57,33 @@ export default defineComponent({
     setup () {
         const { $axios } = useContext()
         const route = useRoute()
-        const { state, setChioces, setComplete } = inject(GlobalKey) as GlobalState
+        const router = useRouter()
+        const { state, setChioces, setComplete, setIsLoading} = inject(GlobalKey) as GlobalState
         useAsync(() => {
+            setIsLoading(true)
             $axios.$get('/api/choice', {
                 params: {
                     subject: route.value.query.subject,
                     unit: route.value.query.unit,
                 }
             }).then((res) => {
+                setIsLoading(false)
                 setChioces(res)
+            }).catch((err) => {
+                console.log(err)
+                setIsLoading(false)
+                router.push('/')
             })
         })
         onMounted(() => {
             setComplete(false)
         })
-        // const data = reactive({
-        //     index: 0
-        // })
-        // const countup = () => {
-        //     data.index++
-        // }
+        const unitNumber = computed(() => {
+            return route.value.query.unit
+        })
         return {
             state,
-            // choices,
-            // data,
-            // countup,
+            unitNumber,
         }
     }
 })

@@ -14,9 +14,13 @@
             ></v-img>
         </template>
 
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon
+        @click.stop="data.drawer = !data.drawer"
+        ></v-app-bar-nav-icon>
 
-        <v-toolbar-title>短答式試験</v-toolbar-title>
+        <v-toolbar-title
+        @click="goHome"
+        >短答式試験</v-toolbar-title>
         <template v-slot:extension>
             <font-awesome-icon @click="back" class="icon" :icon="['far', 'caret-square-left']"/>
             <v-tabs
@@ -54,6 +58,13 @@
                 key='刑訴'
                 >刑訴</v-tab>                -->
             </v-tabs>
+            <v-progress-linear
+                :active="isLoading"
+                :indeterminate="isLoading"
+                absolute
+                bottom
+                color="light-blue"
+            ></v-progress-linear>
         </template>
         </v-app-bar>
         <v-sheet
@@ -65,18 +76,77 @@
                 <slot />
             </v-container>
         </v-sheet>
+        <v-navigation-drawer
+        v-model="data.drawer"
+        absolute
+        bottom
+        temporary
+        >
+        <v-list
+            nav
+            dense
+        >
+            <v-list-item-group
+            v-model="data.group"
+            active-class="deep-purple--text text--accent-4"
+            >
+            <v-list-item
+            class="my-3 ml-3"
+            @click="goHome">
+                <v-list-item-icon>
+                    <v-icon>mdi-view-dashboard</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>ホーム</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+            class="my-3 ml-3"
+            @click="goUserInfo">
+                <v-list-item-icon>
+                    <font-awesome-icon class="icon" :icon="['far', 'address-card']"/>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>ユーザー情報</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item
+            class="ml-3"
+            @click="logout"
+            >
+                <v-list-item-icon>
+                    <font-awesome-icon class="icon" :icon="['fas', 'sign-out-alt']"/>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>ログアウト</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            </v-list-item-group>
+        </v-list>
+        </v-navigation-drawer>
     </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, useRouter, computed, reactive, watch, onMounted } from '@nuxtjs/composition-api'
+import { defineComponent, useRouter, computed, reactive, watch, onMounted, useContext, inject } from '@nuxtjs/composition-api'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     setup(props, context) {
         const data = reactive({
             selectedSubject: 1,
+            drawer: false,
+            group: null,
         })
         const router = useRouter()
+        const { $auth } = useContext()
+        const { state } = inject(GlobalKey) as GlobalState
+
+        const isLoading = computed(() => {
+            return state.isLoading
+        })
 
         onMounted(() => {
             switch(context.root.$route.query.subject) {
@@ -148,21 +218,28 @@ export default defineComponent({
                 subject: sub
             }})
         }
-        const toHome = () => {
+        const goHome = () => {
             router.push('/')
         }
         const toStudy = () => {
             router.push('/unit')
         }
-        // watch(data, (newValue, oldValue) => {
-        //     console.log(oldValue)
-        // })
+        const goUserInfo = () => {
+            router.push('/user')
+        }
+        const logout = () => {
+            $auth.logout()
+        }
+        
         return {
             data,
+            isLoading,
             back,
             subject,
-            toHome,
+            goHome,
             toStudy,
+            goUserInfo,
+            logout,
         }
     }
 })

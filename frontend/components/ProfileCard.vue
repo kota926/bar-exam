@@ -3,7 +3,7 @@
         <div class="ml-4 pt-4 mb-2 text-h5">
             {{ user ? user.name : 'name' }}
         </div>
-        <div class="date d-flex align-center py-2">
+        <div class="date d-flex align-center pb-3">
             <font-awesome-icon class="icon ml-4 mr-2" :icon="['far', 'clock']" />
             <div>{{ date }}に開始</div>
         </div>
@@ -38,7 +38,8 @@ export default defineComponent({
                 }
                 return year + '年' + month + '月' + day + '日'
             } else {
-                return '2022年○月○日'
+                const date = new Date()
+                return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日'
             }
         })
 

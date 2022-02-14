@@ -10,13 +10,16 @@
         <v-card-text>
             {{ choice.question.question }}
         </v-card-text>
-    </v-card>
-    <v-card class="mt-1">
+    <!-- </v-card>
+    <v-card class="mt-1"> -->
         <v-card-text>
             {{ choice.c1 }}
         </v-card-text>
         <v-card-text v-show="choice.c2">
             {{ choice.c2 }}
+        </v-card-text>
+        <v-card-text>
+            正解: {{ answer}}
         </v-card-text>
     </v-card>
     </v-container>
@@ -52,6 +55,13 @@ export default defineComponent({
         const c_number = computed(() => {
             return props.choice.id.slice(9)
         })
+        const answer = computed(() => {
+            if(props.choice.answer === '1') {
+                return "○"
+            } else {
+                return "×"
+            }
+        })
         // const question = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaakdfjlak;dj'
 
         // const choice = {
@@ -67,7 +77,8 @@ export default defineComponent({
         return {
             year,
             q_number,
-            c_number
+            c_number,
+            answer
         }
     }
 })
