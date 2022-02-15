@@ -16,8 +16,6 @@
 
 <script lang="ts">
 import { defineComponent, computed, inject } from '@nuxtjs/composition-api'
-import { ChoiceState } from '../composables/state/choiceState'
-import ChoiceKey from '../composables/key/choiceKey'
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 import ConsTest from './subject/ConsTest.vue'

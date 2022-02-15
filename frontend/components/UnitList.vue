@@ -140,25 +140,6 @@ export default defineComponent({
             {name: '約束手形', num: 30},
             {name: '為替手形・小切手', num: 10},
         ]
-        // const companyUnits = [
-        //     '会社法総則',
-        //     '設立',
-        //     '株式',
-        //     '機関',
-        //     '計算',
-        //     '資金調達',
-        //     '定款変更',
-        //     '解散・精算',
-        //     '買収・結合・再編',
-        //     '企業グループ',
-        //     '持分会社・組織変更',
-        //     '会社法上の訴訟',
-        //     '商法総則',
-        //     '商行為法',
-        //     '有価証券法総則',
-        //     '約束手形',
-        //     '為替手形・小切手',
-        // ]
         const units = computed(() => {
             switch(route.value.query.subject) {
                 case "cons":
@@ -195,6 +176,9 @@ export default defineComponent({
                         }).then((res) => {
                             setIsLoading(false)
                             setRecord(res)
+                        }).catch((err) => {
+                            setIsLoading(err)
+                            setRecord(null)
                         })
                     break
                     case 'gov':
@@ -206,6 +190,9 @@ export default defineComponent({
                         }).then((res) => {
                             setIsLoading(false)
                             setRecord(res)
+                        }).catch((err) => {
+                            setIsLoading(err)
+                            setRecord(null)
                         })
                     break
                     case 'civil':
@@ -217,6 +204,9 @@ export default defineComponent({
                         }).then((res) => {
                             setIsLoading(false)
                             setRecord(res)
+                        }).catch((err) => {
+                            setIsLoading(err)
+                            setRecord(null)
                         })
                     break
                     case 'company':
@@ -228,10 +218,14 @@ export default defineComponent({
                         }).then((res) => {
                             setIsLoading(false)
                             setRecord(res)
+                        }).catch((err) => {
+                            setIsLoading(err)
+                            setRecord(null)
                         })
                     break
                     default:
                         setIsLoading(false)
+                        setRecord(null)
                 }
             } else {
                 setRecord(null)

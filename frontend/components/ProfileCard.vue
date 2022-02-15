@@ -11,30 +11,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from '@nuxtjs/composition-api'
+import { defineComponent, computed, useContext } from '@nuxtjs/composition-api'
+import { User } from '../types/User'
 
 export default defineComponent({
-    props: {
-        user: {
-            type: Object,
-            required: false,
-        }
-    },
     setup (props) {
+        const { $auth } = useContext()
+        const user = computed((): User | null | undefined => {
+            if($auth.loggedIn) {
+                return $auth.user
+            } else {
+                null
+            }
+        })
         const date = computed(() => {
-            if(props.user) {
-                const year = props.user.createdAt.split('-')[0]
+            if($auth.loggedIn) {
+                const year = $auth.user.createdAt.split('-')[0]
                 let month: string
-                if(props.user.createdAt.split('-')[1].startsWith('0')) {
-                    month = props.user.createdAt.split('-')[1].slice(1, 2)
+                if($auth.user.createdAt.split('-')[1].startsWith('0')) {
+                    month = $auth.user.createdAt.split('-')[1].slice(1, 2)
                 } else {
-                    month = props.user.createdAt.split('-')[1]
+                    month = $auth.user.createdAt.split('-')[1]
                 }
                 let day: string
-                if(props.user.createdAt.split('-')[2].startsWith('0')) {
-                    day = props.user.createdAt.split('-')[2].slice(1, 2)
+                if($auth.user.createdAt.split('-')[2].startsWith('0')) {
+                    day = $auth.user.createdAt.split('-')[2].slice(1, 2)
                 } else {
-                    day = props.user.createdAt.split('-')[2].slice(0, 2)
+                    day = $auth.user.createdAt.split('-')[2].slice(0, 2)
                 }
                 return year + '年' + month + '月' + day + '日'
             } else {
@@ -44,6 +47,7 @@ export default defineComponent({
         })
 
         return {
+            user,
             date
         }
     }

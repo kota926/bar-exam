@@ -33,13 +33,16 @@ export default defineComponent({
     setup () {
         const { $auth } = useContext()
         const router = useRouter()
-        const user = ref($auth.user as User)
+        const user = ref($auth.user)
 
         // 問題を解いてもユーザー情報が更新されないので再取得
         onMounted(() => {
-            $auth.fetchUser().then((res) => {
-                user.value = res.data.user
-            })
+            if($auth.loggedIn) {
+                $auth.fetchUser().then((res) => {
+                    console.log(res)
+                    user.value = res.data.user
+                })
+            }
         })
 
         const { state, setTotalNumber, setIndex} = inject(GlobalKey) as GlobalState

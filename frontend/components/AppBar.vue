@@ -95,7 +95,6 @@ import GlobalKey from '../composables/key/globalKey'
 export default defineComponent({
     setup(props, context) {
         const data = reactive({
-            loading: false,
             drawer: false,
             group: null,
         })

@@ -14,27 +14,6 @@
                 <font-awesome-icon class="icon" :icon="['fas', 'times']"/>
             </v-btn>
         </v-bottom-navigation>
-        <!-- <div class="d-flex justify-center my-8">
-            <v-card
-            class="mr-4">
-                <v-btn
-                outlined
-                color="primary"
-                @click="clickYes"
-                >
-                    ○
-                </v-btn>
-            </v-card>
-            <v-card>
-                <v-btn
-                outlined
-                color="error"
-                @click="clickNo"
-                >
-                    <font-awesome-icon class="icon" :icon="['fas', 'times']"/>
-                </v-btn>
-            </v-card>
-        </div> -->
     </div>
     <div v-else>
         <v-bottom-navigation class='nav'>
@@ -59,7 +38,7 @@ export default defineComponent({
     setup (props, context) {
         const router = useRouter()
         const route = useRoute()
-        const { $axios } = useContext()
+        const { $axios, $auth } = useContext()
         const {
             state,
             setAnswer,
@@ -68,6 +47,33 @@ export default defineComponent({
             setOverlay,
             setRecord,
         } = inject(GlobalKey) as GlobalState
+
+        const setDone = (recordId: string) => {
+            // 最後まで解き切ったら第1問を登録
+            if(!(state.choices.length === state.index +1)) {
+                $axios.$put('/api/done/' + recordId, {
+                    subject: route.value.query.subject,
+                    unit: route.value.query.unit,
+                    index: state.index + 1,
+                    lastNum: state.index + 1
+                }).then((res) => {
+                    setRecord(res)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            } else {
+                $axios.$put('/api/done/' + recordId, {
+                    subject: route.value.query.subject,
+                    unit: route.value.query.unit,
+                    index: state.index + 1,
+                    lastNum: 0
+                }).then((res) => {
+                    setRecord(res)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
+        }
 
         const clickYes = () => {
             if(state.choices[state.index].answer === "1") {
@@ -81,74 +87,30 @@ export default defineComponent({
             } else {
                 setOverlay(true)
                 setAnswer(false)
-                setAnswer(false)
+                // setAnswer(false)
                 setTimeout(() => {
                     increaseIndex()
                     switchHideResult()
                     setOverlay(false)
                 }, 1000);
             }
-            const setDone = (recordId: string) => {
-                if(!(state.choices.length === state.index +1)) {
-                    const userId = context.root.$auth.user.id
-                    $axios.$put('/api/done/' + recordId + '/' + userId, {
-                        subject: route.value.query.subject,
-                        unit: route.value.query.unit,
-                        index: state.index + 1,
-                        lastNum: state.index + 1
-                    }).then((res) => {
-                        console.log(res)
-                        setRecord(res)
-                    }).catch((err) => {
-                        console.log(err)
-                    })
-                } else {
-                    const userId = context.root.$auth.user.id
-                    $axios.$put('/api/done/' + recordId + '/' + userId, {
-                        subject: route.value.query.subject,
-                        unit: route.value.query.unit,
-                        index: state.index + 1,
-                        lastNum: 0
-                    }).then((res) => {
-                        console.log(res)
-                        setRecord(res)
-                    }).catch((err) => {
-                        console.log(err)
-                    })
-                }
-            }
-            if(context.root.$auth.loggedIn) {
+            
+            if($auth.loggedIn) {
                 switch(route.value.query.subject) {
                     case 'cons':
-                        console.log('cons')
-                        setDone(context.root.$auth.user.constitutionId)
+                        setDone($auth.user.constitutionId)
                     break
                     case 'gov':
-                        console.log('gov')
-                        setDone(context.root.$auth.user.governmentId)
+                        setDone($auth.user.governmentId)
                     break
                     case 'civil':
-                        console.log('civil')
-                        setDone(context.root.$auth.user.civilId)
+                        setDone($auth.user.civilId)
                     break
                     case 'company':
-                        console.log('company')
-                        setDone(context.root.$auth.user.companyId)
+                        setDone($auth.user.companyId)
                     break
                 }
             }
-            // if() {
-            //     context.root.$axios.$post('/api/done-record', {
-            //         subject: '憲法',
-            //         id: context.root.$auth.user.constitutionId,
-            //         year: context.root.$route.query.year,
-            //         index: state.index + 1
-            //     }).then((res) => {
-            //         console.log(res)
-            //     }).catch((err) => {
-            //         console.log(err)
-            //     })
-            // }
         }
         const clickNo = () => {
             if(state.choices[state.index].answer === "2") {
@@ -168,19 +130,23 @@ export default defineComponent({
                     setOverlay(false)
                 }, 1000);
             }
+            if($auth.loggedIn) {
+                switch(route.value.query.subject) {
+                    case 'cons':
+                        setDone($auth.user.constitutionId)
+                    break
+                    case 'gov':
+                        setDone($auth.user.governmentId)
+                    break
+                    case 'civil':
+                        setDone($auth.user.civilId)
+                    break
+                    case 'company':
+                        setDone($auth.user.companyId)
+                    break
+                }
+            }
             
-            // if(context.root.$auth.loggedIn) {
-            //     context.root.$axios.$post('/api/done-record', {
-            //         subject: '憲法',
-            //         id: context.root.$auth.user.constitutionId,
-            //         year: context.root.$route.query.year,
-            //         index: state.index + 1
-            //     }).then((res) => {
-            //         console.log(res)
-            //     }).catch((err) => {
-            //         console.log(err)
-            //     })
-            // }
         }
         const finish = () => {
             router.push({path: 'unit', query: {

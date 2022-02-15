@@ -10,15 +10,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from '@nuxtjs/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-    setup(props, context) {
-        onMounted(() => {
-            setTimeout(() => {
-                context.emit('show-signup')
-            }, 5000)
-        })
+    setup () {
+        
+
         return {}
     }
 })
@@ -32,6 +29,6 @@ export default defineComponent({
     color: #B71C1C;
 }
 .width {
-    max-width: 400px;
+    max-width: 500px;
 }
 </style>

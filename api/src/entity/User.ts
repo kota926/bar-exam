@@ -38,28 +38,36 @@ export class User {
     @Column({ nullable: true})
     constitutionId: number
 
-    @OneToOne(() => Constitution)
+    @OneToOne(() => Constitution, {
+        cascade: ["remove"]
+    })
     @JoinColumn()
     constitution: Constitution;
 
     @Column({ nullable: true})
     governmentId: number
 
-    @OneToOne(() => Government)
+    @OneToOne(() => Government, {
+        cascade: ["remove"]
+    })
     @JoinColumn()
     government: Government;
 
     @Column({ nullable: true})
     civilId: number
 
-    @OneToOne(() => Civil)
+    @OneToOne(() => Civil, {
+        cascade: ["remove"]
+    })
     @JoinColumn()
     civil: Civil;
 
     @Column({ nullable: true})
     companyId: number
 
-    @OneToOne(() => Company)
+    @OneToOne(() => Company, {
+        cascade: ["remove"]
+    })
     @JoinColumn()
     company: Company;
 

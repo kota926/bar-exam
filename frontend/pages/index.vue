@@ -4,9 +4,7 @@
             <v-container
             class="container"
             >
-            <profile-card
-            :user="user"
-            />
+            <profile-card />
             <last-question-card />
             </v-container>
         </app-bar>

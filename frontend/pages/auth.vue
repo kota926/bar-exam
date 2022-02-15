@@ -12,13 +12,15 @@
             <sign-up
             v-else-if="data.isSignup"
             @show-signin='showSignin'
-            @show-success="hideSignup"
+            @show-success="showSuccess"
+            @show-fail="hideSuccess"
             />
             <sent-email
             v-else-if="data.isSuccess"
             />
             <fail-sent-email
             v-else
+            @show-signup="showSignup"
             />
         </v-container>
     </app-bar>
@@ -27,13 +29,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from '@nuxtjs/composition-api'
+import { defineComponent, inject, onMounted, reactive } from '@nuxtjs/composition-api'
 import SentEmail from '../components/SentEmail.vue'
 import SignIn from '../components/SignIn.vue'
 import SignUp from '../components/SignUp.vue'
 import FailSentEmail from '../components/FailSentEmail.vue'
 import AppBar from '../components/AppBar.vue'
 import BottomNav from '../components/BottomNav.vue'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     components: { SignIn, SignUp, SentEmail, FailSentEmail, AppBar, BottomNav },
@@ -41,6 +45,10 @@ export default defineComponent({
     // auth: 'guest',
     layout: 'default', 
     setup() {
+        const {setIsLoading} = inject(GlobalKey) as GlobalState
+        onMounted(() =>{
+            setIsLoading(false)
+        })
         const data = reactive({
             isSignin: true,
             isSignup: true,
@@ -52,19 +60,23 @@ export default defineComponent({
         const showSignin = () => {
             data.isSignin = true
         }
-        const hideSignup = () => {
+        const showSuccess = () => {
             data.isSignup = false
         }
         const hideSuccess = () => {
             data.isSignup = false
             data.isSuccess = false
         }
+        const showSignup = () => {
+            data.isSignup = true
+        }
         return {
             data,
             hideSignin,
             showSignin,
-            hideSignup,
+            showSuccess,
             hideSuccess,
+            showSignup,
         }
     }
 })

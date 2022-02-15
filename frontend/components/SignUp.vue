@@ -83,7 +83,7 @@ import GlobalKey from '../composables/key/globalKey'
 export default defineComponent({
     name: "SignUp",
     setup(props, context) {
-        const { mutateEmail } = inject(GlobalKey) as GlobalState
+        const { mutateEmail, setIsLoading } = inject(GlobalKey) as GlobalState
         const { $axios } = useContext()
         const data = reactive({
             name: '',
@@ -102,15 +102,16 @@ export default defineComponent({
                 password: data.password.trim()
                 }
                 const url = 'auth/signup'
-                console.log(user)
                 data.isDisable = true
+                setIsLoading(true)
                 $axios.$post(url, user).then((response) => {
-                    console.log('res success')
-                    console.log(response)
                     context.emit('show-success')
+                    setIsLoading(false)
                 }).catch((error) => {
                     console.log('res fail')
                     console.log(error)
+                    context.emit('show-fail')
+                    setIsLoading(false)
                 })
             } else if (data.password.trim() && data.name.trim()) {
                 console.log('email empty')

@@ -33,9 +33,6 @@ router.post('/', async (req: express.Request, res: express.Response) => {
                     email: userInDB.email
                 }
                 const token = jwt.sign(payload, 'lawapp')
-                console.log('logindir')
-                console.log(payload)
-                console.log(token)
                 res.json({token})
             }
         })

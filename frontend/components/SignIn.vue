@@ -93,6 +93,8 @@ export default defineComponent({
                     console.log(response)
                 } catch (err) {
                     console.log(err)
+                    data.showMessage = true
+                    data.message = 'ユーザーネームまたはパスワードが正しくありません'
                 }
             } else if (data.password.trim()) {
                 console.log('name empty')

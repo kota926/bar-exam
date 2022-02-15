@@ -24,88 +24,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, reactive, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, inject } from '@nuxtjs/composition-api'
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     setup(props, context) {
-        const { state, setAnswer, switchHideResult, increaseIndex } = inject(GlobalKey) as GlobalState
-        const data = reactive({
-            overlay: false,
-            correct: true,
-        })
-        const clickYes = () => {
-            if(state.choices[state.index].answer === "1") {
-                data.correct = true
-                data.overlay = true
-                setAnswer(true)
-                setTimeout(() => {
-                    increaseIndex()
-                    switchHideResult()
-                    data.overlay = false
-                }, 1000);
-            } else {
-                data.correct = false
-                data.overlay = true
-                setAnswer(false)
-                setTimeout(() => {
-                    increaseIndex()
-                    switchHideResult()
-                    data.overlay = false
-                }, 1000);
-            }
-            // if(context.root.$auth.loggedIn) {
-            //     context.root.$axios.$post('/api/done-record', {
-            //         subject: '憲法',
-            //         id: context.root.$auth.user.constitutionId,
-            //         year: context.root.$route.query.year,
-            //         index: state.index + 1
-            //     }).then((res) => {
-            //         console.log(res)
-            //     }).catch((err) => {
-            //         console.log(err)
-            //     })
-            // }
-        }
-        const clickNo = () => {
-            if(state.choices[state.index].answer === "2") {
-                data.correct = true
-                data.overlay = true
-                setAnswer(true)
-                setTimeout(() => {
-                    increaseIndex()
-                    switchHideResult()
-                    data.overlay = false
-                }, 1000);
-            } else {
-                data.correct = false
-                data.overlay = true
-                setAnswer(false)
-                setTimeout(() => {
-                    increaseIndex()
-                    switchHideResult()
-                    data.overlay = false
-                }, 1000);
-            }
-            
-            // if(context.root.$auth.loggedIn) {
-            //     context.root.$axios.$post('/api/done-record', {
-            //         subject: '憲法',
-            //         id: context.root.$auth.user.constitutionId,
-            //         year: context.root.$route.query.year,
-            //         index: state.index + 1
-            //     }).then((res) => {
-            //         console.log(res)
-            //     }).catch((err) => {
-            //         console.log(err)
-            //     })
-            // }
-        }
+        const { state } = inject(GlobalKey) as GlobalState
+        
         return {
             state,
-            clickYes,
-            clickNo,
         }
     }
 })

@@ -157,5 +157,8 @@ export class Civil {
     49: number;
 
     @Column({ type: 'int', default: 0 })
+    50: number;
+
+    @Column({ type: 'int', default: 0 })
     51: number;
 }

@@ -50,16 +50,136 @@
         @click="changeInfo('password')"
         >変更</v-btn>
     </v-card>
+    <v-card
+    tile
+    class="pl-4 py-3 mt-10 d-flex align-center justify-space-between">
+        <div class="d-flex align-center">
+            <font-awesome-icon class="icon" :icon="['far', 'trash-alt']"/>
+            <div class="ml-3">学習履歴の削除</div>
+        </div>
+        <v-btn
+        outlined
+        color="red"
+        class="mr-3"
+        @click="confirmDeleteRecord"
+        >削除</v-btn>
+    </v-card>
+    <v-card
+    tile
+    class="pl-4 py-3 d-flex align-center justify-space-between">
+        <div class="d-flex align-center">
+            <font-awesome-icon class="icon" :icon="['far', 'trash-alt']"/>
+            <div class="ml-3">アカウントの削除</div>
+        </div>
+        <v-btn
+        outlined
+        color="red"
+        class="mr-3"
+        @click="confirmDeleteAccount"
+        >削除</v-btn>
+    </v-card>
+    <v-dialog
+      v-model="data.recordDialog"
+      max-width="380"
+      :persistent="data.isDisable"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          学習履歴を削除しますか？
+        </v-card-title>
+
+        <v-card-text>
+          学習履歴を削除した場合、修復をすることはできません。
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="red darken-1"
+            text
+            @click="data.recordDialog = false"
+            :disabled="data.isDisable"
+          >
+            キャンセル
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="deleteRecord"
+            :disabled="data.isDisable"
+          >
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      v-model="data.accountDialog"
+      max-width="380"
+      :persistent="data.isDisable"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          アカウントを削除しますか？
+        </v-card-title>
+        <v-card-text>
+          確認のためパスワードを入力してください。
+        </v-card-text>
+        
+            <v-text-field
+            v-model="data.password"
+            outlined
+            label="パスワード"
+            required
+            class="mx-5"
+            :disabled="data.isDisable"
+            ></v-text-field>
+       
+        <v-card-text>
+          アカウントを削除した場合、修復をすることはできません。
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="red darken-1"
+            text
+            @click="data.accountDialog = false"
+            :disabled="data.isDisable"
+          >
+            キャンセル
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="deleteAccount"
+            :disabled="data.isDisable"
+          >
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext, computed } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, computed, reactive } from '@nuxtjs/composition-api'
 
 export default defineComponent({
     setup (props, context) {
         console.log(useContext())
-        const { $auth } = useContext()
+        const { $auth, $axios } = useContext()
+
+        const data = reactive({
+            recordDialog: false,
+            accountDialog: false,
+            isDisable: false,
+            password: '',
+        })
 
         const user = computed(() => {
             if($auth.user) {
@@ -76,9 +196,48 @@ export default defineComponent({
         const changeInfo = (info: string) => {
             context.emit('change-info', info)
         }
+        const confirmDeleteRecord = () => {
+            data.recordDialog = true
+        }
+        const confirmDeleteAccount = () => {
+            data.accountDialog = true
+        }
+        const deleteRecord = () => {
+            data.isDisable = true
+            $axios.$put('/api/done', {
+                isDelete: true,
+            }).then((res) => {
+                console.log(res)
+                setTimeout(()=>{
+                    data.isDisable = false
+                    data.recordDialog = false
+                }, 1000)
+                
+            })
+        }
+        const deleteAccount = () => {
+            if(data.password.trim()) {
+                data.isDisable = true
+                $axios.$delete('/auth/user', {
+                    data: {
+                        password: data.password.trim()
+                    }
+                }).then((res) => {
+                    console.log(res)
+                    $auth.logout()
+                    data.isDisable = false
+                    data.accountDialog = false
+                })
+            }
+        }
         return {
             user,
-            changeInfo
+            data,
+            changeInfo,
+            confirmDeleteRecord,
+            confirmDeleteAccount,
+            deleteRecord,
+            deleteAccount,
         }
     }
 })

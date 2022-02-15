@@ -113,7 +113,6 @@ export default defineComponent({
             }})
         }
         const goTest = () => {
-            console.log(props.unit.num)
             setTotalNumber(props.unit.num)
             if(state.record) {
                 if(state.record[props.unitNumber] === props.unit.num) {

@@ -177,4 +177,46 @@ router.put('/', async (req: express.Request, res: express.Response) => {
     }
 })
 
+router.delete('/', (req: express.Request, res: express.Response) => {
+    console.log('deleting user')
+    console.log(req.headers)
+    const bearToken = req.headers['authorization']
+    if(bearToken) {
+        const bearer = bearToken.split(' ')
+        const token = bearer[1]
+
+        jwt.verify(token, 'lawapp', async (err, user: JwtPayload)=>{
+            if(err) {
+                return res.sendStatus(403)
+            }
+            if(user) {
+                const userRepository = getRepository(User)
+                const userToDelete = await userRepository.findOne(user.id)
+                .catch((err) => {
+                    res.send(err)
+                })
+                
+                if(userToDelete) {
+                    bcript.compare(req.body.password, userToDelete.password, async (error, result) => {
+                        if(error) {
+                            return res.status(400).json({error: error.message})
+                        }
+                        if(!result) {
+                            res.json({message: "password is not correct"})
+                        } else {
+                            const deletedResult = await userRepository.remove(userToDelete)
+                            console.log(deletedResult)
+                            res.json({user: deletedResult})
+                        }
+                    })
+                } else {
+                    res.send('an error happened')
+                }
+            } else {
+                res.send('user not found')
+            }
+        })
+    }
+})
+
 export default router;
