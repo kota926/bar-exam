@@ -60,10 +60,6 @@ router.post('/', async (req: express.Request, res: express.Response) => {
                         pass: process.env.EMAIL_PASSWORD
                     }
                 }
-                console.log(process.env.EMAIL_HOST)
-                console.log(process.env.EMAIL_ADDRESS)
-                console.log(process.env.EMAIL_PASSWORD)
-                console.log(process.env.FRONTEND_URL)
                 const transporter = nodemailer.createTransport(smtpConfig)
 
                 const html ='<p>' + sentName + 'さん</p>' +
@@ -84,8 +80,8 @@ router.post('/', async (req: express.Request, res: express.Response) => {
                 }
                 transporter.sendMail(mailOptions, (err, info) => {
                     if(err) {
-                        console.log('email connection error')
                         console.log(err)
+                        res.status(500).send('mail server error')
                     } else {
                         console.log(info)
                         res.status(200).json({

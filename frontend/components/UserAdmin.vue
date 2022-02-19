@@ -128,14 +128,27 @@
           確認のためパスワードを入力してください。
         </v-card-text>
         
-            <v-text-field
-            v-model="data.password"
-            outlined
-            label="パスワード"
-            required
-            class="mx-5"
-            :disabled="data.isDisable"
-            ></v-text-field>
+        <v-text-field
+        v-model="data.password"
+        outlined
+        label="パスワード"
+        required
+        class="mx-5"
+        :disabled="data.isDisable"
+        ></v-text-field>
+
+        <transition name="top">
+            <v-card
+            flat
+            class="text-center mb-10 card-width d-flex justify-center align-center"
+            v-if="data.showMessage"
+            >
+                <font-awesome-icon class="icon message" :icon="['fas', 'exclamation-triangle']"/>
+                <div class="ml-2 message">
+                    パスワードが正しくありません
+                </div>
+            </v-card>
+        </transition>
        
         <v-card-text>
           アカウントを削除した場合、修復をすることはできません。
@@ -179,6 +192,7 @@ export default defineComponent({
             accountDialog: false,
             isDisable: false,
             password: '',
+            showMessage: false,
         })
 
         const user = computed(() => {
@@ -223,10 +237,14 @@ export default defineComponent({
                         password: data.password.trim()
                     }
                 }).then((res) => {
-                    console.log(res)
-                    $auth.logout()
-                    data.isDisable = false
-                    data.accountDialog = false
+                    if(res.message === 'password is not correct') {
+                        data.showMessage = true
+                        data.isDisable = false
+                    } else {
+                        $auth.logout()
+                        data.isDisable = false
+                        data.accountDialog = false
+                    }
                 })
             }
         }
@@ -249,5 +267,16 @@ export default defineComponent({
 }
 .icon {
     font-size: 26px;
+}
+.message {
+    color: brown;
+}
+.top-enter-active, .top-leave-active {
+  transform: translate(0px, 0px); 
+  transition: transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+
+.top-enter, .top-leave-to {
+  transform: translateY(-5vh) translateY(0px);
 }
 </style>

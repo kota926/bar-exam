@@ -4,11 +4,13 @@ import bcript from 'bcryptjs';
 const saltRounds = 10;
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { getRepository } from 'typeorm';
+import { Constitution } from '../../entity/Constitution';
+import { Government } from '../../entity/Government';
+import { Civil } from '../../entity/Civil';
+import { Company } from '../../entity/Company';
 const router = express.Router()
 
 router.get('/', (req: express.Request, res: express.Response) => {
-    console.log('user dir')
-    console.log(req.headers)
     const bearToken = req.headers['authorization']
     if(bearToken) {
         const bearer = bearToken.split(' ')
@@ -27,9 +29,6 @@ router.get('/', (req: express.Request, res: express.Response) => {
                 }).catch((err) => {
                     res.send(err)
                 })
-                
-                console.log(user)
-                console.log(userInDB)
                 res.json({
                     user: userInDB
                 });
@@ -43,8 +42,6 @@ router.get('/', (req: express.Request, res: express.Response) => {
 });
 
 router.put('/', async (req: express.Request, res: express.Response) => {
-    console.log('user put')
-    console.log(req.headers)
     const bearToken = req.headers['authorization']
     if(bearToken) {
         const bearer = bearToken.split(' ')
@@ -76,7 +73,6 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                     if(userToUpdate) {
                         userToUpdate.name = req.body.name
                         const result = await userRepository.save(userToUpdate)
-                        console.log(result)
                         const payload = {
                             exp: Math.floor(Date.now() / 1000) + (60 * 60),
                             id: result.id,
@@ -84,9 +80,6 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                             email: result.email
                         }
                         const token = jwt.sign(payload, 'lawapp')
-                        console.log('logindir')
-                        console.log(payload)
-                        console.log(token)
                         res.json({token})
                     }
                 } else {
@@ -107,7 +100,6 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                     if(userToUpdate) {
                         userToUpdate.email = req.body.email
                         const result = await userRepository.save(userToUpdate)
-                        console.log(result)
                         const payload = {
                             exp: Math.floor(Date.now() / 1000) + (60 * 60),
                             id: result.id,
@@ -115,9 +107,6 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                             email: result.email
                         }
                         const token = jwt.sign(payload, 'lawapp')
-                        console.log('logindir')
-                        console.log(payload)
-                        console.log(token)
                         res.json({token})
                     }
                 } else {
@@ -150,7 +139,6 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                                     }
                                     userToUpdate.password = hashedPassword
                                     const result = await userRepository.save(userToUpdate)
-                                    console.log(result)
                                     const payload = {
                                         exp: Math.floor(Date.now() / 1000) + (60 * 60),
                                         id: result.id,
@@ -158,9 +146,6 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                                         email: result.email
                                     }
                                     const token = jwt.sign(payload, 'lawapp')
-                                    console.log('logindir')
-                                    console.log(payload)
-                                    console.log(token)
                                     res.json({token})
                                     })
                             }
@@ -202,11 +187,38 @@ router.delete('/', (req: express.Request, res: express.Response) => {
                             return res.status(400).json({error: error.message})
                         }
                         if(!result) {
-                            res.json({message: "password is not correct"})
-                        } else {
+                            return res.json({message: "password is not correct"})
+                        }
+                        try {
                             const deletedResult = await userRepository.remove(userToDelete)
-                            console.log(deletedResult)
-                            res.json({user: deletedResult})
+                            
+                            const consRepository = getRepository(Constitution)
+                            const consToDelete = await consRepository.findOne(deletedResult.constitutionId)
+                            if(consToDelete) {
+                                await consRepository.remove(consToDelete)
+                            }
+
+                            const govRepository = getRepository(Government)
+                            const govToDelete = await govRepository.findOne(deletedResult.governmentId)
+                            if(govToDelete) {
+                                await govRepository.remove(govToDelete)
+                            }
+
+                            const civilRepository = getRepository(Civil)
+                            const civilToDelete = await civilRepository.findOne(deletedResult.civilId)
+                            if(civilToDelete) {
+                                await civilRepository.remove(civilToDelete)
+                            }
+
+                            const companyRepository = getRepository(Company)
+                            const companyToDelete = await companyRepository.findOne(deletedResult.companyId)
+                            if(companyToDelete) {
+                                await companyRepository.remove(companyToDelete)
+                            }
+
+                            res.json({user: userToDelete})
+                        } catch(err) {
+                            res.send(err)
                         }
                     })
                 } else {
