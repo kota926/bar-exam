@@ -28,12 +28,12 @@
         ></v-progress-linear>
         </v-app-bar>
         <v-sheet
-        class="overflow-y-auto sheet"
+        class="overflow-y-auto sheet gray"
         height="90vh"
         >
-        <v-container class="contain">
-            <slot />
-        </v-container>
+            <v-container>
+                <slot />
+            </v-container>
         </v-sheet>
         <v-navigation-drawer
         v-model="data.drawer"
@@ -93,7 +93,7 @@ import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
-    setup(props, context) {
+    setup() {
         const data = reactive({
             drawer: false,
             group: null,
@@ -132,6 +132,8 @@ export default defineComponent({
 <style scoped>
 .sheet {
     padding-top: 100px;
+}
+.gray {
     background: #f0f0f0;
 }
 .icon {

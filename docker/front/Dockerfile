@@ -1,5 +1,9 @@
 FROM node:16.13.1-alpine3.14
 
+ARG BASE_URL
+
+ENV BASE_URL=${BASE_URL}
+
 WORKDIR /app
 
 RUN apk update

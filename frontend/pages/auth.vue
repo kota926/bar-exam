@@ -41,7 +41,7 @@ import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     components: { SignIn, SignUp, SentEmail, FailSentEmail, AppBar, BottomNav },
-    middleware: 'onAuth',
+    // middleware: 'onAuth',
     // auth: 'guest',
     layout: 'default', 
     setup() {

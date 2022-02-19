@@ -45,7 +45,7 @@ subjects = ["憲法", "行政法", "民法", "商法"]
 
 
 def insert(df):
-    engine = create_engine('mysql+pymysql://root:root_password@localhost:3306/database_name?charset=utf8')
+    engine = create_engine('mysql+pymysql://root:bar_root_password@localhost:3306/bar_database?charset=utf8')
     Base = declarative_base()
 
     class Question(Base):

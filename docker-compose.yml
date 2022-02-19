@@ -34,6 +34,11 @@ services:
         EMAIL_ADDRESS: $EMAIL_ADDRESS
         EMAIL_PASSWORD: $EMAIL_PASSWORD
         FRONTEND_URL: $FRONTEND_URL
+        DB_HOST: $DB_HOST
+        DB_PORT: $DB_PORT
+        DB_USERNAME: $DB_USERNAME
+        DB_PASSWORD: $DB_PASSWORD
+        DB_DATABASE: $DB_DATABASE
     environment:
       - TZ=Asia/Tokyo
     tty: true
@@ -50,6 +55,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/front/Dockerfile
+      args:
+        BASE_URL: $BASE_URL
     command: yarn dev
     volumes:
       - ./frontend:/app

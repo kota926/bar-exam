@@ -22,18 +22,19 @@ import ProfileCard from '../components/ProfileCard.vue'
 export default defineComponent({
     components: { ProfileCard, AppBar, BottomNav, LastQuestionCard },
     layout: 'default',
-    middleware: 'onHome',
+    // middleware: 'onHome',
+    middleware: 'auth',
     setup(props, context) {
-        const { $auth } = useContext()
-        const logoutUser = () => {
-            $auth.logout()
-        }
-        const user = computed(() => {
-            return $auth.user
-        })
+        // const { $auth } = useContext()
+        // const logoutUser = () => {
+        //     $auth.logout()
+        // }
+        // const user = computed(() => {
+        //     return $auth.user
+        // })
         return {
-            logoutUser,
-            user,
+            // logoutUser,
+            // user,
         }
     }
 })

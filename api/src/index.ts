@@ -1,19 +1,21 @@
 import express from 'express'
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
+import  connectionOption from "./config/ormconfig"
 
 import router from './routes/index'
 
 import cors from 'cors'
 
 
-createConnection().then(async () => {
+createConnection(connectionOption).then(async () => {
     const app = express();
     const options: cors.CorsOptions = {
         credentials: true,
         optionsSuccessStatus: 200,
-        origin: ['http://localhost:3000']
+        origin: [process.env.FRONTEND_URL]
     }
+    console.log(options)
     app.use(cors(options))
     app.use(express.json());
 

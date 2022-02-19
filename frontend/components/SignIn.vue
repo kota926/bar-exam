@@ -67,12 +67,11 @@
 
 <script lang="ts">
 import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
-import { Context } from '@nuxt/types'
 
 export default defineComponent({
     name: "SignIn", 
     setup(props, context) {
-        const { $axios } = useContext()
+        const { $auth } = useContext()
         const data = reactive({
             show: false,
             showMessage: false,
@@ -87,10 +86,9 @@ export default defineComponent({
                 password: data.password.trim()
                 }
                 try{
-                    const response = await context.root.$auth.loginWith('local', {
+                    const response = await $auth.loginWith('local', {
                     data: user
                     })
-                    console.log(response)
                 } catch (err) {
                     console.log(err)
                     data.showMessage = true

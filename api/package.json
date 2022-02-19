@@ -7,9 +7,9 @@
     "build": "tsc",
     "dev": "nodemon --exec ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "show": "ts-node node_modules/.bin/typeorm migration:show",
-    "generate": "ts-node node_modules/.bin/typeorm migration:generate -n Test",
-    "run": "ts-node node_modules/.bin/typeorm migration:run"
+    "show": "ts-node node_modules/.bin/typeorm migration:show -f ./src/config/ormconfig.ts",
+    "generate": "ts-node node_modules/.bin/typeorm migration:generate -n Test -f ./src/config/ormconfig.ts",
+    "run": "ts-node node_modules/.bin/typeorm migration:run -f ./src/config/ormconfig.ts"
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +18,7 @@
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.8",
-    "@types/node": "^17.0.8",
+    "@types/node": "^17.0.18",
     "@types/nodemailer": "^6.4.4",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
