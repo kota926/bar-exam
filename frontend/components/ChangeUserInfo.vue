@@ -199,9 +199,7 @@ export default defineComponent({
                     oldPassword: null,
                     newPassword: null
                 }).then((res) => {
-                    console.log(res)
                     $auth.setUserToken(res.token).then((res) =>{
-                        console.log(res)
                         context.emit('back-admin')
                     }).catch((err) => {
                         console.log(err)
@@ -224,9 +222,7 @@ export default defineComponent({
                     oldPassword: null,
                     newPassword: null
                 }).then((res) => {
-                    console.log(res)
                     $auth.setUserToken(res.token).then((res) =>{
-                        console.log(res)
                         context.emit('back-admin')
                     }).catch((err) => {
                         console.log(err)
@@ -249,9 +245,7 @@ export default defineComponent({
                     oldPassword: data.oldPassword.trim(),
                     newPassword: data.newPassword.trim()
                 }).then((res) => {
-                    console.log(res)
                     $auth.setUserToken(res.token).then((res) =>{
-                        console.log(res)
                         context.emit('back-admin')
                     }).catch((err) => {
                         console.log(err)

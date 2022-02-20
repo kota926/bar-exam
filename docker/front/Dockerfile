@@ -14,8 +14,12 @@ RUN yarn install
 
 COPY ./frontend/ ./
 
+# RUN yarn run build
+
 ENV HOST 0.0.0.0
 
 EXPOSE 3000
 
-CMD yarn dev
+# CMD ["yarn", "start"]
+
+CMD [ "yarn", "dev" ]

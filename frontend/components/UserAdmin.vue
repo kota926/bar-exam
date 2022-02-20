@@ -222,11 +222,8 @@ export default defineComponent({
                 isDelete: true,
             }).then((res) => {
                 console.log(res)
-                setTimeout(()=>{
-                    data.isDisable = false
-                    data.recordDialog = false
-                }, 1000)
-                
+                data.isDisable = false
+                data.recordDialog = false
             })
         }
         const deleteAccount = () => {

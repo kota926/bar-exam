@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, inject, useContext, useRouter, useFetch, onMounted } from '@nuxtjs/composition-api'
+import { defineComponent, computed, ref, inject, useContext, useRouter, useFetch, onMounted, readonly, reactive } from '@nuxtjs/composition-api'
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 import Common from '../plugins/common'
@@ -33,51 +33,53 @@ export default defineComponent({
     setup () {
         const { $auth } = useContext()
         const router = useRouter()
-        const user = ref($auth.user)
+        const data = reactive({
+            user: {} as User
+        })
 
         // 問題を解いてもユーザー情報が更新されないので再取得
         onMounted(() => {
             if($auth.loggedIn) {
                 $auth.fetchUser().then((res) => {
-                    console.log(res)
-                    user.value = res.data.user
+                    if(res) {
+                        data.user = res.data.user
+                    }
                 })
             }
         })
 
         const { state, setTotalNumber, setIndex} = inject(GlobalKey) as GlobalState
         const subject = computed(() => {
-            if(user.value && typeof user.value.lastSubject === 'string') {
-                return Common.searchSubject(user.value.lastSubject)
+            if(typeof data.user.lastSubject === 'string') {
+                return Common.searchSubject(data.user.lastSubject)
             } else {
                 return '科目'
             }
         })
         const unit = computed(() => {
-            if(user.value
-                && typeof user.value.lastSubject === 'string'
-                && typeof user.value.lastUnit === 'string') {
-                return Common.searchUnit(user.value.lastSubject, user.value.lastUnit)
+            if(typeof data.user.lastSubject === 'string'
+                && typeof data.user.lastUnit === 'string') {
+                return Common.searchUnit(data.user.lastSubject, data.user.lastUnit)
             } else {
                 return '単元'
             }
         })
         const lastNum = computed(() => {
-            if(user.value) {
-                return user.value.lastNumber
+            if(data.user) {
+                return data.user.lastNumber
             } else {
                 return 0
             }
         })
 
         const goTest = () => {
-            if(user.value) {
-                const totalNum = Common.searchTotalNum(user.value.lastSubject, user.value.lastUnit)
-                setTotalNumber(totalNum)
-                setIndex(user.value.lastNumber)
+            if(data.user) {
+                const totalNum = Common.searchTotalNum(data.user.lastSubject, data.user.lastUnit)
+                if(totalNum) setTotalNumber(totalNum)
+                setIndex(data.user.lastNumber)
                 router.push({path: 'test', query: {
-                        subject: user.value.lastSubject,
-                        unit: user.value.lastUnit
+                        subject: data.user.lastSubject,
+                        unit: data.user.lastUnit
                     }
                 })
             }

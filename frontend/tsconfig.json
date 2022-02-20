@@ -20,7 +20,6 @@
       "@nuxtjs/axios",
       "@types/node",
       "@nuxtjs/auth-next",
-      "@types/nuxtjs__auth"
     ]
   },
   "exclude": ["node_modules", ".nuxt", "dist"]

@@ -8,6 +8,7 @@ networks:
 
 services:
   mysql:
+    # image: 333233774574.dkr.ecr.ap-northeast-1.amazonaws.com/bar-exam-database
     build:
       context: ./docker/mysql
       args:
@@ -25,6 +26,7 @@ services:
     platform: linux/amd64
 
   express:
+    # image: 333233774574.dkr.ecr.ap-northeast-1.amazonaws.com/bar-exam-backend
     build:
       context: .
       dockerfile: ./docker/back/Dockerfile
@@ -48,16 +50,20 @@ services:
       - ./api:/node
     working_dir: /node
     command: [sh, -c, npm install && npm run dev]
+    # command: [sh, -c, npm install && npm run start]
     networks:
       - container-link
+    platform: linux/amd64
   
   nuxt:
+    # image: 333233774574.dkr.ecr.ap-northeast-1.amazonaws.com/bar-exam-frontend
     build:
       context: .
       dockerfile: ./docker/front/Dockerfile
       args:
         BASE_URL: $BASE_URL
-    command: yarn dev
+    command: ["yarn", "dev"]
+    # command: ["yarn", "start"]
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -66,3 +72,4 @@ services:
     tty: true
     networks:
       - container-link
+    platform: linux/amd64

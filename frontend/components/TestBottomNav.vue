@@ -48,7 +48,7 @@ export default defineComponent({
             setRecord,
         } = inject(GlobalKey) as GlobalState
 
-        const setDone = (recordId: string) => {
+        const setDone = (recordId: string | unknown) => {
             // 最後まで解き切ったら第1問を登録
             if(!(state.choices.length === state.index +1)) {
                 $axios.$put('/api/done/' + recordId, {
@@ -98,16 +98,24 @@ export default defineComponent({
             if($auth.loggedIn) {
                 switch(route.value.query.subject) {
                     case 'cons':
-                        setDone($auth.user.constitutionId)
+                        if($auth.user) {
+                            setDone($auth.user.constitutionId)
+                        }
                     break
                     case 'gov':
-                        setDone($auth.user.governmentId)
+                        if($auth.user) {
+                            setDone($auth.user.governmentId)
+                        }
                     break
                     case 'civil':
-                        setDone($auth.user.civilId)
+                        if($auth.user) {
+                            setDone($auth.user.civilId)
+                        }
                     break
                     case 'company':
-                        setDone($auth.user.companyId)
+                        if($auth.user) {
+                            setDone($auth.user.companyId)
+                        }
                     break
                 }
             }
@@ -133,16 +141,24 @@ export default defineComponent({
             if($auth.loggedIn) {
                 switch(route.value.query.subject) {
                     case 'cons':
-                        setDone($auth.user.constitutionId)
+                        if($auth.user) {
+                            setDone($auth.user.constitutionId)
+                        }
                     break
                     case 'gov':
-                        setDone($auth.user.governmentId)
+                        if($auth.user) {
+                            setDone($auth.user.governmentId)
+                        }
                     break
                     case 'civil':
-                        setDone($auth.user.civilId)
+                        if($auth.user) {
+                            setDone($auth.user.civilId)
+                        }
                     break
                     case 'company':
-                        setDone($auth.user.companyId)
+                        if($auth.user) {
+                            setDone($auth.user.companyId)
+                        }
                     break
                 }
             }
