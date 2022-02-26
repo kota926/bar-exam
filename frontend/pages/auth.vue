@@ -14,13 +14,18 @@
             @show-signin='showSignin'
             @show-success="showSuccess"
             @show-fail="hideSuccess"
+            @show-overlap-user="showOverlapUser"
             />
             <sent-email
             v-else-if="data.isSuccess"
             />
             <fail-sent-email
-            v-else
+            v-else-if="data.isFail"
             @show-signup="showSignup"
+            />
+            <overlap-user
+            @show-signup="showSignup"
+            v-else
             />
         </v-container>
     </app-bar>
@@ -38,9 +43,10 @@ import AppBar from '../components/AppBar.vue'
 import BottomNav from '../components/BottomNav.vue'
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
+import OverlapUser from '~/components/OverlapUser.vue'
 
 export default defineComponent({
-    components: { SignIn, SignUp, SentEmail, FailSentEmail, AppBar, BottomNav },
+    components: { SignIn, SignUp, SentEmail, FailSentEmail, AppBar, BottomNav, OverlapUser },
     // middleware: 'onAuth',
     // auth: 'guest',
     layout: 'default', 
@@ -53,6 +59,7 @@ export default defineComponent({
             isSignin: true,
             isSignup: true,
             isSuccess: true,
+            isFail: true,
         })
         const hideSignin = () => {
             data.isSignin = false
@@ -70,6 +77,11 @@ export default defineComponent({
         const showSignup = () => {
             data.isSignup = true
         }
+        const showOverlapUser = () => {
+            data.isSignup = false
+            data.isSuccess = false
+            data.isFail = false
+        }
         return {
             data,
             hideSignin,
@@ -77,6 +89,7 @@ export default defineComponent({
             showSuccess,
             hideSuccess,
             showSignup,
+            showOverlapUser,
         }
     }
 })

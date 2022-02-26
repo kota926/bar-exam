@@ -35,7 +35,7 @@ export default {
     // composition-api
     '@nuxtjs/composition-api/module',
     // fontawesome
-    ['@nuxtjs/fontawesome', { component: 'fontAwesome', suffix: true}],
+    '@nuxtjs/fontawesome',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -48,7 +48,20 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: process.env.BASE_URL || "http://localhost/8080",
+    baseURL: process.env.BASE_URL,
+    browserBaseURL: process.env.BROWSER_BASE_URL,
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -116,6 +129,7 @@ export default {
         'faCaretRight',
         'faSignOutAlt',
         'faKey',
+        'faUserTimes'
       ],
       regular: [
         'faEdit',

@@ -122,7 +122,8 @@
         v-if="data.showMessage"
         color="pa-4"
         >
-            <font-awesome-icon class="icon" :icon="['fas', 'exclamation-triangle']"/>
+            <!-- <font-awesome-icon class="icon" icon="fa-solid fa-exclamation-triangle"/> -->
+            <font-awesome-icon style="width: 28px" size="2x" :icon="['fas', 'exclamation-triangle']"/>
             <div class="ml-2">
                 {{ data.message }}
             </div>
@@ -174,7 +175,6 @@ export default defineComponent({
         })
 
         const isName = computed(() => {
-            console.log(props.infoName)
             if(props.infoName === 'name') {
                 return true
             } else {
@@ -191,7 +191,6 @@ export default defineComponent({
         })
 
         const sendNameInfo = () => {
-            console.log('a')
             if(data.name.trim()) {
                 $axios.$put('/auth/user/', {
                     name: data.name.trim(),
@@ -203,9 +202,13 @@ export default defineComponent({
                         context.emit('back-admin')
                     }).catch((err) => {
                         console.log(err)
+                        data.message = '予期せぬエラーが発生しました'
+                        data.showMessage = true
                     })
                 }).catch((err) => {
                     console.log(err)
+                    data.message = '予期せぬエラーが発生しました'
+                    data.showMessage = true
                 })
             } else {
                 data.message = 'ユーザーネームを入力してください'
@@ -214,7 +217,6 @@ export default defineComponent({
         }
 
         const sendEmailInfo = () => {
-            console.log('b')
             if(data.email.trim()) {
                 $axios.$put('/auth/user/', {
                     name: null,
@@ -226,9 +228,13 @@ export default defineComponent({
                         context.emit('back-admin')
                     }).catch((err) => {
                         console.log(err)
+                        data.message = '予期せぬエラーが発生しました'
+                        data.showMessage = true
                     })
                 }).catch((err) => {
                     console.log(err)
+                    data.message = '予期せぬエラーが発生しました'
+                    data.showMessage = true
                 })
             } else {
                 data.message = 'メールアドレスを入力してください'
@@ -237,7 +243,6 @@ export default defineComponent({
         }
 
         const sendPasswordInfo = () => {
-            console.log('c')
             if(data.oldPassword.trim() && data.newPassword.trim()) {
                 $axios.$put('/auth/user/', {
                     name: null,
@@ -249,9 +254,13 @@ export default defineComponent({
                         context.emit('back-admin')
                     }).catch((err) => {
                         console.log(err)
+                        data.message = '予期せぬエラーが発生しました'
+                        data.showMessage = true
                     })
                 }).catch((err) => {
                     console.log(err)
+                    data.message = 'パスワードが誤っています'
+                    data.showMessage = true
                 })
             } else {
                 data.message = 'パスワードを入力してください'

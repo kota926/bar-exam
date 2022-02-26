@@ -52,7 +52,7 @@ export default defineComponent({
             return !isNull
         })
         const answer = computed(() => {
-            if(props.choice.answer === 1) {
+            if(props.choice.answer === 1 || props.choice.answer === '1') {
                 return "○"
             } else {
                 return "×"

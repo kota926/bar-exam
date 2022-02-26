@@ -163,8 +163,6 @@ router.put('/', async (req: express.Request, res: express.Response) => {
 })
 
 router.delete('/', (req: express.Request, res: express.Response) => {
-    console.log('deleting user')
-    console.log(req.headers)
     const bearToken = req.headers['authorization']
     if(bearToken) {
         const bearer = bearToken.split(' ')

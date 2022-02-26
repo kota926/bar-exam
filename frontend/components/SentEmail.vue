@@ -2,7 +2,8 @@
     <v-card
     class="text-center my-auto width mx-auto"
     >
-        <font-awesome-icon class="icon changer" icon="check" />
+        <!-- <font-awesome-icon class="changer" size="lg" icon="fa-solid fa-check" /> -->
+        <font-awesome-icon class="changer" size="lg" style="width: 32px" :icon="['fas', 'check']" />
         <v-card-text>
             {{ state.email }} に認証用メールをお送りしました。
         </v-card-text>
@@ -29,7 +30,6 @@ export default defineComponent({
 .changer {
     margin-bottom: 5px;
     margin-top: 10px;
-    font-size: 1.8rem;
     color: #4CAF50;
 }
 .width {

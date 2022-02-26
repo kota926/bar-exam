@@ -2,7 +2,8 @@
     <v-card
     class="text-center my-auto width mx-auto"
     >
-        <font-awesome-icon class="icon" :icon="['fas', 'exclamation-triangle']"/>
+        <!-- <font-awesome-icon class="icon" size="lg" icon="['fa-solid fa-exclamation-triangle" /> -->
+        <font-awesome-icon class="icon" size="lg" style="width: 32px" :icon="['fas', 'exclamation-triangle']"/>
         <v-card-text>
             認証メールの送信に失敗しました。
         </v-card-text>
@@ -25,7 +26,6 @@ export default defineComponent({
 .icon {
     margin-bottom: 5px;
     margin-top: 10px;
-    font-size: 1.8rem;
     color: #B71C1C;
 }
 .width {

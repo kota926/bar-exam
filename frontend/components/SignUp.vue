@@ -55,7 +55,8 @@
             class="text-center mb-4 pa-4 card-width d-flex justify-center align-center"
             v-if="data.showMessage"
             >
-                <font-awesome-icon class="icon message" :icon="['fas', 'exclamation-triangle']"/>
+                 <!-- <font-awesome-icon class="icon message" size="xl" icon="fa-solid fa-exclamation-triangle" /> -->
+                <font-awesome-icon class="message" style="width: 30px" :icon="['fas', 'exclamation-triangle']"/>
                 <div class="ml-2 message">
                     {{ data.message }}
                 </div>
@@ -105,7 +106,11 @@ export default defineComponent({
                 data.isDisable = true
                 setIsLoading(true)
                 $axios.$post(url, user).then((response) => {
-                    context.emit('show-success')
+                    if(response.message === 'User already exists.') {
+                        context.emit('show-overlap-user')
+                    } else {
+                        context.emit('show-success')
+                    }
                     setIsLoading(false)
                 }).catch((error) => {
                     console.log('res fail')

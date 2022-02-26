@@ -1,4 +1,3 @@
-// import { AuthUser } from '../../entity/AuthUser';
 import { User } from '../../entity/User'
 import { TempUser } from '../../entity/TempUser';
 import { Constitution } from '../../entity/Constitution'
@@ -14,33 +13,15 @@ const router = express.Router()
 
 router.post('/', (req: express.Request, res: express.Response) => {
     const hashedToken = hashing(req.body.token)
-    console.log(req.body.token)
-    console.log(hashedToken)
     const tempUserRepository = getRepository(TempUser)
     tempUserRepository.findOne({
         where: {
             token: hashedToken
         }
     }).then(async (tempUserInDB) => {
-        console.log(tempUserInDB)
-        const jstNow = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000));
-        console.log(jstNow)
         if(!tempUserInDB) {
             return res.json({message: 'wrong token'})
         } else {
-            // const authUser = new AuthUser()
-            // authUser.name = tempUserInDB.name
-            // authUser.email = tempUserInDB.email
-            // authUser.password = tempUserInDB.password
-
-            // const authUserRepository = getRepository(AuthUser)
-
-            // const insertedAuthUser = await authUserRepository.save(authUser).catch((err) => {
-            //     return res.send(err)
-            // })
-            // const constitution = new Constitution()
-            // const constitutionRepository = getRepository(Constitution)
-            // await constitutionRepository.save(constitution)
 
             const constitution = new Constitution();
             const consRepository = getRepository(Constitution)

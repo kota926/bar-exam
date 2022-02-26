@@ -11,13 +11,16 @@
             class="d-flex flex-wrap align-center ml-4 ml-sm-8 pb-6 mt-6"
             >
                 <div>{{ subject }}</div>
-                <font-awesome-icon class="icon mx-2" :icon="['fas', 'chevron-right']"/>
+                <!-- <font-awesome-icon class="icon mx-2" icon="fa-solid fa-chevron-right" /> -->
+                <font-awesome-icon class="icon mx-2" style="width: 10px" :icon="['fas', 'chevron-right']"/>
                 <div>{{ unit }}</div>
-                <font-awesome-icon class="icon mx-2" :icon="['fas', 'chevron-right']"/>
+                <!-- <font-awesome-icon class="icon mx-2" icon="fa-solid fa-chevron-right" /> -->
+                <font-awesome-icon class="icon mx-2" style="width: 10px" :icon="['fas', 'chevron-right']"/>
                 <div>第{{ lastNum + 1 }}問</div>
             </div>
         </div>
-        <font-awesome-icon class="bigger ml-auto mr-4" :icon="['fas', 'caret-right']"/>
+        <!-- <font-awesome-icon class="bigger ml-auto mr-4" size="sm" icon="fa-solid fa-caret-right" /> -->
+        <font-awesome-icon class="bigger ml-auto mr-4" style="width: 10px" :icon="['fas', 'caret-right']"/>
     </v-card>
 </template>
 

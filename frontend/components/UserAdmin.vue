@@ -7,7 +7,7 @@
     tile
     class="pl-4 py-3 d-flex align-center justify-space-between">
         <div class="d-flex align-center">
-            <font-awesome-icon class="icon" :icon="['far', 'user-circle']"/>
+            <font-awesome-icon style="width: 28px" :icon="['far', 'user-circle']"/>
             <div class="ml-3 text-h5">{{ user.name }}</div>
         </div>
         <v-btn
@@ -40,7 +40,7 @@
     tile
     class="pl-4 py-3 d-flex align-center justify-space-between">
         <div class="d-flex align-center">
-            <font-awesome-icon class="icon" :icon="['fas', 'key']"/>
+            <font-awesome-icon style="width: 28px" :icon="['fas', 'key']"/>
             <div class="ml-3">••••••••</div>
         </div>
         <v-btn
@@ -54,7 +54,7 @@
     tile
     class="pl-4 py-3 mt-10 d-flex align-center justify-space-between">
         <div class="d-flex align-center">
-            <font-awesome-icon class="icon" :icon="['far', 'trash-alt']"/>
+            <font-awesome-icon size="2x" style="width: 27px" :icon="['far', 'trash-alt']"/>
             <div class="ml-3">学習履歴の削除</div>
         </div>
         <v-btn
@@ -68,7 +68,7 @@
     tile
     class="pl-4 py-3 d-flex align-center justify-space-between">
         <div class="d-flex align-center">
-            <font-awesome-icon class="icon" :icon="['far', 'trash-alt']"/>
+            <font-awesome-icon size="2x" style="width: 27px" :icon="['far', 'trash-alt']"/>
             <div class="ml-3">アカウントの削除</div>
         </div>
         <v-btn
@@ -143,7 +143,7 @@
             class="text-center mb-10 card-width d-flex justify-center align-center"
             v-if="data.showMessage"
             >
-                <font-awesome-icon class="icon message" :icon="['fas', 'exclamation-triangle']"/>
+                <font-awesome-icon class="message" size="lg" style="width: 28px" :icon="['fas', 'exclamation-triangle']"/>
                 <div class="ml-2 message">
                     パスワードが正しくありません
                 </div>
@@ -184,7 +184,6 @@ import { defineComponent, useContext, computed, reactive } from '@nuxtjs/composi
 
 export default defineComponent({
     setup (props, context) {
-        console.log(useContext())
         const { $auth, $axios } = useContext()
 
         const data = reactive({

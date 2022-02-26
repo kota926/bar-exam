@@ -45,7 +45,8 @@
             class="text-center mb-2 pa-4 card-width d-flex justify-center align-center"
             v-if="data.showMessage"
             >
-                <font-awesome-icon class="icon message" :icon="['fas', 'exclamation-triangle']"/>
+                <font-awesome-icon class="message" style="width: 30px" :icon="['fas', 'exclamation-triangle']" />
+                <!-- <font-awesome-icon class="message" size="lg" icon="exclamation-triangle" /> -->
                 <div class="ml-4 message">
                     {{ data.message }}
                 </div>

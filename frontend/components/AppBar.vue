@@ -115,7 +115,9 @@ export default defineComponent({
             data.drawer = false
         }
         const logout = () => {
-            $auth.logout()
+            if($auth.loggedIn) {
+                $auth.logout()
+            }
             data.drawer = false
         }
         return {

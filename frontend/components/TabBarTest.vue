@@ -22,7 +22,7 @@
         @click="goHome"
         >短答式試験</v-toolbar-title>
         <template v-slot:extension>
-            <font-awesome-icon @click="back" class="icon" :icon="['far', 'caret-square-left']"/>
+            <font-awesome-icon @click="back" style="width: 27px" :icon="['far', 'caret-square-left']" />
             <v-tabs
             fixed-tabs
             center-active
@@ -104,6 +104,7 @@
             class="my-3 ml-3"
             @click="goUserInfo">
                 <v-list-item-icon>
+                    <!-- <font-awesome-icon class="icon" size="sm" icon="fa-regular fa-address-card"/> -->
                     <font-awesome-icon class="icon" :icon="['far', 'address-card']"/>
                 </v-list-item-icon>
                 <v-list-item-content>
@@ -116,6 +117,7 @@
             @click="logout"
             >
                 <v-list-item-icon>
+                    <!-- <font-awesome-icon class="icon" size="sm" icon="fa-solid fa-sign-out-alt"/> -->
                     <font-awesome-icon class="icon" :icon="['fas', 'sign-out-alt']"/>
                 </v-list-item-icon>
                 <v-list-item-content>
@@ -253,8 +255,8 @@ export default defineComponent({
 .gray {
     background: #f0f0f0;
 }
-.icon {
-    font-size: 1.5rem;
+.iconsize {
+    font-size: 2px;
 }
 .contain {
     padding: 0;

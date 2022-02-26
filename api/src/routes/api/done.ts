@@ -9,26 +9,6 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 
 const router = express.Router()
 
-// interface User {
-//     id: string
-//     name: string;
-//     email: string;
-//     password: string;
-//     lastQuestion: string
-//     constitutionId: number
-//     constitution: Constitution;
-//     governmentId: number
-//     createdAt: string;
-//     updatedAt: string;
-// }
-
-// interface ExRequest extends Request {
-//     query: {
-//         subject: string
-//         user: User
-//     }
-// }
-
 router.get('/', async (req: express.Request, res: express.Response) => {
     const bearToken = req.headers['authorization']
     if(bearToken) {
@@ -48,7 +28,6 @@ router.get('/', async (req: express.Request, res: express.Response) => {
                                 id: req.query.id
                             }
                         }).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         res.status(200).json(record)
@@ -61,7 +40,6 @@ router.get('/', async (req: express.Request, res: express.Response) => {
                                 id: req.query.id
                             }
                         }).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         res.status(200).json(record)
@@ -74,7 +52,6 @@ router.get('/', async (req: express.Request, res: express.Response) => {
                                 id: req.query.id
                             }
                         }).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         res.status(200).json(record)
@@ -87,7 +64,6 @@ router.get('/', async (req: express.Request, res: express.Response) => {
                                 id: req.query.id
                             }
                         }).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         res.status(200).json(record)
@@ -137,7 +113,6 @@ router.put('/:recordId', async (req: express.Request, res: express.Response) => 
                             const results = await consRepository.save(record)
                             res.status(200).json(results)
                         }).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         break;
@@ -150,7 +125,6 @@ router.put('/:recordId', async (req: express.Request, res: express.Response) => 
                             const results = await govRepository.save(record)
                             res.status(200).json(results)
                         }).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         break;
@@ -163,7 +137,6 @@ router.put('/:recordId', async (req: express.Request, res: express.Response) => 
                             const results = await civilRepository.save(record)
                             res.status(200).json(results)
                         }).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         break;
@@ -176,7 +149,6 @@ router.put('/:recordId', async (req: express.Request, res: express.Response) => 
                             const results = await companyRepository.save(record)
                             res.status(200).json(results)
                         }).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         break;
@@ -217,7 +189,6 @@ router.put('/', (req: express.Request, res: express.Response) => {
                     
                         const consRepository = getRepository(Constitution)
                         const consRecord = await consRepository.findOne(userToUpdate.constitutionId).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         if(consRecord) {
@@ -247,13 +218,11 @@ router.put('/', (req: express.Request, res: express.Response) => {
                                 23: 0,
                                 24: 0,
                             })
-                            const results = await consRepository.save(consRecord)
-                            console.log(results)
+                            await consRepository.save(consRecord)
                         }
 
                         const govRepository = getRepository(Government)
                         const govRecord = await govRepository.findOne(userToUpdate.governmentId).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         if(govRecord) {
@@ -281,13 +250,11 @@ router.put('/', (req: express.Request, res: express.Response) => {
                                 21: 0,
                                 22: 0,
                             })
-                            const results = await govRepository.save(govRecord)
-                            console.log(results)
+                            await govRepository.save(govRecord)
                         }
 
                         const civilRepository = getRepository(Civil)
                         const civilRecord = await civilRepository.findOne(userToUpdate.civilId).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         if(civilRecord) {
@@ -344,13 +311,11 @@ router.put('/', (req: express.Request, res: express.Response) => {
                                 50: 0,
                                 51: 0,
                             })
-                            const results = await civilRepository.save(civilRecord)
-                            console.log(results)
+                            await civilRepository.save(civilRecord)
                         }
 
                         const companyRepository = getRepository(Company)
                         const companyRecord = await companyRepository.findOne(userToUpdate.companyId).catch((err) => {
-                            console.log(err)
                             res.status(400).json({message: err.message})
                         })
                         if(companyRecord) {
@@ -373,8 +338,7 @@ router.put('/', (req: express.Request, res: express.Response) => {
                                 16: 0,
                                 17: 0,
                             })
-                            const results = await companyRepository.save(companyRecord)
-                            console.log(results)
+                            await companyRepository.save(companyRecord)
                         }    
                     }
                     res.json({message: 'succeed in deleting record'})

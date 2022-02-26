@@ -65,7 +65,7 @@ router.post('/', async (req: express.Request, res: express.Response) => {
                 const html ='<p>' + sentName + 'さん</p>' +
                             '<p>この度は、司法試験予備試験短答式対策アプリをご利用いただき誠にありがとうございます。</p>' +
                             '<p>ご本人様確認のため、下記URLへアクセスし、アカウントの本登録を完了させてください。</p>' +
-                            '<h3><a href="' + process.env.FRONTEND_URL + '/email/' + token + '">'+ process.env.FRONTEND_URL + 'email/' + token +'</a></h3>' +
+                            '<h3><a href="' + process.env.FRONTEND_URL + '/email/' + token + '">'+ process.env.FRONTEND_URL + '/email/' + token +'</a></h3>' +
                             '<p>--------------------------------------------------------------------------------------------' +
                             '-----------------------------------------------------------------------------------------------</p>' +
                             '<p>※このメールはシステムにより自動送信されております。このメールへの返信はご遠慮いただきますようお願いいたします。</p>' +
@@ -78,12 +78,10 @@ router.post('/', async (req: express.Request, res: express.Response) => {
                     subject: '認証メール（短答式試験対策アプリ）',
                     html: html
                 }
-                transporter.sendMail(mailOptions, (err, info) => {
+                transporter.sendMail(mailOptions, (err, _) => {
                     if(err) {
-                        console.log(err)
                         res.status(500).send('mail server error')
                     } else {
-                        console.log(info)
                         res.status(200).json({
                             message: "仮登録しました",
                             data: [insertedTempUser.name, insertedTempUser.email]

@@ -4,7 +4,8 @@
             {{ data.user ? data.user.name : 'name' }}
         </div>
         <div class="date d-flex align-center pb-3">
-            <font-awesome-icon class="icon ml-4 mr-2" :icon="['far', 'clock']" />
+            <font-awesome-icon class="icon ml-4 mr-2" size="xs" style="width: 10px" :icon="['far', 'clock']" />
+            <!-- <font-awesome-icon class="icon ml-4 mr-2" size="xs" icon="fa-regular fa-clock" /> -->
             <div>{{ date }}に開始</div>
         </div>
     </v-card>

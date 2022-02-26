@@ -2,9 +2,9 @@
     <v-card
     class="text-center my-auto width mx-auto"
     >
-        <font-awesome-icon class="icon" size="lg" style="width: 32px" :icon="['fas', 'exclamation-triangle']"/>
+        <font-awesome-icon class="icon" size="lg" style="width: 32px" :icon="['fas', 'user-times']"/>
         <v-card-text>
-            認証メールの送信に失敗しました。
+            同一のユーザーネームがすでに存在しています。異なるユーザーネームを入力してください。
         </v-card-text>
     </v-card>
 </template>
@@ -27,10 +27,10 @@ export default defineComponent({
 <style scoped>
 .icon {
     margin-bottom: 5px;
-    margin-top: 10px;
+    margin-top: 15px;
     color: #B71C1C;
 }
 .width {
-    max-width: 400px;
+    max-width: 630px;
 }
 </style>

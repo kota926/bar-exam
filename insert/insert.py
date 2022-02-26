@@ -9,6 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import  Column, Integer, String, Text, Enum
 import enum
 from sqlalchemy.sql.expression import null
+import time
 
 from sqlalchemy.sql.schema import ForeignKey
 
@@ -45,7 +46,15 @@ subjects = ["憲法", "行政法", "民法", "商法"]
 
 
 def insert(df):
-    engine = create_engine('mysql+pymysql://root:bar_root_password@localhost:3306/bar_database?charset=utf8')
+    # engine = create_engine('mysql+pymysql://root:bar_root_password@localhost:3306/bar_database?charset=utf8')
+    engine = create_engine(
+        'mysql+pymysql://admin:barexamappmaster@bar-exam-database.c7iiq7tqbhaf.ap-northeast-1.rds.amazonaws.com:3306/bar_database?charset=utf8mb4',
+        connect_args={
+            "ssl": {
+                "ssl_ca": "/Users/shinmura/Documents/programming/web/docker/app/insert/ssl/global-bundle.pem"
+            }
+        }
+    )
     Base = declarative_base()
 
     class Question(Base):
@@ -109,6 +118,7 @@ def insert(df):
             q_arg = Question(id=q_id, q_num=row.No, type=row.Type, question=q_text, reference=row.Reference)
 
             session.add(q_arg)
+            time.sleep(1)
 
             for n in range(1, 6):
                 index1 = 'C' + str(n)
@@ -141,6 +151,7 @@ def insert(df):
 
                     session.add(c_arg)
                     print(c_id)
+                    time.sleep(1)
 
         else:
             if row.Subject == '憲法':
@@ -173,6 +184,7 @@ def insert(df):
             q_arg = Question(id=q_id, q_num=row.No, type=row.Type, question=q_text, reference=row.Reference)
 
             session.add(q_arg)
+            time.sleep(1)
 
             for n in range(1, 6):
                 index1 = 'C' + str(n)
@@ -207,8 +219,10 @@ def insert(df):
 
                     session.add(c_arg)
                     print(c_id)
+                    time.sleep(1)
 
-    session.commit()     
+    session.commit()
+    time.sleep(1)   
 
 
 for year in years:

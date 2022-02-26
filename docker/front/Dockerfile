@@ -1,8 +1,10 @@
 FROM node:16.13.1-alpine3.14
 
-ARG BASE_URL
+ARG BASE_URL \
+    BROWSER_BASE_URL
 
-ENV BASE_URL=${BASE_URL}
+ENV BASE_URL=${BASE_URL} \
+    BROWSER_BASE_URL=${BROWSER_BASE_URL}
 
 WORKDIR /app
 
@@ -14,12 +16,12 @@ RUN yarn install
 
 COPY ./frontend/ ./
 
-# RUN yarn run build
+RUN yarn build
 
 ENV HOST 0.0.0.0
 
 EXPOSE 3000
 
-# CMD ["yarn", "start"]
+CMD ["yarn", "start"]
 
-CMD [ "yarn", "dev" ]
+# CMD [ "yarn", "dev" ]

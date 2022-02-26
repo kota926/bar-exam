@@ -1,8 +1,3 @@
-// import { User } from '../../entity/User';
-// import bcript from 'bcryptjs';
-// const saltRounds = 10;
-// import jwt from 'jsonwebtoken'
-// import { getConnection, getRepository } from 'typeorm';
 import express from 'express';
 const router = express.Router()
 

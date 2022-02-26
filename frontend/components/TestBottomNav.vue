@@ -6,12 +6,12 @@
             @click="clickYes"
             class="mr-10"
             >
-                <font-awesome-icon class="icon" :icon="['far', 'circle']"/>
+                <font-awesome-icon style="width: 28px" size="2x" :icon="['far', 'circle']"/>
             </v-btn>
             <v-btn
             @click="clickNo"
             >
-                <font-awesome-icon class="icon" :icon="['fas', 'times']"/>
+                <font-awesome-icon style="width: 28px" size="2x" :icon="['fas', 'times']"/>
             </v-btn>
         </v-bottom-navigation>
     </div>

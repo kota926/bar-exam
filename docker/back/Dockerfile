@@ -5,6 +5,7 @@ ARG EMAIL_HOST \
     EMAIL_ADDRESS \
     EMAIL_PASSWORD \
     FRONTEND_URL \
+    CORS_URL \
     DB_HOST \
     DB_PORT \
     DB_USERNAME \
@@ -17,6 +18,7 @@ ENV EMAIL_HOST=${EMAIL_HOST} \
   EMAIL_ADDRESS=${EMAIL_ADDRESS} \
   EMAIL_PASSWORD=${EMAIL_PASSWORD} \
   FRONTEND_URL=${FRONTEND_URL} \
+  CORS_URL=${CORS_URL} \
   DB_HOST=${DB_HOST} \
   DB_PORT=${DB_PORT} \
   DB_USERNAME=${DB_USERNAME} \
@@ -29,12 +31,12 @@ RUN apk update
 
 COPY ./api/package*.json ./
 
-RUN npm install
+RUN npm install --production
+
+COPY ./api/ ./
 
 EXPOSE 8080
 
-# RUN npm run build
+RUN npm run build
 
-# CMD ["npm", "run", "start"]
-
-CMD [ "npm", "run", "dev" ]
+CMD ["npm", "run", "start"]

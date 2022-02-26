@@ -8,7 +8,8 @@
         @click="goHome"
         >
         <span>HOME</span>
-        <font-awesome-icon class="icon" :icon="['fas', 'home']"/>
+        <font-awesome-icon class="font-awesome-size" style="width: 28px" size="2x" :icon="['fas', 'home']"/>
+        <!-- <font-awesome-icon size="2x" icon="home" /> -->
         </v-btn>
 
         <v-btn
@@ -16,7 +17,8 @@
         @click="goUnit"
         >
         <span>STUDY</span>
-        <font-awesome-icon class="icon" :icon="['far', 'edit']"/>
+        <font-awesome-icon class="font-awesome-size" style="width: 28px" size="2x" :icon="['far', 'edit']"/>
+        <!-- <font-awesome-icon size="2x" icon="edit" /> -->
         </v-btn>
     </v-bottom-navigation>
 </template>
@@ -44,7 +46,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.icon {
+.iconsize {
     font-size: 1.5rem;
+}
+.font-awesome-size {
+    font-size: 25px;
 }
 </style>

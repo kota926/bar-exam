@@ -5,7 +5,8 @@
         <v-card-text>
             メールの認証が完了しました
         </v-card-text>
-        <font-awesome-icon class="icon" icon="check" />
+        <!-- <font-awesome-icon class="icon" size="lg" icon="check" /> -->
+        <font-awesome-icon class="icon" size="lg" style="width: 32px" :icon="['fas', 'check']" />
     </v-card>
 </template>
 
@@ -24,7 +25,6 @@ export default defineComponent({
 <style scoped>
 .icon {
     margin-bottom: 5px;
-    font-size: 1.8rem;
     color: #4CAF50;
 }
 .width {
