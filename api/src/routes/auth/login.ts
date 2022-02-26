@@ -17,7 +17,7 @@ router.post('/', async (req: express.Request, res: express.Response) => {
     })
 
     if(!userInDB) {
-        res.status(404).json({message: 'name not found'})
+        res.json({message: 'name not found'})
     } else {
         bcript.compare(req.body.password, userInDB.password, (error, result) => {
             if(error) {

@@ -41,18 +41,6 @@ export default defineComponent({
         const { $axios } = useContext()
         const route = useRoute()
         const { setComplete } = inject(GlobalKey) as GlobalState
-        // const { setChioces } = inject(ChoiceKey) as ChoiceState
-        // onMounted(() => {
-        //     console.log(useContext())
-        //     console.log($axios)})
-        // const questions = useAsync(() => {
-        //     return $axios.$get('/api/choice', {
-        //         params: {
-        //             subject: "憲法",
-        //             unit: "10",
-        //         }
-        //     })
-        // })
         const choices = useAsync(() => {
             return $axios.$get('/api/choice', {
                 params: {

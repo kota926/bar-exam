@@ -220,7 +220,6 @@ export default defineComponent({
             $axios.$put('/api/done', {
                 isDelete: true,
             }).then((res) => {
-                console.log(res)
                 data.isDisable = false
                 data.recordDialog = false
             })

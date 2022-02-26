@@ -28,13 +28,13 @@ router.post('/', async (req: express.Request, res: express.Response) => {
             }
         })
         if(oldUser) {
-            return res.status(409).json({message: 'User already exists.'})
+            return res.json({message: 'User already exists.'})
         }
 
         // パスワードをハッシュ化
         bcript.hash(sentPassword, saltRounds, async (err, hashedPassword) => {
             if(err) {
-                return res.send(err)
+                return res.status(500).send(err)
             }
 
             // メール認証用トークン

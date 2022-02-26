@@ -12,6 +12,7 @@
                     outlined
                     label="Name"
                     required
+                    :disabled="data.isDisable"
                     :rules="[value => !!value || '必須']"
                     ></v-text-field>
 
@@ -22,6 +23,7 @@
                     :append-icon="data.show ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="data.show ? 'text' : 'password'"
                     @click:append="data.show = !data.show"
+                    :disabled="data.isDisable"
                     label="Password"
                     required
                     ></v-text-field>
@@ -67,34 +69,60 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, reactive, useContext, inject } from '@nuxtjs/composition-api'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     name: "SignIn", 
     setup(props, context) {
+        const { setIsLoading } = inject(GlobalKey) as GlobalState
         const { $auth } = useContext()
         const data = reactive({
+            isDisable: false,
             show: false,
             showMessage: false,
             name: "",
             password: "",
             message: 'サインイン情報を入力してください',
         })
-        const signInUser = async () => {
+        const signInUser = () => {
             if(data.name.trim() && data.password.trim()) {
+                setIsLoading(true)
+                data.isDisable = true
                 const user = {
                 name: data.name.trim(),
                 password: data.password.trim()
                 }
-                try{
-                    const response = await $auth.loginWith('local', {
+                $auth.loginWith('local', {
                     data: user
-                    })
-                } catch (err) {
+                }).then((res: any) => {
+                    console.log(res)
+                    if(res.data.message === 'name not found') {
+                        data.showMessage = true
+                        data.message = 'ユーザーネームが正しくありません'
+                        data.name = ""
+                        data.password = ""
+                    } else if(res.data.message === "password is not correct") {
+                        data.showMessage = true
+                        data.message = 'パスワードが正しくありません'
+                        data.password = ""
+                    } else {
+                        data.showMessage = true
+                        data.message = 'ユーザーネームもしくはパスワードが正しくありません'
+                        data.name = ""
+                        data.password = ""
+                    }
+                    setIsLoading(false)
+                    data.isDisable = false
+                }).catch((err) => {
                     console.log(err)
                     data.showMessage = true
-                    data.message = 'ユーザーネームまたはパスワードが正しくありません'
-                }
+                    data.message = 'サーバー上でエラーが発生しました'
+                    setIsLoading(false)
+                    data.isDisable = false
+                })
+                
             } else if (data.password.trim()) {
                 console.log('name empty')
                 data.showMessage = true

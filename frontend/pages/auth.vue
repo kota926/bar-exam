@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, onMounted, reactive } from '@nuxtjs/composition-api'
+import { defineComponent, inject, onMounted, reactive, useContext, useRouter } from '@nuxtjs/composition-api'
 import SentEmail from '../components/SentEmail.vue'
 import SignIn from '../components/SignIn.vue'
 import SignUp from '../components/SignUp.vue'
@@ -51,9 +51,14 @@ export default defineComponent({
     // auth: 'guest',
     layout: 'default', 
     setup() {
+        const { $auth } = useContext()
+        const router = useRouter()
         const {setIsLoading} = inject(GlobalKey) as GlobalState
         onMounted(() =>{
             setIsLoading(false)
+            if($auth.loggedIn) {
+                router.push('/')
+            }
         })
         const data = reactive({
             isSignin: true,

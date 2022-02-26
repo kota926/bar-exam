@@ -105,7 +105,7 @@
             class="my-3 ml-3"
             @click="goUserInfo">
                 <v-list-item-icon>
-                    <font-awesome-icon class="icon" :icon="['far', 'address-card']"/>
+                    <font-awesome-icon style="width: 28px" size="2x" :icon="['far', 'address-card']"/>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>ユーザー情報</v-list-item-title>
@@ -117,7 +117,7 @@
             @click="logout"
             >
                 <v-list-item-icon>
-                    <font-awesome-icon class="icon" :icon="['fas', 'sign-out-alt']"/>
+                    <font-awesome-icon style="width: 28px" size="2x" :icon="['fas', 'sign-out-alt']"/>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>ログアウト</v-list-item-title>

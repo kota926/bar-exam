@@ -143,7 +143,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useContext, computed, watch } from '@nuxtjs/composition-api'
+import { defineComponent, reactive, useContext, computed, watch, inject } from '@nuxtjs/composition-api'
+import { GlobalState } from '../composables/state/globalState'
+import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     props: {
@@ -154,6 +156,7 @@ export default defineComponent({
         }
     },
     setup (props, context) {
+        const { setIsLoading } = inject(GlobalKey) as GlobalState
         const data = reactive({
             email: '',
             name: '',
@@ -192,6 +195,7 @@ export default defineComponent({
 
         const sendNameInfo = () => {
             if(data.name.trim()) {
+                setIsLoading(true)
                 $axios.$put('/auth/user/', {
                     name: data.name.trim(),
                     email: null,
@@ -200,15 +204,18 @@ export default defineComponent({
                 }).then((res) => {
                     $auth.setUserToken(res.token).then((res) =>{
                         context.emit('back-admin')
+                        setIsLoading(false)
                     }).catch((err) => {
                         console.log(err)
                         data.message = '予期せぬエラーが発生しました'
                         data.showMessage = true
+                        setIsLoading(false)
                     })
                 }).catch((err) => {
                     console.log(err)
                     data.message = '予期せぬエラーが発生しました'
                     data.showMessage = true
+                    setIsLoading(false)
                 })
             } else {
                 data.message = 'ユーザーネームを入力してください'
@@ -218,6 +225,7 @@ export default defineComponent({
 
         const sendEmailInfo = () => {
             if(data.email.trim()) {
+                setIsLoading(true)
                 $axios.$put('/auth/user/', {
                     name: null,
                     email: data.email.trim(),
@@ -226,15 +234,18 @@ export default defineComponent({
                 }).then((res) => {
                     $auth.setUserToken(res.token).then((res) =>{
                         context.emit('back-admin')
+                        setIsLoading(false)
                     }).catch((err) => {
                         console.log(err)
                         data.message = '予期せぬエラーが発生しました'
                         data.showMessage = true
+                        setIsLoading(false)
                     })
                 }).catch((err) => {
                     console.log(err)
                     data.message = '予期せぬエラーが発生しました'
                     data.showMessage = true
+                    setIsLoading(false)
                 })
             } else {
                 data.message = 'メールアドレスを入力してください'
@@ -244,22 +255,32 @@ export default defineComponent({
 
         const sendPasswordInfo = () => {
             if(data.oldPassword.trim() && data.newPassword.trim()) {
+                setIsLoading(true)
                 $axios.$put('/auth/user/', {
                     name: null,
                     email: null,
                     oldPassword: data.oldPassword.trim(),
                     newPassword: data.newPassword.trim()
                 }).then((res) => {
-                    $auth.setUserToken(res.token).then((res) =>{
-                        context.emit('back-admin')
-                    }).catch((err) => {
-                        console.log(err)
-                        data.message = '予期せぬエラーが発生しました'
+                    setIsLoading(false)
+                    if(res.message === "password is not correct") {
+                        data.message = 'パスワードが誤っています'
                         data.showMessage = true
-                    })
+                        data.oldPassword = ""
+                        data.newPassword = ""
+                    } else {
+                        $auth.setUserToken(res.token).then((res) =>{
+                            context.emit('back-admin')
+                        }).catch((err) => {
+                            console.log(err)
+                            data.message = '予期せぬエラーが発生しました'
+                            data.showMessage = true
+                        })
+                    }
                 }).catch((err) => {
+                    setIsLoading(false)
                     console.log(err)
-                    data.message = 'パスワードが誤っています'
+                    data.message = '予期せぬエラーが発生しました'
                     data.showMessage = true
                 })
             } else {
