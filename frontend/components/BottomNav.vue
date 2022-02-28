@@ -2,9 +2,12 @@
     <v-bottom-navigation
         color="teal"
         grow
+        fixed
+        height="68"
     >
         <v-btn
         to="/"
+        class="pb-2"
         @click="goHome"
         >
         <span>HOME</span>
@@ -14,6 +17,7 @@
 
         <v-btn
         to="/unit?subject=cons"
+        class="pb-2"
         @click="goUnit"
         >
         <span>STUDY</span>

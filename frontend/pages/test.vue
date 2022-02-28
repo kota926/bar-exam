@@ -31,10 +31,8 @@ import {
     useContext,
     useAsync,
     useRoute,
-    reactive,
     inject,
     onMounted,
-    useFetch,
     useRouter
 } from '@nuxtjs/composition-api'
 

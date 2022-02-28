@@ -4,6 +4,8 @@
         color="#3871E0"
         dark
         app
+        flat
+        tile
         >
         <template v-slot:img="{ props }">
             <v-img
@@ -29,9 +31,9 @@
         </v-app-bar>
         <v-sheet
         class="overflow-y-auto sheet gray"
-        height="90vh"
+        height="100vh"
         >
-            <v-container>
+            <v-container class="padding">
                 <slot />
             </v-container>
         </v-sheet>
@@ -57,6 +59,16 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>ホーム</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+            class="my-3 ml-3"
+            @click="goStudy">
+                <v-list-item-icon>
+                    <font-awesome-icon class="font-awesome-size" style="width: 28px" size="2x" :icon="['far', 'edit']" />
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>学習</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
             <v-list-item
@@ -110,6 +122,12 @@ export default defineComponent({
             router.push({path: '/'})
             data.drawer = false
         }
+        const goStudy = () => {
+            router.push({path: '/unit', query: {
+                subject: "cons"
+            }})
+            data.drawer = false
+        }
         const goUserInfo = () => {
             router.push('/user')
             data.drawer = false
@@ -124,6 +142,7 @@ export default defineComponent({
             data,
             isLoading,
             goHome,
+            goStudy,
             goUserInfo,
             logout,
         }
@@ -143,5 +162,8 @@ export default defineComponent({
 }
 .contain {
     padding: 0;
+}
+.padding {
+    padding-bottom: 55px;
 }
 </style>

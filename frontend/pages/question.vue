@@ -8,15 +8,11 @@
             />
         </tab-bar>
         <bottom-nav />
-        <!-- <hidden-text
-        v-for="(question, index) in questions" :key="index"
-        :question="question"
-        /> -->
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext, useAsync, useRoute, onMounted, inject } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, useAsync, useRoute, inject } from '@nuxtjs/composition-api'
 import HiddenText from '../components/HiddenText.vue'
 
 import { Choice } from "../types/Choice"
@@ -49,9 +45,7 @@ export default defineComponent({
                 }
             })
         })
-        // setChioces(choices)
         return {
-            // questions
             choices
         }
     }

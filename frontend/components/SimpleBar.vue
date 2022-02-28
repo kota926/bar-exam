@@ -14,7 +14,9 @@
 
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-        <v-toolbar-title>短答式試験</v-toolbar-title>
+        <v-toolbar-title
+        @click="goHome"
+        >短答式試験</v-toolbar-title>
         <v-progress-linear
             :active="isLoading"
             :indeterminate="isLoading"

@@ -1,26 +1,33 @@
 <template>
 <div>
     <div v-if="!state.isComplete">
-        <v-bottom-navigation class='nav'>
+        <v-bottom-navigation
+        fixed
+        grow
+        height="68"
+        >
             <v-btn
             @click="clickYes"
-            class="mr-10"
+            class="pb-2"
             >
                 <font-awesome-icon style="width: 28px" size="2x" :icon="['far', 'circle']"/>
             </v-btn>
             <v-btn
             @click="clickNo"
+            class="pb-2"
             >
                 <font-awesome-icon style="width: 28px" size="2x" :icon="['fas', 'times']"/>
             </v-btn>
         </v-bottom-navigation>
     </div>
     <div v-else>
-        <v-bottom-navigation class='nav'>
+        <v-bottom-navigation
+        fixed
+        height="68"
+        >
             <v-btn
             outlined
             @click="finish"
-            class="mr-10"
             >
                 FINISH
             </v-btn>

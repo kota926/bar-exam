@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - 短答式対策アプリ',
+    titleTemplate: '%s - 司法試験',
     title: '短答式対策アプリ',
     htmlAttrs: {
       lang: 'ja',
@@ -9,10 +9,10 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: "司法試験予備試験短答式対策ができるアプリです。ユーザー登録でログを保存。PC、スマホ対応。" },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: 'favicon.png' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -36,6 +36,8 @@ export default {
     '@nuxtjs/composition-api/module',
     // fontawesome
     '@nuxtjs/fontawesome',
+    // pwa
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -141,5 +143,15 @@ export default {
         'faTrashAlt'
       ]
     }
+  },
+  // @nuxtjs/pwa Configuration
+  manifest: {
+    name: '司法試験短答式対策アプリ',
+    lang: 'ja',
+    short_name: '短答式対策',
+    title: '司法試験短答式対策アプリ',
+    description: "司法試験予備試験短答式対策ができるアプリです。ユーザー登録でログを保存。PC、スマホ対応。",
+    start_url: '/auth',
+    display: 'fullscreen',
   },
 }

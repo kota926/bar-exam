@@ -34,5 +34,8 @@ export default defineComponent({
 }
 .contain {
     padding: 0;
+}   
+.v-application {
+  background-color: #f0f0f0;
 }
 </style>

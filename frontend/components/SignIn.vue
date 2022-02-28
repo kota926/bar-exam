@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useContext, inject } from '@nuxtjs/composition-api'
+import { defineComponent, reactive, useContext, inject, useRouter } from '@nuxtjs/composition-api'
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 
@@ -78,6 +78,7 @@ export default defineComponent({
     setup(props, context) {
         const { setIsLoading } = inject(GlobalKey) as GlobalState
         const { $auth } = useContext()
+        const router = useRouter()
         const data = reactive({
             isDisable: false,
             show: false,
@@ -87,56 +88,55 @@ export default defineComponent({
             message: 'サインイン情報を入力してください',
         })
         const signInUser = () => {
-            if(data.name.trim() && data.password.trim()) {
-                setIsLoading(true)
-                data.isDisable = true
-                const user = {
-                name: data.name.trim(),
-                password: data.password.trim()
-                }
-                $auth.loginWith('local', {
-                    data: user
-                }).then((res: any) => {
-                    console.log(res)
-                    if(res.data.message === 'name not found') {
-                        data.showMessage = true
-                        data.message = 'ユーザーネームが正しくありません'
-                        data.name = ""
-                        data.password = ""
-                    } else if(res.data.message === "password is not correct") {
-                        data.showMessage = true
-                        data.message = 'パスワードが正しくありません'
-                        data.password = ""
-                    } else {
-                        data.showMessage = true
-                        data.message = 'ユーザーネームもしくはパスワードが正しくありません'
-                        data.name = ""
-                        data.password = ""
-                    }
-                    setIsLoading(false)
-                    data.isDisable = false
-                }).catch((err) => {
-                    console.log(err)
-                    data.showMessage = true
-                    data.message = 'サーバー上でエラーが発生しました'
-                    setIsLoading(false)
-                    data.isDisable = false
-                })
-                
-            } else if (data.password.trim()) {
-                console.log('name empty')
-                data.showMessage = true
-                data.message = '名前を入力してください'
-            } else if (data.name.trim()) {
-                console.log('password empty')
-                data.showMessage = true
-                data.message = 'パスワードを入力してください'
+            if($auth.loggedIn) {
+                router.push('/')
             } else {
-                console.log('empty')
-                data.showMessage = true
-                data.message = 'サインイン情報を入力してください'
-            }
-            
+                if(data.name.trim() && data.password.trim()) {
+                    setIsLoading(true)
+                    data.isDisable = true
+                    const user = {
+                    name: data.name.trim(),
+                    password: data.password.trim()
+                    }
+                    $auth.loginWith('local', {
+                        data: user
+                    }).then((res: any) => {
+                        if(res.data.message === 'name not found') {
+                            data.showMessage = true
+                            data.message = 'ユーザーネームが正しくありません'
+                            data.name = ""
+                            data.password = ""
+                        } else if(res.data.message === "password is not correct") {
+                            data.showMessage = true
+                            data.message = 'パスワードが正しくありません'
+                            data.password = ""
+                        } else if(!$auth.loggedIn){
+                            data.showMessage = true
+                            data.message = 'ユーザーネームもしくはパスワードが正しくありません'
+                            data.name = ""
+                            data.password = ""
+                        }
+                        setIsLoading(false)
+                        data.isDisable = false
+                    }).catch((err) => {
+                        console.log(err)
+                        data.showMessage = true
+                        data.message = 'サーバー上でエラーが発生しました'
+                        setIsLoading(false)
+                        data.isDisable = false
+                    })
+                    
+                } else if (data.password.trim()) {
+                    data.showMessage = true
+                    data.message = '名前を入力してください'
+                } else if (data.name.trim()) {
+                    data.showMessage = true
+                    data.message = 'パスワードを入力してください'
+                } else {
+                    data.showMessage = true
+                    data.message = 'サインイン情報を入力してください'
+                }
+            }  
         }
         const toSignIn = () => {
             context.emit("show-signin")

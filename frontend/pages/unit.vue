@@ -16,7 +16,7 @@ import UnitList from '../components/UnitList.vue'
 export default defineComponent({
     components: {UnitList, TabBar, BottomNav },
     layout: 'default',
-    setup (props, context) {
+    setup () {
         return {}
     }
 })

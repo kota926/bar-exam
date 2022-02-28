@@ -20,7 +20,7 @@
 
                     <v-text-field
                     v-model="data.name"
-                    :counter="10"
+                    :counter="50"
                     outlined
                     label="Name"
                     required
@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, reactive, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, inject, reactive, useContext, useRouter } from '@nuxtjs/composition-api'
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 
@@ -85,7 +85,8 @@ export default defineComponent({
     name: "SignUp",
     setup(props, context) {
         const { mutateEmail, setIsLoading } = inject(GlobalKey) as GlobalState
-        const { $axios } = useContext()
+        const { $axios, $auth } = useContext()
+        const router = useRouter()
         const data = reactive({
             name: '',
             email: '',
@@ -95,47 +96,50 @@ export default defineComponent({
             message: '',
         })
         const signUp = () => {
-            mutateEmail(data.email)
-            if(data.email.trim() && data.name.trim() && data.password.trim()) {
-                const user = {
-                name: data.name.trim(),
-                email: data.email.trim(),
-                password: data.password.trim()
-                }
-                const url = 'auth/signup'
-                data.isDisable = true
-                setIsLoading(true)
-                $axios.$post(url, user).then((response) => {
-                    if(response.message === 'User already exists.') {
-                        context.emit('show-overlap-user')
-                    } else {
-                        context.emit('show-success')
-                    }
-                    setIsLoading(false)
-                }).catch((error) => {
-                    console.log('res fail')
-                    console.log(error)
-                    context.emit('show-fail')
-                    setIsLoading(false)
-                })
-            } else if (data.password.trim() && data.name.trim()) {
-                console.log('email empty')
-                data.showMessage = true
-                data.message = 'メールを入力してください'
-            } else if (data.email.trim() && data.password.trim()) {
-                console.log('name empty')
-                data.showMessage = true
-                data.message = '名前を入力してください'
-            } else if (data.email.trim() && data.name.trim()) {
-                console.log('password empty')
-                data.showMessage = true
-                data.message = 'パスワードを入力してください'
+            if($auth.loggedIn) {
+                router.push('/')
             } else {
-                console.log('empty')
-                data.showMessage = true
-                data.message = 'サインアップ情報を入力してください'
+                mutateEmail(data.email)
+                if(data.email.trim() && data.name.trim() && data.password.trim()) {
+                    const user = {
+                    name: data.name.trim(),
+                    email: data.email.trim(),
+                    password: data.password.trim()
+                    }
+                    const url = 'auth/signup'
+                    data.isDisable = true
+                    setIsLoading(true)
+                    $axios.$post(url, user).then((response) => {
+                        if(response.message === 'User already exists.') {
+                            context.emit('show-overlap-user')
+                        } else {
+                            context.emit('show-success')
+                        }
+                        setIsLoading(false)
+                    }).catch((error) => {
+                        console.log('res fail')
+                        console.log(error)
+                        context.emit('show-fail')
+                        setIsLoading(false)
+                    })
+                } else if (data.password.trim() && data.name.trim()) {
+                    console.log('email empty')
+                    data.showMessage = true
+                    data.message = 'メールを入力してください'
+                } else if (data.email.trim() && data.password.trim()) {
+                    console.log('name empty')
+                    data.showMessage = true
+                    data.message = '名前を入力してください'
+                } else if (data.email.trim() && data.name.trim()) {
+                    console.log('password empty')
+                    data.showMessage = true
+                    data.message = 'パスワードを入力してください'
+                } else {
+                    console.log('empty')
+                    data.showMessage = true
+                    data.message = 'サインアップ情報を入力してください'
+                }
             }
-            
         }
         const toSignIn = () => {
             context.emit('show-signin')

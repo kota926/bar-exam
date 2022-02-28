@@ -4,8 +4,9 @@
             <v-container
             class="container"
             >
-            <profile-card />
-            <last-question-card />
+                <profile-card />
+                <last-question-card />
+                <pwa-card />
             </v-container>
         </app-bar>
         <bottom-nav />
@@ -18,23 +19,14 @@ import AppBar from '../components/AppBar.vue'
 import BottomNav from '../components/BottomNav.vue'
 import LastQuestionCard from '../components/LastQuestionCard.vue'
 import ProfileCard from '../components/ProfileCard.vue'
+import PwaCard from '../components/PwaCard.vue'
 
 export default defineComponent({
-    components: { ProfileCard, AppBar, BottomNav, LastQuestionCard },
+    components: { ProfileCard, AppBar, BottomNav, LastQuestionCard, PwaCard },
     layout: 'default',
-    // middleware: 'onHome',
     middleware: 'auth',
-    setup(props, context) {
-        // const { $auth } = useContext()
-        // const logoutUser = () => {
-        //     $auth.logout()
-        // }
-        // const user = computed(() => {
-        //     return $auth.user
-        // })
+    setup() {
         return {
-            // logoutUser,
-            // user,
         }
     }
 })

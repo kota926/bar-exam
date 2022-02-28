@@ -4,6 +4,8 @@
         color="#3871E0"
         dark
         app
+        flat
+        tile
         hide-on-scroll
         scroll-target="#scrolling-techniques-4"
         >
@@ -70,9 +72,9 @@
         <v-sheet
         id="scrolling-techniques-4"
         class="overflow-y-auto sheet gray"
-        height="90vh"
+        height="99vh"
         >
-            <v-container>
+            <v-container class="padding">
                 <slot />
             </v-container>
         </v-sheet>
@@ -98,6 +100,16 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>ホーム</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+            class="my-3 ml-3"
+            @click="goStudy">
+                <v-list-item-icon>
+                    <font-awesome-icon class="font-awesome-size" style="width: 28px" size="2x" :icon="['far', 'edit']" />
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>学習</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
             <v-list-item
@@ -221,6 +233,12 @@ export default defineComponent({
         const goHome = () => {
             router.push('/')
         }
+        const goStudy = () => {
+            router.push({path: '/unit', query: {
+                subject: "cons"
+            }})
+            data.drawer = false
+        }
         const toStudy = () => {
             router.push('/unit')
         }
@@ -237,6 +255,7 @@ export default defineComponent({
             back,
             subject,
             goHome,
+            goStudy,
             toStudy,
             goUserInfo,
             logout,
@@ -258,5 +277,8 @@ export default defineComponent({
 }
 .contain {
     padding: 0;
+}
+.padding {
+    padding-bottom: 60px;
 }
 </style>
