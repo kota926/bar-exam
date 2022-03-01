@@ -10,8 +10,6 @@
         <v-card-text>
             {{ choice.question.question }}
         </v-card-text>
-    <!-- </v-card>
-    <v-card class="mt-1"> -->
         <v-card-text>
             {{ choice.c1 }}
         </v-card-text>
@@ -26,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject, PropType } from '@nuxtjs/composition-api'
+import { defineComponent, computed, PropType } from '@nuxtjs/composition-api'
 import { Choice } from '../types/Choice'
 import HiddenChoiceText from './HiddenChoiceText.vue'
 import HiddenQuestionText from './HiddenQuestionText.vue'
@@ -41,7 +39,6 @@ export default defineComponent({
         }
     },
     setup (props) {
-        // const { state } = inject(ChoiceKey) as ChoiceState
         const year = computed(() => {
             return props.choice.id.slice(3, 7)
         })
@@ -62,17 +59,6 @@ export default defineComponent({
                 return "×"
             }
         })
-        // const question = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaakdfjlak;dj'
-
-        // const choice = {
-        //     c1: "c1c1c1c1c1c1c",
-        //     c2: "c2c2c2c2c2c2c2",
-        //     answer: "×"
-        // }
-
-        // const subject = '憲法'
-
-        // const unit = "4"
 
         return {
             year,

@@ -56,7 +56,7 @@ export default defineComponent({
         } = inject(GlobalKey) as GlobalState
 
         const setDone = (recordId: string | unknown) => {
-            // 最後まで解き切ったら第1問を登録
+            // 最後まで解き切ったらその単元の第1問を次に解く問題として登録
             if(!(state.choices.length === state.index +1)) {
                 $axios.$put('/api/done/' + recordId, {
                     subject: route.value.query.subject,
@@ -94,7 +94,6 @@ export default defineComponent({
             } else {
                 setOverlay(true)
                 setAnswer(false)
-                // setAnswer(false)
                 setTimeout(() => {
                     increaseIndex()
                     switchHideResult()

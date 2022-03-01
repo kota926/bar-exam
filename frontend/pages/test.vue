@@ -36,8 +36,6 @@ import {
     useRouter
 } from '@nuxtjs/composition-api'
 
-import { Choice } from "../types/Choice"
-
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 

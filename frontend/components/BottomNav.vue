@@ -12,7 +12,6 @@
         >
         <span>HOME</span>
         <font-awesome-icon class="font-awesome-size" style="width: 28px" size="2x" :icon="['fas', 'home']"/>
-        <!-- <font-awesome-icon size="2x" icon="home" /> -->
         </v-btn>
 
         <v-btn
@@ -22,7 +21,6 @@
         >
         <span>STUDY</span>
         <font-awesome-icon class="font-awesome-size" style="width: 28px" size="2x" :icon="['far', 'edit']"/>
-        <!-- <font-awesome-icon size="2x" icon="edit" /> -->
         </v-btn>
     </v-bottom-navigation>
 </template>
@@ -31,7 +29,7 @@
 import { defineComponent, useRouter } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-    setup(props, context) {
+    setup() {
         const router = useRouter()
         const goHome = () => {
             router.push({ path: '/' })

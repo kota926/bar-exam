@@ -15,6 +15,7 @@ import { defineComponent, onMounted } from '@nuxtjs/composition-api'
 export default defineComponent({
     setup(props, context) {
         onMounted(() => {
+            // 5秒は適当
             setTimeout(() => {
                 context.emit('show-signup')
             }, 5000)

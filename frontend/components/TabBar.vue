@@ -25,7 +25,6 @@
         >短答式試験</v-toolbar-title>
         <template v-slot:extension>
             <font-awesome-icon @click="back" style="width: 27px" :icon="['far', 'caret-square-left']"/>
-            <!-- <font-awesome-icon @click="back" size="2x" icon="fa-regular fa-caret-square-left" /> -->
             <v-tabs
             fixed-tabs
             center-active
@@ -161,6 +160,7 @@ export default defineComponent({
             return state.isLoading
         })
 
+        // テストから戻ってきたときに、タブが直前に解いていた教科を開いているようにする
         onMounted(() => {
             switch(context.root.$route.query.subject) {
                     case 'cons':

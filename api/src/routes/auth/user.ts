@@ -16,7 +16,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
         const bearer = bearToken.split(' ')
         const token = bearer[1]
 
-        jwt.verify(token, 'lawapp', async (err, user: JwtPayload)=>{
+        jwt.verify(token, process.env.SECRET_KEY, async (err, user: JwtPayload)=>{
             if(err) {
                 return res.sendStatus(403)
             }
@@ -47,6 +47,7 @@ router.put('/', async (req: express.Request, res: express.Response) => {
         const bearer = bearToken.split(' ')
         const token = bearer[1]
         
+        // body中のプロパティのうち、nullじゃないプロパティが変更しようとている情報
         if(req.body.name) {
             const userRepository = getRepository(User);
             // ユーザーネームは重複不可
@@ -58,17 +59,16 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                 res.send(err)
             })
             if(oldUser) {
-                return res.status(409).json({message: 'User already exists.'})
+                return res.json({message: 'User already exists.'})
             }
-            jwt.verify(token, 'lawapp', async (err, user: JwtPayload)=>{
+            jwt.verify(token, process.env.SECRET_KEY, async (err, user: JwtPayload)=>{
                 if(err) {
                     return res.sendStatus(403).send(err)
                 }
                 if(user) {
-                    // const userRepository = getRepository(User)
                     const userToUpdate = await userRepository.findOne(user.id)
                     .catch((err) => {
-                        res.send(err)
+                        res.status(404).send(err)
                     })
                     if(userToUpdate) {
                         userToUpdate.name = req.body.name
@@ -77,17 +77,18 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                             exp: Math.floor(Date.now() / 1000) + (60 * 60),
                             id: result.id,
                             name: result.name,
-                            email: result.email
                         }
-                        const token = jwt.sign(payload, 'lawapp')
+                        const token = jwt.sign(payload, process.env.SECRET_KEY)
                         res.json({token})
+                    } else {
+                        res.status(404).send('user not found')
                     }
                 } else {
-                    res.send('user not found')
+                    res.status(404).send('user not found')
                 }
             })
         } else if(req.body.email) {
-            jwt.verify(token, 'lawapp', async (err, user: JwtPayload)=>{
+            jwt.verify(token, process.env.SECRET_KEY, async (err, user: JwtPayload)=>{
                 if(err) {
                     return res.sendStatus(403).send(err)
                 }
@@ -104,9 +105,8 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                             exp: Math.floor(Date.now() / 1000) + (60 * 60),
                             id: result.id,
                             name: result.name,
-                            email: result.email
                         }
-                        const token = jwt.sign(payload, 'lawapp')
+                        const token = jwt.sign(payload, process.env.SECRET_KEY)
                         res.json({token})
                     }
                 } else {
@@ -114,7 +114,7 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                 }
             })
         } else if(req.body.oldPassword && req.body.newPassword) {
-            jwt.verify(token, 'lawapp', async (err, user: JwtPayload)=>{
+            jwt.verify(token, process.env.SECRET_KEY, async (err, user: JwtPayload)=>{
                 if(err) {
                     return res.sendStatus(403).send(err)
                 }
@@ -143,9 +143,8 @@ router.put('/', async (req: express.Request, res: express.Response) => {
                                         exp: Math.floor(Date.now() / 1000) + (60 * 60),
                                         id: result.id,
                                         name: result.name,
-                                        email: result.email
                                     }
-                                    const token = jwt.sign(payload, 'lawapp')
+                                    const token = jwt.sign(payload, process.env.SECRET_KEY)
                                     res.json({token})
                                     })
                             }
@@ -168,7 +167,7 @@ router.delete('/', (req: express.Request, res: express.Response) => {
         const bearer = bearToken.split(' ')
         const token = bearer[1]
 
-        jwt.verify(token, 'lawapp', async (err, user: JwtPayload)=>{
+        jwt.verify(token, process.env.SECRET_KEY, async (err, user: JwtPayload)=>{
             if(err) {
                 return res.sendStatus(403)
             }
@@ -189,7 +188,7 @@ router.delete('/', (req: express.Request, res: express.Response) => {
                         }
                         try {
                             const deletedResult = await userRepository.remove(userToDelete)
-                            
+                            // ユーザーとともに科目回答済数情報も削除
                             const consRepository = getRepository(Constitution)
                             const consToDelete = await consRepository.findOne(deletedResult.constitutionId)
                             if(consToDelete) {

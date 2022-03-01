@@ -43,12 +43,10 @@ import AppBar from '../components/AppBar.vue'
 import BottomNav from '../components/BottomNav.vue'
 import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
-import OverlapUser from '~/components/OverlapUser.vue'
+import OverlapUser from '../components/OverlapUser.vue'
 
 export default defineComponent({
     components: { SignIn, SignUp, SentEmail, FailSentEmail, AppBar, BottomNav, OverlapUser },
-    // middleware: 'onAuth',
-    // auth: 'guest',
     layout: 'default', 
     setup() {
         const { $auth } = useContext()

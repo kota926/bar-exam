@@ -16,7 +16,7 @@ import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     components: { UnitCard },
-    setup (props, context) {
+    setup () {
         const route = useRoute()
         const consUnits = [
             {name: '憲法と立憲主義', num: 8},
@@ -166,6 +166,7 @@ export default defineComponent({
         const { fetch }  = useFetch(() => {
             if($auth.user) {
                 setIsLoading(true)
+                // 教科ごとにidが異なる場合に備えて条件分岐。
                 switch(route.value.query.subject) {
                     case 'cons':
                         $axios.$get('/api/done', {

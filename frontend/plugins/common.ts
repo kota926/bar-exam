@@ -395,6 +395,7 @@ const searchUnit = (subject: string, unitNum: string) => {
     }
 }
 
+// 単元ごとの総問題数を探す
 const searchTotalNum = (subject: string, unitNum: string): number | null => {
     switch(subject) {
         case 'cons':

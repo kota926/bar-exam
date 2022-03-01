@@ -32,23 +32,28 @@ export default defineComponent({
         const { setIsLoading } = inject(GlobalKey) as GlobalState
 
         const data = reactive({
-            isLoading: false,
+            isLoading: true,
             isSuccess: true,
         })
         const verifyEmail = () => {
+            // /email/以下に認証用トークン
             const token = {
                 token: route.value.params.token
             }
+            // プログレスバーon
             setIsLoading(true)
             $axios.$post('auth/email', token).then((res) => {
                 if(res.message === 'Email verification successed') {
                     setIsLoading(false)
+                    // 成功画面表示
                     data.isLoading = false
+                    // 3秒は適当
                     setTimeout(() => {
                         context.root.$router.push('/auth')
                     }, 3000);   
                 } else {
                     setIsLoading(false)
+                    // 失敗画面表示
                     data.isLoading = false
                     data.isSuccess = false
                     setIsLoading(false)

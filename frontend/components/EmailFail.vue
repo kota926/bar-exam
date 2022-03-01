@@ -2,7 +2,6 @@
     <v-card
     class="text-center my-auto width mx-auto"
     >
-        <!-- <font-awesome-icon class="icon" size="lg" icon="['fa-solid fa-exclamation-triangle" /> -->
         <font-awesome-icon class="icon" size="lg" style="width: 32px" :icon="['fas', 'exclamation-triangle']"/>
         <v-card-text>
             認証メールの送信に失敗しました。

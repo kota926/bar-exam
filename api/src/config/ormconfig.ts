@@ -10,13 +10,13 @@ const ormconfig: ConnectionOptions = {
     synchronize: true,
     logging: false,
     entities: [
-      "dist/entity/**/*.js"
+      "dist/entity/**/*{.ts,.js}"
     ],
     migrations: [
       "dist/migration/**/*{.ts,.js}"
     ],
     subscribers: [
-      "dist/subscriber/**/*.js"
+      "dist/subscriber/**/*{.ts,.js}"
     ],
     cli: {
       "entitiesDir": "dist/entity",

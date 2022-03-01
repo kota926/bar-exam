@@ -159,7 +159,7 @@ export default defineComponent({
         const isLoading = computed(() => {
             return state.isLoading
         })
-
+        
         onMounted(() => {
             switch(context.root.$route.query.subject) {
                     case 'cons':

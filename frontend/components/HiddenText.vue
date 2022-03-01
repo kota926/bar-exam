@@ -37,24 +37,6 @@ export default defineComponent({
         }
     },
     setup () {
-        // const question = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaakdfjlak;dj'
-
-        // const choice = {
-        //     c1: "c1c1c1c1c1c1c",
-        //     c2: "c2c2c2c2c2c2c2",
-        //     answer: "×"
-        // }
-
-        // const subject = '憲法'
-
-        // const unit = "4"
-
-        // return {
-        //     question,
-        //     choice,
-        //     subject,
-        //     unit
-        // }
     }
 })
 </script>

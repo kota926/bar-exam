@@ -27,6 +27,7 @@ import UserAdmin from '../components/UserAdmin.vue'
 export default defineComponent({
     components: { AppBar, BottomNav, UserAdmin, ChangeUserInfo },
     middleware: 'auth',
+    layout: "default",
     setup () {
         const data = reactive({
             isShow: true,

@@ -88,6 +88,7 @@ export default defineComponent({
             message: 'サインイン情報を入力してください',
         })
         const signInUser = () => {
+            // ログイン状態にも関わらずサインいんをしようとしている場合はホーム画面へ
             if($auth.loggedIn) {
                 router.push('/')
             } else {
@@ -110,6 +111,7 @@ export default defineComponent({
                             data.showMessage = true
                             data.message = 'パスワードが正しくありません'
                             data.password = ""
+                        // ログイン成功時一瞬「失敗メッセージ」が映るので、ログイン済みかを判定する
                         } else if(!$auth.loggedIn){
                             data.showMessage = true
                             data.message = 'ユーザーネームもしくはパスワードが正しくありません'

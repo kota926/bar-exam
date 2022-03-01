@@ -24,7 +24,7 @@ import TestAnswer from './TestAnswer.vue'
 export default defineComponent({
     components: { ConsTest, TestAnswer },
     setup () {
-        const { state, setIndex } = inject(GlobalKey) as GlobalState
+        const { state } = inject(GlobalKey) as GlobalState
         const year = computed(() => {
             return state.choices[state.index].id.slice(3, 7)
         })

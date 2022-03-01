@@ -5,7 +5,6 @@
         <v-card-text>
             メールの認証が完了しました
         </v-card-text>
-        <!-- <font-awesome-icon class="icon" size="lg" icon="check" /> -->
         <font-awesome-icon class="icon" size="lg" style="width: 32px" :icon="['fas', 'check']" />
     </v-card>
 </template>
@@ -15,8 +14,6 @@ import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
     setup () {
-        
-
         return {}
     }
 })

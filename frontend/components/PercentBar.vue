@@ -18,17 +18,12 @@
             :width="donePercent"
             class="done"
             ></v-sheet>
-            <!-- <v-sheet
-            :width="remainedPercent"
-            ></v-sheet> -->
         </v-sheet>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent,computed, inject } from '@nuxtjs/composition-api'
-// import { GlobalState } from '../composables/state/globalState'
-// import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
     props: {
@@ -42,16 +37,13 @@ export default defineComponent({
         }
     },
     setup (props) {
-        // const { state } = inject(GlobalKey) as GlobalState
         const donePercent = computed(() => {
-            // if(!state.record) return 0 + '%'
             if(props.totalNum === 0 || props.totalNum === null ) return 0 + '%'
             const percent = props.doneNum / props.totalNum * 100
             return percent + '%'
         })
 
         const remainedPercent = computed(() => {
-            // if(!state.record) return 100 + '%'
             if(props.totalNum === 0 || props.totalNum === null ) return 100 + '%'
             const percent = (1 - props.doneNum / props.totalNum) * 100
             return percent + '%'

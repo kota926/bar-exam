@@ -5,9 +5,7 @@ import { Government } from '../../entity/Government';
 import { Civil } from '../../entity/Civil';
 import { Company } from '../../entity/Company';
 import express from 'express';
-// import bcript, { compare } from 'bcryptjs';
 import crypto from 'crypto'
-// const saltRounds = 10;
 import { getRepository } from 'typeorm';
 const router = express.Router()
 
@@ -22,7 +20,6 @@ router.post('/', (req: express.Request, res: express.Response) => {
         if(!tempUserInDB) {
             return res.json({message: 'wrong token'})
         } else {
-
             const constitution = new Constitution();
             const consRepository = getRepository(Constitution)
             await consRepository.save(constitution).catch((err) => {

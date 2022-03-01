@@ -13,7 +13,6 @@
 
 <script lang="ts">
 import { defineComponent, computed, useContext, reactive, onMounted } from '@nuxtjs/composition-api'
-import { User } from '../types/User'
 
 export default defineComponent({
     setup () {
@@ -28,13 +27,6 @@ export default defineComponent({
                 data.user = $auth.user
             }
         })
-        // const user = computed(() => {
-        //     if($auth.loggedIn) {
-        //         return $auth.user
-        //     } else {
-        //         null
-        //     }
-        // })
         const date = computed(() => {
             if(data.user) {
                 const year = data.user.createdAt.split('-')[0]

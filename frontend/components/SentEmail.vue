@@ -2,7 +2,6 @@
     <v-card
     class="text-center my-auto width mx-auto"
     >
-        <!-- <font-awesome-icon class="changer" size="lg" icon="fa-solid fa-check" /> -->
         <font-awesome-icon class="changer" size="lg" style="width: 32px" :icon="['fas', 'check']" />
         <v-card-text>
             {{ state.email }} に認証用メールをお送りしました。

@@ -30,32 +30,6 @@
                     </v-btn>   
                 </div>
             </div>
-            <!-- <div>
-                <v-sheet
-                class="mx-auto text-caption"
-                width="90%"
-                elevation="0"
-                >
-                    <span>回答数</span>
-                    <span>{{ state.record ? state.record[unitNumber] : 5 }}</span>
-                    <span>/</span>
-                    <span>問題数</span>
-                    <span>{{ unit.num }}</span>
-                </v-sheet>
-                <v-sheet
-                class="d-flex mx-auto"
-                height="8"
-                width="90%">
-                    <v-sheet
-                    :width="donePercent"
-                    class="done"
-                    ></v-sheet>
-                    <v-sheet
-                    :width="remainedPercent"
-                    class="do"
-                    ></v-sheet>
-                </v-sheet>
-            </div> -->
             <percent-bar
             :doneNum="doneNum"
             :totalNum="unit.num"
@@ -87,12 +61,6 @@ export default defineComponent({
         const router = useRouter()
         const route = useRoute()
         const { state, setIndex, setTotalNumber } = inject(GlobalKey) as GlobalState
-
-        const unitName = computed(() => {
-            if(route.value.query.subject === 'string') {
-                return Common.searchUnit(route.value.query.subject , String(props.unitNumber))
-            }
-        })
 
         const isDisable = computed(() => {
             return props.unit.num === 0

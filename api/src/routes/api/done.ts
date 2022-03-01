@@ -15,7 +15,7 @@ router.get('/', async (req: express.Request, res: express.Response) => {
         const bearer = bearToken.split(' ')
         const token = bearer[1]
 
-        jwt.verify(token, 'lawapp', async (err, _: JwtPayload)=>{
+        jwt.verify(token, process.env.SECRET_KEY, async (err, _: JwtPayload)=>{
             if(err) {
                 return res.sendStatus(403)
             }
@@ -91,7 +91,7 @@ router.put('/:recordId', async (req: express.Request, res: express.Response) => 
         const bearer = bearToken.split(' ')
         const token = bearer[1]
 
-        jwt.verify(token, 'lawapp', async (err, user: JwtPayload)=>{
+        jwt.verify(token, process.env.SECRET_KEY, async (err, user: JwtPayload)=>{
             if(err) {
                 return res.sendStatus(403)
             }
@@ -174,7 +174,7 @@ router.put('/', (req: express.Request, res: express.Response) => {
             const bearer = bearToken.split(' ')
             const token = bearer[1]
 
-            jwt.verify(token, 'lawapp', async (err, user: JwtPayload)=>{
+            jwt.verify(token, process.env.SECRET_KEY, async (err, user: JwtPayload)=>{
                 if(err) {
                     return res.sendStatus(403)
                 }

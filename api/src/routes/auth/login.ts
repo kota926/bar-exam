@@ -1,7 +1,6 @@
 import { User } from '../../entity/User';
 import express from 'express';
 import bcript from 'bcryptjs';
-// const saltRounds = 10;
 import jwt from 'jsonwebtoken'
 import { getRepository } from 'typeorm';
 const router = express.Router()
@@ -27,12 +26,12 @@ router.post('/', async (req: express.Request, res: express.Response) => {
                 res.json({message: "password is not correct"})
             } else {
                 const payload = {
+                    // 1時間は適当
                     exp: Math.floor(Date.now() / 1000) + (60 * 60),
                     id: userInDB.id,
                     name: userInDB.name,
-                    email: userInDB.email
                 }
-                const token = jwt.sign(payload, 'lawapp')
+                const token = jwt.sign(payload, process.env.SECRET_KEY)
                 res.json({token})
             }
         })

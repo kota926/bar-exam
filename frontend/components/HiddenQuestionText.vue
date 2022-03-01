@@ -1,13 +1,5 @@
 <template>
     <v-card>
-        <!-- <v-card-actions>
-            <v-btn
-                icon
-                @click="isShow"
-            >
-                <v-icon>{{data.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
-        </v-card-actions> -->
         <v-expand-transition>
             <div v-show="!data.show">
                 <v-card-text
@@ -31,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, toRefs } from '@nuxtjs/composition-api'
+import { defineComponent, reactive } from '@nuxtjs/composition-api'
 
 export default defineComponent({
     props: {
@@ -40,7 +32,7 @@ export default defineComponent({
             required: true
         }
     },
-    setup(props) {
+    setup() {
         const data = reactive({
             show: false
         })

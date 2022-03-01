@@ -55,7 +55,6 @@
             class="text-center mb-4 pa-4 card-width d-flex justify-center align-center"
             v-if="data.showMessage"
             >
-                 <!-- <font-awesome-icon class="icon message" size="xl" icon="fa-solid fa-exclamation-triangle" /> -->
                 <font-awesome-icon class="message" style="width: 30px" :icon="['fas', 'exclamation-triangle']"/>
                 <div class="ml-2 message">
                     {{ data.message }}
@@ -96,9 +95,11 @@ export default defineComponent({
             message: '',
         })
         const signUp = () => {
+            // ログイン状態にも関わらずサインアップをしようとしている場合はホーム画面へ
             if($auth.loggedIn) {
                 router.push('/')
             } else {
+                // この後表示する「メール送信成功画面」でメールアドレスを表示するため
                 mutateEmail(data.email)
                 if(data.email.trim() && data.name.trim() && data.password.trim()) {
                     const user = {

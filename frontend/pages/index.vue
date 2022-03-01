@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { defineComponent, computed, useContext } from '@nuxtjs/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
 import AppBar from '../components/AppBar.vue'
 import BottomNav from '../components/BottomNav.vue'
 import LastQuestionCard from '../components/LastQuestionCard.vue'

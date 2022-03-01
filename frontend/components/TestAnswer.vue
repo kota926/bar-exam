@@ -29,7 +29,7 @@ import { GlobalState } from '../composables/state/globalState'
 import GlobalKey from '../composables/key/globalKey'
 
 export default defineComponent({
-    setup(props, context) {
+    setup() {
         const { state } = inject(GlobalKey) as GlobalState
         
         return {

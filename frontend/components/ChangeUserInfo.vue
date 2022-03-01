@@ -122,7 +122,6 @@
         v-if="data.showMessage"
         color="pa-4"
         >
-            <!-- <font-awesome-icon class="icon" icon="fa-solid fa-exclamation-triangle"/> -->
             <font-awesome-icon style="width: 28px" size="2x" :icon="['fas', 'exclamation-triangle']"/>
             <div class="ml-2">
                 {{ data.message }}
@@ -151,7 +150,6 @@ export default defineComponent({
     props: {
         infoName: {
             type: String,
-            // required: true,
             default: 'name'
         }
     },
@@ -165,8 +163,6 @@ export default defineComponent({
             isDisable: false,
             showMessage: false,
             message: '空欄です'
-            // isName: true,
-            // isEmail: true,
         })
         const { $auth, $axios } = useContext()
         const user = computed(() => {
@@ -202,15 +198,21 @@ export default defineComponent({
                     oldPassword: null,
                     newPassword: null
                 }).then((res) => {
-                    $auth.setUserToken(res.token).then((res) =>{
-                        context.emit('back-admin')
-                        setIsLoading(false)
-                    }).catch((err) => {
-                        console.log(err)
-                        data.message = '予期せぬエラーが発生しました'
+                    if(res.message === 'User already exists.') {
+                        data.message = 'そのユーザー名はすでに存在しています'
                         data.showMessage = true
                         setIsLoading(false)
-                    })
+                    } else {
+                        $auth.setUserToken(res.token).then((res) =>{
+                            context.emit('back-admin')
+                            setIsLoading(false)
+                        }).catch((err) => {
+                            console.log(err)
+                            data.message = '予期せぬエラーが発生しました'
+                            data.showMessage = true
+                            setIsLoading(false)
+                        })
+                    }
                 }).catch((err) => {
                     console.log(err)
                     data.message = '予期せぬエラーが発生しました'

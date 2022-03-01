@@ -21,6 +21,7 @@ createConnection(config).then(async () => {
     app.use(cors(options))
     app.use(express.json());
 
+    // aws alb でパスベースルーティングするために、/backend/で受ける
     app.use('/backend', router)
 
     const port = process.env.PORT || 8080;

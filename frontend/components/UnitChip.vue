@@ -7,12 +7,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed, useRoute } from '@nuxtjs/composition-api'
+import { defineComponent, computed, useRoute } from '@nuxtjs/composition-api'
 import Common from '../plugins/common'
 
 export default defineComponent({
     name: "Unit",
-    setup(props, context) {
+    setup() {
         const route = useRoute()
         const changedUnit = computed(() => {
             if(typeof route.value.query.subject === 'string'
